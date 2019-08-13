@@ -567,7 +567,97 @@
 </ul>
 </li>
 </ul>
-<h1 id="websocket"><a href="#websocket" class="headerlink" title="websocket"></a>websocket</h1><h2 id="握手"><a href="#握手" class="headerlink" title="握手"></a>握手</h2><p><img src="/.io//handshake.png" alt="websocket握手包头"></p>
+<h1 id="websocket"><a href="#websocket" class="headerlink" title="websocket"></a>websocket</h1><h2 id="基础-1"><a href="#基础-1" class="headerlink" title="基础"></a>基础</h2><ul>
+<li>demo页面：<a href="http://www.websocket.org" target="_blank" rel="noopener">http://www.websocket.org</a></li>
+<li>客户端发送数据要进行掩码处理防止针对代理服务器的缓存污染攻击</li>
+<li>pingpong心跳保持会话</li>
+<li>优点<ul>
+<li>浏览器支持率比较高</li>
+<li>支持服务器推送</li>
+</ul>
+</li>
+<li>不足<ul>
+<li>设计比较简单，很多功能和性能上的问题没有真正解决</li>
+</ul>
+</li>
+</ul>
+<h2 id="握手"><a href="#握手" class="headerlink" title="握手"></a>握手</h2><img src="/2019/08/11/net-protocol-capature-packets/handshake.png" title="websocket握手包头">
+
+<h2 id="解密tls"><a href="#解密tls" class="headerlink" title="解密tls"></a>解密tls</h2><ul>
+<li>通过浏览器DEBUG日志获得tls握手阶段生成的密钥</li>
+<li>步骤<ul>
+<li>配置环境变量SSLKEYLOGFILE=path2log使chrome输出DEBUG日志</li>
+<li>wireshark配置解析DEBUG日志(编辑/首选项/protocols/tls)</li>
+</ul>
+</li>
+</ul>
+<h1 id="http2"><a href="#http2" class="headerlink" title="http2"></a>http2</h1><h2 id="基础-2"><a href="#基础-2" class="headerlink" title="基础"></a>基础</h2><ul>
+<li>http1.1的问题<ul>
+<li>高延迟<ul>
+<li>带宽在增加，延迟却没办法降低</li>
+<li>浏览器并发限制</li>
+<li>同一连接串行处理请求</li>
+</ul>
+</li>
+<li>无状态特性带来了巨大的http头部</li>
+<li>不支持服务器推送</li>
+</ul>
+</li>
+<li>h2主要特性<ul>
+<li>传输数据量大幅减小<ul>
+<li>标头压缩</li>
+<li>二进制传输</li>
+</ul>
+</li>
+<li>多路复用并支持优先级</li>
+<li>服务器推送</li>
+<li>必须使用tls</li>
+</ul>
+</li>
+<li>tls握手通讯过程<ul>
+<li>验证身份</li>
+<li>达成安全套件共识</li>
+<li>传递密钥</li>
+<li>加密通讯</li>
+</ul>
+</li>
+<li>h2核心概念<ul>
+<li>连接connection</li>
+<li>数据流stream<ul>
+<li>通过stream实现多路复用</li>
+</ul>
+</li>
+<li>消息message<ul>
+<li>header帧</li>
+<li>data帧</li>
+</ul>
+</li>
+<li>数据帧frame</li>
+</ul>
+</li>
+</ul>
+<h2 id="frame"><a href="#frame" class="headerlink" title="frame"></a>frame</h2><ul>
+<li>帧头部<img src="/2019/08/11/net-protocol-capature-packets/frameHeader.png" title="帧头部"></li>
+<li>作用<ul>
+<li>多路复用(同一stream内的frame必须是有序的，接收端根据streamID并发组装消息)</li>
+<li>客户端建立的流必须是奇数，服务端建立的是偶数</li>
+<li>状态管理的约束(ID不能复用，只能递增，超出最大值后必须断掉tcp连接重新建立)</li>
+</ul>
+</li>
+<li>帧类型type<ul>
+<li>DATA</li>
+<li>HEADERS</li>
+<li>PRIORITY</li>
+<li>RST_STREAM</li>
+<li>SETTINGS</li>
+<li>PUSH_PROMISE</li>
+<li>PINNG</li>
+<li>GOAWAY</li>
+<li>WINDOW_UPDATE</li>
+<li>CONTINUATION</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
