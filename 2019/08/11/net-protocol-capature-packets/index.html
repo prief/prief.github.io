@@ -619,6 +619,132 @@ RFC: request for comme">
 <li>CONTINUATION</li>
 </ul>
 </li>
+<li>hpack<ul>
+<li>头部压缩算法</li>
+<li>三种压缩方式相结合<ul>
+<li>静态字典</li>
+<li>动态字典</li>
+<li>压缩算法huffman编码</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="服务推送"><a href="#服务推送" class="headerlink" title="服务推送"></a>服务推送</h2><ul>
+<li>每一条推送都基于一个请求</li>
+<li>在请求的响应中可以恢复即将推送的资源</li>
+<li>再开一个stream进行资源的推送，不同的stream可以实现并发</li>
+</ul>
+<h2 id="流控"><a href="#流控" class="headerlink" title="流控"></a>流控</h2><ul>
+<li>应用层和tcp层都可以做</li>
+<li>发送和接口流量控制是可以分开作用的</li>
+<li>只有DATA帧才受流控限制</li>
+<li>流控不能被禁用</li>
+</ul>
+<h2 id="h2现存问题"><a href="#h2现存问题" class="headerlink" title="h2现存问题"></a>h2现存问题</h2><ul>
+<li>tcp+tls建链握手过多<ul>
+<li>必须建立在tls之上</li>
+</ul>
+</li>
+<li>多路复用与tcp队头阻塞问题<ul>
+<li>本质还是在tcp流中是串行的</li>
+<li>串行对头中丢失一个包就会阻塞后面的包</li>
+</ul>
+</li>
+<li>tcp是由操作系统内核实现的，内核更新慢</li>
+</ul>
+<h2 id="http3"><a href="#http3" class="headerlink" title="http3"></a>http3</h2><ul>
+<li>基于quick协议与h2协议共同成为h3</li>
+<li>quick协议基于udp/ip协议之上，h2协议之下</li>
+<li>quick协议实现了<ul>
+<li>多路复用</li>
+<li>tls</li>
+<li>拥塞控制</li>
+<li>丢包重发</li>
+</ul>
+</li>
+<li>优势<ul>
+<li>可以连接迁移</li>
+<li>解决了队头阻塞问题</li>
+<li>1RTT完全就握手完毕</li>
+</ul>
+</li>
+</ul>
+<h1 id="tls"><a href="#tls" class="headerlink" title="tls"></a>tls</h1><h2 id="基础-3"><a href="#基础-3" class="headerlink" title="基础"></a>基础</h2><ul>
+<li>概念<ul>
+<li>ssl secure sockets layer</li>
+<li>tls transport layer security</li>
+</ul>
+</li>
+<li>发展历史<ul>
+<li>ssl3.0</li>
+<li>tls1.0</li>
+<li>tls1.1</li>
+<li>tls1.2</li>
+<li>tls1.3</li>
+</ul>
+</li>
+<li>设计目的<ul>
+<li>身份验证</li>
+<li>保密性</li>
+<li>完整性</li>
+</ul>
+</li>
+<li>主要功能<ul>
+<li>握手</li>
+<li>交换密钥</li>
+<li>告警</li>
+<li>对称加密数据</li>
+<li>记录</li>
+</ul>
+</li>
+<li>tls握手通讯过程<ul>
+<li>验证身份</li>
+<li>达成安全套件共识</li>
+<li>传递密钥</li>
+<li>加密通讯</li>
+</ul>
+</li>
+<li>安全加密套件<ul>
+<li>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</li>
+<li>ECDHE 密钥交换算法</li>
+<li>RSA 身份验证算法</li>
+<li>AES 对称加密算法</li>
+<li>128 对称加密强度</li>
+<li>GCM 对称加密模式</li>
+<li>SHA256 签名hash算法</li>
+</ul>
+</li>
+</ul>
+<h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><ul>
+<li>工作原理<ul>
+<li>XOR运算 速度快</li>
+<li>padding填充 <ul>
+<li>会把明文进行blockCipher分组进行加密</li>
+<li>当分组后最后一个block可能长度不够XOR运算，需要padding</li>
+<li>填充时可以按bit位进行填充也可按byte字节填充</li>
+<li>RFC中常用按byte字节进行填充，填充内容是多少个字节就填充多少个数字，即PKCS7填充算法</li>
+</ul>
+</li>
+<li>工作模式<ul>
+<li>常用GCM工作模式</li>
+<li>Galois/Counter Mode</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>AES<ul>
+<li>advanced encryption standard加密算法</li>
+<li>常用填充算法PKCS7</li>
+<li>常用工作模式GCM</li>
+<li>三种密钥长度<ul>
+<li>AES-128密钥长度16字节</li>
+<li>AES-192密钥长度24字节</li>
+<li>AES-256密钥长度32字节</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
       
