@@ -83,7 +83,6 @@
       
         <h1 id="os"><a href="#os" class="headerlink" title="os"></a>os</h1><ul>
 <li>git</li>
-<li>node</li>
 <li>iterm</li>
 <li>wireshark</li>
 </ul>
@@ -92,6 +91,10 @@
 <li>vscode<ul>
 <li>vscode-icons</li>
 <li>markdown TOC</li>
+</ul>
+</li>
+<li>node<ul>
+<li></li>
 </ul>
 </li>
 </ul>
@@ -776,11 +779,28 @@
 <li>常用填充算法PKCS7</li>
 <li>常用工作模式GCM</li>
 <li>三种密钥长度<ul>
-<li>AES-128密钥长度16字节</li>
-<li>AES-192密钥长度24字节</li>
-<li>AES-256密钥长度32字节</li>
+<li>AES-128密钥长度16字节，加密轮数10</li>
+<li>AES-192密钥长度24字节，加密轮数12</li>
+<li>AES-256密钥长度32字节，加密轮数14</li>
 </ul>
 </li>
+<li>加密步骤<ul>
+<li>明文按照16字节拆分成若干块，每个块是4*4矩阵</li>
+<li>按填充算法进行最后一块的填充</li>
+<li>每一个明文块用AES加密算法和密钥进行加密</li>
+<li>拼接所有密文块</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><ul>
+<li>RSA </li>
+<li>openssl<ul>
+<li>生成私钥 openssl genrsa -out private.pem</li>
+<li>提取公钥 openssl rsa -in private.pem -pubout -out public.pem</li>
+<li>加密文件 openssl rsautl -encrypt -in hello.txt -inkey public.pem -pubin -out hello.en </li>
+<li>解密文件 openssl rsautl -decrypt -in hello.en -inkey private.pem -out hello.de</li>
 </ul>
 </li>
 </ul>
