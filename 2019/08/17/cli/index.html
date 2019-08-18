@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>cli | prief | about share and go on</title>
+
+  
+  <meta name="author" content="prief">
+  
+
+  
+  <meta name="description" content="webpackloader
+三种使用方式
+webpack.config.js
+内联在import语句中
+在cli命令中指定
+
+
+常用loader
+babel-loader
+style-loader 在html中注入style标签
+css-loader 解析@import url()等
+postcss">
+  
+
+  
+  
+  <meta name="keywords" content>
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="cli">
+
+  <meta property="og:site_name" content="prief">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="prief" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">prief</a>
+    </h1>
+    <p class="site-description">about share and go on</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+        <li><a href="/tags">Tags</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>cli</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/08/17/cli/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-08-17T08:46:23.000Z">
+          2019-08-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><ul>
+<li>三种使用方式<ul>
+<li>webpack.config.js</li>
+<li>内联在import语句中</li>
+<li>在cli命令中指定</li>
+</ul>
+</li>
+<li>常用loader<ul>
+<li>babel-loader</li>
+<li>style-loader 在html中注入style标签</li>
+<li>css-loader 解析@import url()等</li>
+<li>postcss-loader</li>
+<li>sass-loader</li>
+<li>html-loader</li>
+<li>vue-loader</li>
+<li>file-loader</li>
+<li>url-loader</li>
+</ul>
+</li>
+</ul>
+<h2 id="plugin"><a href="#plugin" class="headerlink" title="plugin"></a>plugin</h2><ul>
+<li>常用plugin<ul>
+<li>HtmlWebpackPlugin</li>
+<li>CommonsChunkPlugin</li>
+<li>DefinePlugin</li>
+<li>DllPlugin</li>
+<li>ExtractTextWebpackPlugin</li>
+<li>HotModuleReplacementPlugin</li>
+<li>UglifyjsWebpackPlugin</li>
+<li>CopyWebpackPlugin</li>
+</ul>
+</li>
+</ul>
+<h1 id="工程化模版"><a href="#工程化模版" class="headerlink" title="工程化模版"></a>工程化模版</h1><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><ul>
+<li>mkdir template &amp;&amp; cd template &amp;&amp; npm init -y</li>
+<li>npm i -D webpack webpack-cli vue-loader vue-template-compiler html-webpack-plugin css-loader style-loader sass-loader sass postcss-loader  postcss-preset-env url-loader file-loader @babel/core @babel/preset-env babel-loader webpack-dev-server connect-multiparty mockjs concurrently</li>
+<li>npm i vue vue-router @babel/polyfill axios</li>
+<li>浏览器支持列表<ul>
+<li>package.json.browserslist</li>
+<li>.browserlistrc</li>
+<li>browserlist</li>
+<li>环境变量BROWSERLIST </li>
+</ul>
+</li>
+<li>.babelrc</li>
+<li>postcss.config.js</li>
+<li>webpack.config.js</li>
+</ul>
+<h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><ul>
+<li>意义<ul>
+<li>避免命名/变量冲突</li>
+<li>更清晰的依赖关系</li>
+<li>可维护</li>
+<li>可复用</li>
+<li>降低复杂度</li>
+</ul>
+</li>
+<li>主流实现<ul>
+<li>AMD<ul>
+<li>异步加载，适合浏览器端</li>
+<li>require</li>
+<li>define([deps…],(deps…)=&gt;{return {}})</li>
+</ul>
+</li>
+<li>CommonJS<ul>
+<li>同步加载，适合服务端，因为大都在本地</li>
+<li>require</li>
+<li>module.exports | exports.</li>
+</ul>
+</li>
+<li>ES6<ul>
+<li>js语言层面支持的模块化，可做静态依赖分析，适合多端</li>
+<li>import</li>
+<li>export</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="本地开发环境"><a href="#本地开发环境" class="headerlink" title="本地开发环境"></a>本地开发环境</h2><ul>
+<li><p>npm install –save-dev webpack-dev-server</p>
+</li>
+<li><p>“start”: “webpack-dev-server –open”</p>
+</li>
+<li><p>HMR</p>
+<ul>
+<li>hotModuleReplacement</li>
+<li>能生效是因为模块实现了HMR接口<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if (module.hot) &#123;</span><br><span class="line">  module.hot.accept(&quot;./print.js&quot;, function() &#123;</span><br><span class="line">    console.log(&quot;接收更新后的模块&quot;);</span><br><span class="line">    print();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>sourceMap</p>
+<ul>
+<li>source-map 适合生产环境，映射关系完整但运行慢</li>
+<li>eval-source-map 适合开发环境，只映射到行但运行快</li>
+</ul>
+</li>
+</ul>
+<h2 id="本地mock"><a href="#本地mock" class="headerlink" title="本地mock"></a>本地mock</h2><ul>
+<li>服务 express</li>
+<li>路由 url与数据的路由绑定</li>
+<li>数据模拟 mockjs<ul>
+<li>数据模版定义规范DTD(data template definition)<ul>
+<li>属性名 与规则之间用|分割</li>
+<li>生成规则 依赖属性值的类型，是可选的</li>
+<li>属性值 可以有@占位符，指定了最终值的类型和初始值</li>
+<li>例如：’name|rule’: value</li>
+</ul>
+</li>
+<li>数据占位符定义规范DPD(data placeholder definition)</li>
+<li>核心api<ul>
+<li>mock 将模版输出为最终的数据</li>
+<li>random 生成随机数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>concurrently<ul>
+<li>同一终端同时运行多个npm命令，不管是否同一进程</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码检查"><a href="#代码检查" class="headerlink" title="代码检查"></a>代码检查</h2><ul>
+<li>eslint<ul>
+<li>npm install -D eslint eslint-loader eslint-plugin-vue babel-eslint eslint-friendly-formatter</li>
+<li>plugins指定需要的插件名称，可以忽略eslint-plugin-</li>
+<li>默认使用espree解析器，因为有新的语言特性需要指定为babel-eslint</li>
+<li>换解析器需要在parserOptions中，防止全局替换导致其他插件失败</li>
+<li>es6模块的sourceType为module</li>
+<li>禁用eslint规则<ul>
+<li>文件开头/* eslint-disable */禁用整个文件的检查</li>
+<li>行// eslint-disable-line 禁用行检查</li>
+<li>行// eslint-disable-line no-console 禁用console规则</li>
+</ul>
+</li>
+<li>自定义规则<ul>
+<li>extends: eslint:recommended</li>
+<li>rules:{ no-console: off, quotes:[“wanr”,”single”],indent:[“error”,2]}</li>
+<li>数组值第一项表示级别，默认是error</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>stylelint<ul>
+<li>npm install -D stylelint stylelint-webpack-plugin</li>
+<li>.stylelintrc.js</li>
+<li>禁用规则<ul>
+<li>/* stylelint-disable unit-whitelist*/ 禁用unit规则校验</li>
+<li>/* stylelint-disable */ 禁用所有规则校验</li>
+</ul>
+</li>
+<li>自定义规则<ul>
+<li>extends: “stylelint-config-standard”</li>
+<li>rules: {“color-no-invalid-hex”: true}</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="雪碧图"><a href="#雪碧图" class="headerlink" title="雪碧图"></a>雪碧图</h2><ul>
+<li>npm install -D webpack-spritesmith</li>
+<li>resolve.modules如果是相对路径则按照规则一级一级向上查找，如果是绝对路径不会向上查找</li>
+<li>使用<ul>
+<li>@import “~sprite.scss”</li>
+<li>.icon-picName{@include sprite($picName)}</li>
+</ul>
+</li>
+<li>自定义生成2x样式表<ul>
+<li>官网的templateFunction</li>
+<li>customTemplates: {function_based_template: templateFunction},</li>
+<li>target.css = [[],path.resolve(__dirname, “src/assets/generated/sprite.scss”)]</li>
+<li>使用<ul>
+<li>@import “~sprite2.scss”;</li>
+<li></li><li class="ico ico-picName"></li>
+
+</ul></li>
+</ul>
+</li>
+</ul>
+
+
+<h2 id="按浏览器构建"><a href="#按浏览器构建" class="headerlink" title="按浏览器构建"></a>按浏览器构建</h2><ul>
+<li>新版本浏览器<ul>
+<li><script type="module"> 可直接加载ES6</li>
+<li><link rel="modulepreload"> 预加载</li>
+</ul>
+</li>
+<li>老版本浏览器<ul>
+<li><script nomodule>加载旧版本js，新版本浏览器会忽略该引用
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="按环境构建"><a href="#按环境构建" class="headerlink" title="按环境构建"></a>按环境构建</h2><ul>
+<li>development</li>
+<li>test</li>
+<li>production</li>
+<li>插件<ul>
+<li>npm install –save-dev extract-text-webpack-plugin</li>
+<li>npm install –save-dev optimize-css-assets-webpack-plugin</li>
+<li>npm install terser-webpack-plugin –save-dev</li>
+<li>HashedModuleIdsPlugin 避免不必要的hash变化<h1 id="cli"><a href="#cli" class="headerlink" title="cli"></a>cli</h1></li>
+</ul>
+</li>
+</ul>
+</script></li></ul></li></ul>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2019 prief
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
