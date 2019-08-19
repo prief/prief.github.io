@@ -1,102 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
-  <title>cli | prief | about share and go on</title>
-
-  
-  <meta name="author" content="prief">
-  
-
-  
-  <meta name="description" content="webpackloader
-三种使用方式
-webpack.config.js
-内联在import语句中
-在cli命令中指定
-
-
-常用loader
-babel-loader
-style-loader 在html中注入style标签
-css-loader 解析@import url()等
-postcss">
-  
-
-  
-  
-  <meta name="keywords" content>
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="cli">
-
-  <meta property="og:site_name" content="prief">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="prief" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/">prief</a>
-    </h1>
-    <p class="site-description">about share and go on</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-        <li><a href="/tags">Tags</a></li>
-      
-    </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
-    
-    <h3 class="article-title"><span>cli</span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/08/17/cli/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-08-17T08:46:23.000Z">
-          2019-08-17
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><ul>
+<!DOCTYPE html><html lang="en"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>cli | prief</title><meta name="description" content="cli - prief"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/atom.xml" title="prief"></head><body><div class="wrap"><header><h1 class="branding"><a href="/" title="prief">prief</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link" href="/about" target="_self">ABOUT</a></li><li class="nav-list-item"><a class="nav-list-link" href="https://github.com/prief" target="_blank">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">cli</h1><div class="post-info"><a></a>2019-08-17</div><div class="post-content"><h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><ul>
 <li>三种使用方式<ul>
 <li>webpack.config.js</li>
 <li>内联在import语句中</li>
@@ -298,44 +200,156 @@ postcss">
 <li>npm install –save-dev extract-text-webpack-plugin</li>
 <li>npm install –save-dev optimize-css-assets-webpack-plugin</li>
 <li>npm install terser-webpack-plugin –save-dev</li>
-<li>HashedModuleIdsPlugin 避免不必要的hash变化<h1 id="cli"><a href="#cli" class="headerlink" title="cli"></a>cli</h1></li>
+<li>HashedModuleIdsPlugin 避免不必要的hash变化</li>
 </ul>
 </li>
 </ul>
-</script></li></ul></li></ul>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2019 prief
-    
-  </p>
-</footer>
-    
-  </div>
-</div>
-</body>
-</html>
+<h2 id="集成调试工具"><a href="#集成调试工具" class="headerlink" title="集成调试工具"></a>集成调试工具</h2><ul>
+<li>weinre / spy-debugger</li>
+<li>vconsole<ul>
+<li>npm install vconsole</li>
+<li>DebugPlugin.js里面去实现 debugtool插件</li>
+<li>vconsole.js 里面去new Vconsole</li>
+<li>可以单独发一个npm包 debugtool-webpack-plugin</li>
+</ul>
+</li>
+</ul>
+<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><ul>
+<li>chai作为断言库</li>
+<li>Mocha编写测试用例、测试框架</li>
+<li>Karma测试过程管理TestRunner及启动浏览器和生成测试报告</li>
+<li>npm install –save-dev karma mocha karma-mocha karma-chrome-launcher karma-webpack karma-sourcemap-loader karma-spec-reporter chai @vue/test-utils karma-coverage babel-plugin-istanbul cross-env</li>
+<li>覆盖率<ul>
+<li>语句覆盖率</li>
+<li>分支覆盖率</li>
+<li>函数覆盖率</li>
+<li>行覆盖率</li>
+</ul>
+</li>
+</ul>
+<h2 id="e2e测试"><a href="#e2e测试" class="headerlink" title="e2e测试"></a>e2e测试</h2><ul>
+<li>npm install –save-dev nightwatch chromedriver</li>
+<li>npm install –save-dev geckodriver # firefox</li>
+<li>npm install –save-dev cross-spawn # 启动子进程</li>
+<li>npm install –save-dev nightwatch-html-reporter</li>
+<li>nightwatch接口<ul>
+<li>断言相关<ul>
+<li>expect.element()</li>
+<li>.value</li>
+<li>.text</li>
+<li>.equal(val)/.contain(val)/.match(val)</li>
+</ul>
+</li>
+<li>协议映射相关<ul>
+<li>.click()</li>
+<li>.url()</li>
+<li>.setValue()</li>
+<li>.pause()</li>
+<li>.waitForElementVisible()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
+<li>缓存<ul>
+<li>开启cache后，模块和生成的chunk如果内容不变则直接用cache，主要解决增量构建过程的性能</li>
+<li>HardSourceWebpackPlugin，缓存编译过程中间结果 npm i -D hard-source-webpack-plugin</li>
+</ul>
+</li>
+<li>多线程<ul>
+<li>HappyPack</li>
+<li>thread-loader #官方推荐</li>
+</ul>
+</li>
+<li>预先编译<ul>
+<li>DllPlugin 把基本不变的预先打包出单独dll文件</li>
+<li>DllReferencePlugin 配置在文件中引用dll文件</li>
+<li>运行一次npm run dll后不需在运行除非dll包有更新</li>
+<li>npm i -D add-asset-html-webpack-plugin dll文件提前插入html</li>
+<li>与splitChunks功能类似，可以去除splitChunks</li>
+</ul>
+</li>
+</ul>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><ul>
+<li>ecs<ul>
+<li>const { spawn } = require(“child_process”);</li>
+<li>ssh免密登陆</li>
+</ul>
+</li>
+<li>oss<ul>
+<li>vinyl-fs</li>
+<li>vinyl-ftp</li>
+</ul>
+</li>
+</ul>
+<h1 id="cli"><a href="#cli" class="headerlink" title="cli"></a>cli</h1><h2 id="聚合配置并模版化"><a href="#聚合配置并模版化" class="headerlink" title="聚合配置并模版化"></a>聚合配置并模版化</h2><ul>
+<li>app.config.js 聚合用户自定义配置</li>
+<li>响应的配置都要从app.config.js中获取</li>
+</ul>
+<h2 id="handlebars模版化"><a href="#handlebars模版化" class="headerlink" title="handlebars模版化"></a>handlebars模版化</h2><ul>
+<li>template 存放模版</li>
+<li>meta.js 配置入口<ul>
+<li>helpers<ul>
+<li>语法{{#helperName}}...{{/helperName}}</li>
+<li>内置helper if,上面都语法可根据helperName的truthy进行判断</li>
+<li>自定义registerHelper</li>
+</ul>
+</li>
+<li>prompts</li>
+<li>filters</li>
+<li>completeMessage</li>
+</ul>
+</li>
+</ul>
+<h2 id="cli-1"><a href="#cli-1" class="headerlink" title="cli"></a>cli</h2><ul>
+<li>工作流程<ul>
+<li>运行命令 mc init weex pro</li>
+<li>下载模版 </li>
+<li>交互配置信息</li>
+<li>渲染模版</li>
+</ul>
+</li>
+<li>mc<ul>
+<li>1个主命令</li>
+<li>2个子命令<ul>
+<li>mc init</li>
+<li>mc help 默认子命令</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>主命令开发<ul>
+<li>npm i commander</li>
+<li>npm link #将包链接到全局</li>
+</ul>
+</li>
+<li>子命令模块<ul>
+<li>commander</li>
+<li>chalk</li>
+<li>inquirer</li>
+<li>download-git-repo</li>
+<li>rimraf</li>
+<li>user-home</li>
+<li>ora</li>
+<li>metalsmith  <ul>
+<li>文件处理工具,从哪里读，做什么处理，写到哪里去</li>
+<li>use方法绑定插件</li>
+<li>source设定源文件目录</li>
+<li>destination指定文件写入的目录</li>
+<li>clean(true|false)写入前是否删除原来已经存在的文件</li>
+<li>build完成对文件的处理接收回调</li>
+<li>metadata读取全局数据对象</li>
+</ul>
+</li>
+<li>handlebars </li>
+<li>async </li>
+<li>consolidate<ul>
+<li>各种模版引擎的整合库</li>
+<li>还需要引用需要的模版引擎库</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bin/mc</span><br><span class="line"></span><br><span class="line">#!/usr/bin/env node</span><br><span class="line">const program = require(&apos;commander&apos;);</span><br><span class="line">program</span><br><span class="line">  .version(require(&apos;../package&apos;).version)</span><br><span class="line">  .usage(&apos;&lt;command&gt; [options]&apos;)</span><br><span class="line">  .command(&apos;init&apos;, &apos;generate a new fe project&apos;);</span><br><span class="line">program.parse(process.argv);</span><br></pre></td></tr></table></figure></script></li></ul></li></ul></div></article></div></main><footer><div class="paginator"><a class="next" href="/2019/08/17/webpack/">next</a></div><div class="copyright"><p>&copy; 2018 - 2019 <a href="https://prief.github.io">prief</a>.<br>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/Dreyer/hexo-theme-artemis" target="_blank">Artemis</a>.</p></div></footer></div></body></html>
