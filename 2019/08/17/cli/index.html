@@ -1,4 +1,100 @@
-<!DOCTYPE html><html lang="en"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>cli | prief - about share and go on</title><meta name="description" content="cli - prief"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/theme.css"><link rel="search" type="application/opensearchdescription+xml" href="/atom.xml" title="prief - about share and go on"></head><body><div class="wrap"><header><h1 class="branding"><a href="/" title="prief - about share and go on">prief - about share and go on</a></h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">HOME</a></li><li class="nav-list-item"><a class="nav-list-link" href="https://github.com/prief" target="_blank">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">cli</h1><div class="post-info"><a></a>2019-08-17</div><div class="post-content"><h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><ul>
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>cli | prief | about share and go on</title>
+
+  
+  <meta name="author" content="prief">
+  
+
+  
+  <meta name="description" content="webpackloader
+三种使用方式
+webpack.config.js
+内联在import语句中
+在cli命令中指定
+
+
+常用loader
+babel-loader
+style-loader 在html中注入style标签
+css-loader 解析@import url()等
+postcss">
+  
+
+  
+  
+  <meta name="keywords" content>
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="cli">
+
+  <meta property="og:site_name" content="prief">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="prief" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">prief</a>
+    </h1>
+    <p class="site-description">about share and go on</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/tags">Tags</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>cli</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/08/17/cli/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-08-17T08:46:23.000Z">
+          2019-08-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><ul>
 <li>三种使用方式<ul>
 <li>webpack.config.js</li>
 <li>内联在import语句中</li>
@@ -169,27 +265,16 @@
 <li>官网的templateFunction</li>
 <li>customTemplates: {function_based_template: templateFunction},</li>
 <li>target.css = [[],path.resolve(__dirname, “src/assets/generated/sprite.scss”)]</li>
-<li>使用<ul>
-<li>@import ‘~sprite2.scss’;</li>
-<li></li><li class="ico ico-picName"></li>
+<li>使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@import &apos;~sprite2.scss&apos;;</span><br><span class="line">&lt;li class=&quot;ico ico-picName&quot;&gt;&lt;/li&gt; </span><br></pre></td></tr></table></figure>
 
-</ul></li>
+</li>
 </ul>
 </li>
 </ul>
-
-
 <h2 id="按浏览器构建"><a href="#按浏览器构建" class="headerlink" title="按浏览器构建"></a>按浏览器构建</h2><ul>
-<li>新版本浏览器<ul>
-<li><script type="module"></script> 可直接加载ES6 </li>
-<li><link rel="modulepreload"> 预加载 </li>
-</ul>
-</li>
-<li>老版本浏览器<ul>
-<li><script nomodule>加载旧版本js，新版本浏览器会忽略该引用
+<li>新版本浏览器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;module&quot;&gt;&lt;/script&gt; 可直接加载ES6</span><br><span class="line">&lt;link rel=&quot;modulepreload&quot;&gt;&lt;/link&gt; 预加载</span><br></pre></td></tr></table></figure></li>
+<li>老版本浏览器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script nomodule&gt;加载旧版本js，新版本浏览器会忽略该引用</span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
 </li>
 </ul>
 <h2 id="按环境构建"><a href="#按环境构建" class="headerlink" title="按环境构建"></a>按环境构建</h2><ul>
@@ -352,4 +437,40 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bin/mc</span><br><span class="line"></span><br><span class="line">#!/usr/bin/env node</span><br><span class="line">const program = require(&apos;commander&apos;);</span><br><span class="line">program</span><br><span class="line">  .version(require(&apos;../package&apos;).version)</span><br><span class="line">  .usage(&apos;&lt;command&gt; [options]&apos;)</span><br><span class="line">  .command(&apos;init&apos;, &apos;generate a new fe project&apos;);</span><br><span class="line">program.parse(process.argv);</span><br></pre></td></tr></table></figure></script></li></ul></li></ul></div></article></div></main><footer><div class="paginator"><a class="next" href="/2019/08/17/webpack/">next</a></div><div class="copyright"><p>&copy; 2019 <a href="https://prief.github.io">prief</a>.<br>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/Dreyer/hexo-theme-artemis" target="_blank">Artemis</a>.</p></div></footer></div></body></html>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bin/mc</span><br><span class="line"></span><br><span class="line">#!/usr/bin/env node</span><br><span class="line">const program = require(&apos;commander&apos;);</span><br><span class="line">program</span><br><span class="line">  .version(require(&apos;../package&apos;).version)</span><br><span class="line">  .usage(&apos;&lt;command&gt; [options]&apos;)</span><br><span class="line">  .command(&apos;init&apos;, &apos;generate a new fe project&apos;);</span><br><span class="line">program.parse(process.argv);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2019 prief
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
