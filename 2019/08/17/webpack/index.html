@@ -10,12 +10,29 @@
   
 
   
-  <meta name="description" content="基础篇进阶篇原理篇实战篇">
+  <meta name="description" content="基础篇webpack及发展历史
+目的
+css的预处理
+ES6等的支持
+图片压缩
+发布产物的压缩混淆
+
+
+同类
+rollup
+parcel
+
+
+安装准备
+brew install nvm , windows可以安装nvm-windows
+nvm install v10.16.3
+node -v
+npm">
   
 
   
   
-  <meta name="keywords" content>
+  <meta name="keywords" content="webpack">
   
 
   <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
@@ -83,7 +100,84 @@
   <div class="article-content">
     <div class="entry">
       
-        <h1 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h1><h1 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h1><h1 id="原理篇"><a href="#原理篇" class="headerlink" title="原理篇"></a>原理篇</h1><h1 id="实战篇"><a href="#实战篇" class="headerlink" title="实战篇"></a>实战篇</h1>
+        <h1 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h1><h2 id="webpack及发展历史"><a href="#webpack及发展历史" class="headerlink" title="webpack及发展历史"></a>webpack及发展历史</h2><ul>
+<li>目的<ul>
+<li>css的预处理</li>
+<li>ES6等的支持</li>
+<li>图片压缩</li>
+<li>发布产物的压缩混淆</li>
+</ul>
+</li>
+<li>同类<ul>
+<li>rollup</li>
+<li>parcel</li>
+</ul>
+</li>
+<li>安装准备<ul>
+<li>brew install nvm , windows可以安装nvm-windows</li>
+<li>nvm install v10.16.3</li>
+<li>node -v</li>
+<li>npm -v</li>
+<li>mkdir webpack-demo &amp;&amp; cd webpack-demo</li>
+<li>npm init -y</li>
+<li>npm i -D webpack webpack-cli</li>
+<li>./node_modules/.bin/webpack -v</li>
+</ul>
+</li>
+</ul>
+<h2 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h2><ul>
+<li>基础<ul>
+<li>mode</li>
+<li>entry</li>
+<li>output</li>
+<li>module</li>
+<li>plugins</li>
+</ul>
+</li>
+<li>mode<ul>
+<li>production 默认</li>
+<li>development</li>
+<li>none</li>
+</ul>
+</li>
+<li>entry<ul>
+<li>单入口 “path”</li>
+<li>多入口 {name:path}</li>
+</ul>
+</li>
+<li>output<ul>
+<li>path 输出路径</li>
+<li>filename 构建文件名称<ul>
+<li>‘[name]’ 对应入口中的name</li>
+<li>‘[hash]’ 对应文件的hash</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>loaders<ul>
+<li>本质是一个函数，接收源文件作为参数输出转换后的结果</li>
+<li>babel-loader</li>
+<li>style-loader</li>
+<li>css-loader</li>
+<li>less-loader</li>
+<li>file-loader</li>
+<li>raw-loader 将文件以字符串内容形式导入</li>
+<li>thread-loader</li>
+</ul>
+</li>
+<li>plugins<ul>
+<li>本质是一个类，实现了apply方法</li>
+<li>CommonsChunkPlugin chunk相同代码抽取成公共js</li>
+<li>CleanWebpackPlugin 清理构建目录</li>
+<li>ExtractTextWebpackPlugin</li>
+<li>CopyWebpackPlugin</li>
+<li>HtmlWebpackPlugin</li>
+<li>UglifyjsWebpackPlugin</li>
+<li>ZipWebpackPlugin 将打包出的资源生成一个zip包</li>
+</ul>
+</li>
+</ul>
+<h2 id="高级配置"><a href="#高级配置" class="headerlink" title="高级配置"></a>高级配置</h2><h1 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h1><h2 id="可维护的配置"><a href="#可维护的配置" class="headerlink" title="可维护的配置"></a>可维护的配置</h2><h2 id="构建速度和体积优化"><a href="#构建速度和体积优化" class="headerlink" title="构建速度和体积优化"></a>构建速度和体积优化</h2><h1 id="原理篇"><a href="#原理篇" class="headerlink" title="原理篇"></a>原理篇</h1><h2 id="源码掌握原理"><a href="#源码掌握原理" class="headerlink" title="源码掌握原理"></a>源码掌握原理</h2><h2 id="自定义loader"><a href="#自定义loader" class="headerlink" title="自定义loader"></a>自定义loader</h2><h2 id="自定义plugin"><a href="#自定义plugin" class="headerlink" title="自定义plugin"></a>自定义plugin</h2><h1 id="实战篇"><a href="#实战篇" class="headerlink" title="实战篇"></a>实战篇</h1><h2 id="react全家桶"><a href="#react全家桶" class="headerlink" title="react全家桶"></a>react全家桶</h2><h2 id="商城项目"><a href="#商城项目" class="headerlink" title="商城项目"></a>商城项目</h2>
       
     </div>
 
@@ -94,6 +188,13 @@
 
     
 
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/webpack/">webpack</a>
+    </span>
     
 
     </div>
