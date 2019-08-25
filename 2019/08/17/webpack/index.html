@@ -156,11 +156,30 @@ npm">
 </li>
 <li>loaders<ul>
 <li>本质是一个函数，接收源文件作为参数输出转换后的结果</li>
-<li>babel-loader</li>
-<li>style-loader</li>
-<li>css-loader</li>
-<li>less-loader</li>
-<li>file-loader</li>
+<li>babel-loader<ul>
+<li>解析ES6/7</li>
+<li>需要安装@babel/core @babel/preset-env @babel/proposal-class-properties等</li>
+<li>配置文件.babelrc中增加presets和plugins</li>
+</ul>
+</li>
+<li>style-loader<ul>
+<li>将css插入head的style标签</li>
+</ul>
+</li>
+<li>css-loader<ul>
+<li>解析.css文件转换成commonjs对象</li>
+</ul>
+</li>
+<li>less-loader<ul>
+<li>解析less代码成css，依赖less</li>
+</ul>
+</li>
+<li>file-loader<ul>
+<li>解析各种文件资源（图片/字体等）</li>
+<li>如果希望能把小资源转成base64可以使用url-loader的limit</li>
+<li>把二进制文件转成base64后文件大小会增加二进制文件的1/3左右</li>
+</ul>
+</li>
 <li>raw-loader 将文件以字符串内容形式导入</li>
 <li>thread-loader</li>
 </ul>
@@ -169,15 +188,222 @@ npm">
 <li>本质是一个类，实现了apply方法</li>
 <li>CommonsChunkPlugin chunk相同代码抽取成公共js</li>
 <li>CleanWebpackPlugin 清理构建目录</li>
-<li>ExtractTextWebpackPlugin</li>
 <li>CopyWebpackPlugin</li>
-<li>HtmlWebpackPlugin</li>
-<li>UglifyjsWebpackPlugin</li>
 <li>ZipWebpackPlugin 将打包出的资源生成一个zip包</li>
+<li>HtmlWebpackPlugin </li>
+<li>ExtractTextWebpackPlugin</li>
+<li>MiniCssExtractPlugin</li>
+<li>OptimizeCssAssetsWebpackPlugin</li>
+<li>UglifyjsWebpackPlugin</li>
 </ul>
 </li>
 </ul>
-<h2 id="高级配置"><a href="#高级配置" class="headerlink" title="高级配置"></a>高级配置</h2><h1 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h1><h2 id="可维护的配置"><a href="#可维护的配置" class="headerlink" title="可维护的配置"></a>可维护的配置</h2><h2 id="构建速度和体积优化"><a href="#构建速度和体积优化" class="headerlink" title="构建速度和体积优化"></a>构建速度和体积优化</h2><h1 id="原理篇"><a href="#原理篇" class="headerlink" title="原理篇"></a>原理篇</h1><h2 id="源码掌握原理"><a href="#源码掌握原理" class="headerlink" title="源码掌握原理"></a>源码掌握原理</h2><h2 id="自定义loader"><a href="#自定义loader" class="headerlink" title="自定义loader"></a>自定义loader</h2><h2 id="自定义plugin"><a href="#自定义plugin" class="headerlink" title="自定义plugin"></a>自定义plugin</h2><h1 id="实战篇"><a href="#实战篇" class="headerlink" title="实战篇"></a>实战篇</h1><h2 id="react全家桶"><a href="#react全家桶" class="headerlink" title="react全家桶"></a>react全家桶</h2><h2 id="商城项目"><a href="#商城项目" class="headerlink" title="商城项目"></a>商城项目</h2>
+<h2 id="高级配置"><a href="#高级配置" class="headerlink" title="高级配置"></a>高级配置</h2><ul>
+<li><p>构建监听</p>
+<ul>
+<li>webpack 命令行传 –watch</li>
+<li>webpack.config.js中 watch:true</li>
+<li>是通过轮询文件最后修改时间进行的，同时也有aggregateTimeout防止短时间多次修改，有poll指定每秒轮询多少次，ignore指定忽略</li>
+</ul>
+</li>
+<li><p>WDS</p>
+<ul>
+<li>webpack-dev-server</li>
+<li>WDS不输出文件都是存在内存中，所以不用手动刷新浏览器可实现HMR</li>
+<li>dev: “webpack-dev-server –open”</li>
+<li>webpack.config.js<ul>
+<li>mode: ‘development’</li>
+<li>plugins: [new webpack.HotModuleReplacementPlugin()]</li>
+<li>devServer:{hot:true,contentBase:’./dist’}</li>
+</ul>
+</li>
+<li>WDS灵活定制版WDM webapck-dev-middleware</li>
+<li>HMR <ul>
+<li>由compiler把源码编译成bundle和HMR的patch</li>
+<li>bundle由本地的bundleServer返回给浏览器</li>
+<li>HMR的patch由本地的HMRServer(WebSockt)返回浏览器的HMRRuntime</li>
+<li>浏览器执行bundle和patch执行代码</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>文件指纹</p>
+<ul>
+<li>hash 和整个项目有关，只要项目内容变化hash就变，常用于文件</li>
+<li>chunkhash 不同的entry会生成不同的chunkhash，常用于js</li>
+<li>contenthash 文件内容不变contenthash不变，常用于css</li>
+</ul>
+</li>
+<li><p>代码压缩</p>
+<ul>
+<li>html 使用html-webpack-plugin的minify属性</li>
+<li>css 使用optimize-css-assets-webpack-plugin和cssnano</li>
+<li>js 内置了uglifyjs-webpack-plugin</li>
+</ul>
+</li>
+<li><p>postcss</p>
+<ul>
+<li>autoprefixer<ul>
+<li>o presto</li>
+<li>ms trident</li>
+<li>moz gecko</li>
+<li>webkit webkit</li>
+</ul>
+</li>
+<li>npm i -D postcss-loader autoprefixer</li>
+</ul>
+</li>
+<li><p>屏幕分辨率</p>
+<ul>
+<li>rem: font-size of the root element，是相对单位</li>
+<li>px2rem-loader npm i -D px2rem-loader</li>
+<li>lib-flexible在页面渲染时计算rem的值 npm i lib-flexible</li>
+<li>options:{remUnit:75,remPrecision:8}’</li>
+</ul>
+</li>
+<li><p>内联资源到html</p>
+<ul>
+<li>内联html/js<ul>
+<li>raw-loader </li>
+<li>html模版里写${require(‘raw-loader!babel-loader!./meta.html’)} 直接内联html</li>
+<li>script里写${ require(‘raw-loader!babel-loader!../node_modules/lib-flexible/flexible.js’) }内联js</li>
+</ul>
+</li>
+<li>内联css<ul>
+<li>style-loader options:{insertAt:’top’,singleton:true}</li>
+<li>html-inline-css-webpack-plugin 将打包好的css内联</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>MPA</p>
+<ul>
+<li>手动的可增加1个entry，然后增加1个对应的htmlWP，不方便维护</li>
+<li>通用的动态设置entry:glob.sync(path.join(__dirname,’./src/*/index.js’))和对应的htmlWP<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">const setMPA = () =&gt; &#123;</span><br><span class="line">    const entry = &#123;&#125;;</span><br><span class="line">    const htmlWebpackPlugins = [];</span><br><span class="line">    const entryFiles = glob.sync(path.join(__dirname, &apos;./src/*/index.js&apos;));</span><br><span class="line">    Object.keys(entryFiles)</span><br><span class="line">        .map((index) =&gt; &#123;</span><br><span class="line">            const entryFile = entryFiles[index];</span><br><span class="line">            const match = entryFile.match(/src\/(.*)\/index\.js/);</span><br><span class="line">            const pageName = match &amp;&amp; match[1];</span><br><span class="line"></span><br><span class="line">            entry[pageName] = entryFile;</span><br><span class="line">            htmlWebpackPlugins.push(</span><br><span class="line">                new HtmlWP(&#123;</span><br><span class="line">                    inlineSource: &apos;.css$&apos;,</span><br><span class="line">                    template: path.join(__dirname, `src/$&#123;pageName&#125;/index.html`),</span><br><span class="line">                    filename: `$&#123;pageName&#125;.html`,</span><br><span class="line">                    chunks: [&apos;vendors&apos;, pageName],</span><br><span class="line">                    inject: true,</span><br><span class="line">                    minify: &#123;</span><br><span class="line">                        html5: true,</span><br><span class="line">                        collapseWhitespace: true,</span><br><span class="line">                        preserveLineBreaks: false,</span><br><span class="line">                        minifyCSS: true,</span><br><span class="line">                        minifyJS: true,</span><br><span class="line">                        removeComments: false</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">            );</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">        entry,</span><br><span class="line">        htmlWebpackPlugins</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const &#123;entry,htmlWebpackPlugins&#125; = setMPA()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>sourceMap</p>
+<ul>
+<li>开发环境使用，生产环境只需要传到监控平台</li>
+<li>关键字<ul>
+<li>eval 使用eval包裹模块代码，不生成单独的map文件</li>
+<li>cheap 不包含列信息</li>
+<li>source-map 生成.map文件</li>
+<li>inline 将.map作为DataURI嵌入，不单独生成.map</li>
+<li>module 包含loader的source-map</li>
+</ul>
+</li>
+<li>类型<ul>
+<li>生产环境使用source-map，map文件上传到监控平台</li>
+<li>开发环境使用eval-source-map，加速打包</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>提取公共资源</p>
+<ul>
+<li>基础库(vue/react/react-dom)分离到cdn，可使用html-webpack-externals-plugin</li>
+<li>也可以用webpack4内置的splitChunksPlugin代替CommonsChunkPlugin</li>
+<li>chunks说明<ul>
+<li>async 默认选项，表示异步引入的库进行分离</li>
+<li>initial 同步引入的库进行分离</li>
+<li>all 推荐使用所有引入的库都进行分离</li>
+</ul>
+</li>
+<li>chunks分离后需要把分离出的name添加到htmlWP中的chunks<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">optimization:&#123;</span><br><span class="line">       splitChunks:&#123;</span><br><span class="line">           minSize: 0,</span><br><span class="line">           cacheGroups:&#123;</span><br><span class="line">               vendors:&#123;</span><br><span class="line">                   test:/(react|react-dom)/,</span><br><span class="line">                   name:&quot;vendors&quot;,</span><br><span class="line">                   chunks:&quot;all&quot;</span><br><span class="line">               &#125;,</span><br><span class="line">               commons:&#123;</span><br><span class="line">                 name:&quot;commons&quot;,</span><br><span class="line">                 chunks:&quot;all&quot;,</span><br><span class="line">                 minChunks:2</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>treeShaking</p>
+<ul>
+<li>把模块中没被引用的方法在uglify阶段去除掉</li>
+<li>使用<ul>
+<li>必须是ES6的语法，不能用在CommonJS，ES6可以静态分析</li>
+<li>在.babelrc里设置module:false即可</li>
+<li>mode为production情况下默认开启了此功能</li>
+<li>要求到处的函数不能有副作用，否则也会失效</li>
+</ul>
+</li>
+<li>原理<ul>
+<li>DCE dead code elimination 无用代码擦除<ul>
+<li>代码不可到达</li>
+<li>代码执行的结果不会被用到</li>
+<li>只写不读的代码</li>
+</ul>
+</li>
+<li>ES6模块特点<ul>
+<li>import只能出现在代码顶层</li>
+<li>import的模块名只能是字符串常量</li>
+<li>import的binding是immutable的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ScopeHoisting</p>
+<ul>
+<li>问题<ul>
+<li>构建后的模块代码都是通过闭包实现IIFE</li>
+<li>大量的闭包导致代码体积增大，运行时内存开销增大</li>
+</ul>
+</li>
+<li>分析<ul>
+<li>把所有的模块都包裹一层函数形成IIFE</li>
+<li>把import转换成_webpack_require,export转换成_webpack_exports</li>
+<li>把所有模块都缓存到modules数组</li>
+<li>通过WEBPACK_REQUIRE_METHOD(0) 启动程序</li>
+</ul>
+</li>
+<li>scopeHoisting将模块代码按照引用顺序放在一个函数作用域，适当的做重命名防止变量冲突，达到减少函数声明和内存开销</li>
+<li>使用时mode设置为production默认开启，手动开启使用 new webpack.optimize.ModuleConcatenationPlugin()</li>
+</ul>
+</li>
+<li><p>动态import</p>
+<ul>
+<li>把相同的代码抽离到一个共享模块，在通过懒加载动态import使初始下载的代码更小</li>
+<li>懒加载<ul>
+<li>CommonJS使用方式require.ensure()</li>
+<li>ES6使用方式 动态import目前还没有原生支持，需要babel插件<ul>
+<li>npm i @babel/plugin-syntax-dynamic-import</li>
+<li>.babelrc中plugins:[‘@babel/plugin-syntax-dynamic-import’]</li>
+</ul>
+</li>
+<li>代码中需要的地方用import(‘./dynamic.js’).then()</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ESLint</p>
+<ul>
+<li>制定规范<ul>
+<li>基于eslint:recommmend配置进行改进，不重复造轮子</li>
+<li>能够帮助发现错误的规则全部开启</li>
+<li>保持风格统一，不要限制开发体验</li>
+</ul>
+</li>
+<li>落地<ul>
+<li>和CICD集成</li>
+<li>和webpack集成</li>
+</ul>
+</li>
+<li>本地开发增加precommit钩子(本地可以绕过，所以CICD必须要有)<ul>
+<li>npm i -D husky</li>
+<li>“precommit”: “lint-staged”</li>
+<li>“lint-staged”: {“linters”:”*.{js,scss}”:[“eslint –fix”, “git add”]}</li>
+</ul>
+</li>
+<li>webpack集成ESLint<ul>
+<li>.js文件先用eslint-loader再使用babel-loader</li>
+<li>npm i -D eslint eslint-loader babel-eslint eslint-plugin-import …</li>
+<li>.eslintrc.js</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h1><h2 id="可维护的配置"><a href="#可维护的配置" class="headerlink" title="可维护的配置"></a>可维护的配置</h2><h2 id="构建速度和体积优化"><a href="#构建速度和体积优化" class="headerlink" title="构建速度和体积优化"></a>构建速度和体积优化</h2><h1 id="原理篇"><a href="#原理篇" class="headerlink" title="原理篇"></a>原理篇</h1><h2 id="源码掌握原理"><a href="#源码掌握原理" class="headerlink" title="源码掌握原理"></a>源码掌握原理</h2><h2 id="自定义loader"><a href="#自定义loader" class="headerlink" title="自定义loader"></a>自定义loader</h2><h2 id="自定义plugin"><a href="#自定义plugin" class="headerlink" title="自定义plugin"></a>自定义plugin</h2><h1 id="实战篇"><a href="#实战篇" class="headerlink" title="实战篇"></a>实战篇</h1><h2 id="react全家桶"><a href="#react全家桶" class="headerlink" title="react全家桶"></a>react全家桶</h2><h2 id="商城项目"><a href="#商城项目" class="headerlink" title="商城项目"></a>商城项目</h2>
       
     </div>
 
