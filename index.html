@@ -559,7 +559,7 @@
 <li>ZipWebpackPlugin 将打包出的资源生成一个zip包</li>
 <li>HtmlWebpackPlugin </li>
 <li>ExtractTextWebpackPlugin</li>
-<li>MiniCssExtractPlugin</li>
+<li>MiniCssExtractPlugin 需要配合.loader替换style-loader进行css文件提取</li>
 <li>OptimizeCssAssetsWebpackPlugin</li>
 <li>UglifyjsWebpackPlugin</li>
 </ul>
@@ -570,7 +570,7 @@
 <ul>
 <li>webpack 命令行传 –watch</li>
 <li>webpack.config.js中 watch:true</li>
-<li>是通过轮询文件最后修改时间进行的，同时也有aggregateTimeout防止短时间多次修改，有poll指定每秒轮询多少次，ignore指定忽略</li>
+<li>是通过轮询文件最后修改时间进行的，同时也有aggregateTimeout防止短时间多次修改，有poll指定每秒轮询多少次，ignore指定忽略，这些属性在watchOptions中</li>
 </ul>
 </li>
 <li><p>WDS</p>
@@ -596,14 +596,14 @@
 </li>
 <li><p>文件指纹</p>
 <ul>
-<li>hash 和整个项目有关，只要项目内容变化hash就变，常用于文件</li>
-<li>chunkhash 不同的entry会生成不同的chunkhash，常用于js</li>
-<li>contenthash 文件内容不变contenthash不变，常用于css</li>
+<li>hash 和整个项目有关，只要项目内有变化hash就变，文件处理也可以用[hash:8]</li>
+<li>chunkhash 不同的entry会生成不同的chunkhash，常用于js，常设置在output.filename中[chunkhash:8]</li>
+<li>contenthash 文件内容不变contenthash不变，常用于css，常设置在MiniCssExtractPlugin的filename中[contenthash:8]</li>
 </ul>
 </li>
 <li><p>代码压缩</p>
 <ul>
-<li>html 使用html-webpack-plugin的minify属性</li>
+<li>html 使用html-webpack-plugin的minify对象属性</li>
 <li>css 使用optimize-css-assets-webpack-plugin和cssnano</li>
 <li>js 内置了uglifyjs-webpack-plugin</li>
 </ul>
@@ -623,9 +623,9 @@
 <li><p>屏幕分辨率</p>
 <ul>
 <li>rem: font-size of the root element，是相对单位</li>
-<li>px2rem-loader npm i -D px2rem-loader</li>
-<li>lib-flexible在页面渲染时计算rem的值 npm i lib-flexible</li>
-<li>options:{remUnit:75,remPrecision:8}’</li>
+<li>npm i -D px2rem-loader</li>
+<li>options:{remUnit:75,remPrecision:8}</li>
+<li>npm i lib-flexible lib-flexible在页面渲染时计算rem的值</li>
 </ul>
 </li>
 <li><p>内联资源到html</p>
