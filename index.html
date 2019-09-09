@@ -1160,7 +1160,155 @@
 </ul>
 </li>
 </ul>
-<h1 id="原理篇"><a href="#原理篇" class="headerlink" title="原理篇"></a>原理篇</h1><h2 id="源码掌握原理"><a href="#源码掌握原理" class="headerlink" title="源码掌握原理"></a>源码掌握原理</h2><h2 id="自定义loader"><a href="#自定义loader" class="headerlink" title="自定义loader"></a>自定义loader</h2><h2 id="自定义plugin"><a href="#自定义plugin" class="headerlink" title="自定义plugin"></a>自定义plugin</h2><h1 id="实战篇"><a href="#实战篇" class="headerlink" title="实战篇"></a>实战篇</h1><h2 id="react全家桶"><a href="#react全家桶" class="headerlink" title="react全家桶"></a>react全家桶</h2><h2 id="商城项目"><a href="#商城项目" class="headerlink" title="商城项目"></a>商城项目</h2>
+<h1 id="原理篇"><a href="#原理篇" class="headerlink" title="原理篇"></a>原理篇</h1><h2 id="源码掌握原理"><a href="#源码掌握原理" class="headerlink" title="源码掌握原理"></a>源码掌握原理</h2><ul>
+<li><p>webpack源码</p>
+<ul>
+<li>本质<ul>
+<li>基于事件流的编程范例，运行一系列的插件</li>
+<li>compiler = webpack(options)</li>
+</ul>
+</li>
+<li>启动流程<ul>
+<li>npm scripts</li>
+<li>webpack cli</li>
+<li>实际都是执行的node_modules/webpack/bin/webpack.js</li>
+</ul>
+</li>
+<li>主要步骤<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">process.exitCode = 0;</span><br><span class="line">const runCommand = (cmd,args)=&gt;&#123;&#125;</span><br><span class="line">const installed = packageName=&gt;&#123;&#125;</span><br><span class="line">const CLIs = []</span><br><span class="line">const installedCLIs = CLIs.filter()</span><br><span class="line">if(installedCLIs.length ===0 )&#123;</span><br><span class="line"></span><br><span class="line">&#125;else if(installedCLIs.length ===1)&#123;</span><br><span class="line"></span><br><span class="line">&#125;else&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>webpack-cli源码</p>
+<ul>
+<li>主要流程<ul>
+<li>引入yargs，对命令行进行定制</li>
+<li>分析命令行参数，对参数进行转换，组成编译配置项</li>
+<li>引入webpack，根据配置项进行编译</li>
+</ul>
+</li>
+<li>不需编译的子命令<ul>
+<li>init</li>
+<li>migrate</li>
+<li>add</li>
+<li>remote</li>
+<li>serve</li>
+<li>info</li>
+<li>generate-loader</li>
+<li>generate-plugin</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>tapable</p>
+<ul>
+<li>类似nodejs的EventEmitter,主要控制钩子的发布和订阅</li>
+<li>插件系统发布或订阅钩子函数进行处理</li>
+<li>9大hook类<ul>
+<li>SyncHook</li>
+<li>SyncBailHook</li>
+<li>SyncWaterfallHook</li>
+<li>SyncLoopHook</li>
+<li>AsyncParallelHook</li>
+<li>AsyncParallelBailHook</li>
+<li>AsyncSeriesHook</li>
+<li>AsyncSeriesBailHook</li>
+<li>AsyncSeriesWaterfallHook</li>
+</ul>
+</li>
+<li>绑定和执行<ul>
+<li>同步:tap和call</li>
+<li>异步:tapAsync/tapPromise/tap和callAsync/<br>promise<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const hook1 = new SyncHook([&quot;a1&quot;,&quot;a2&quot;,&quot;a3&quot;])</span><br><span class="line"></span><br><span class="line">hook1.tap(&quot;hook1&quot;,(a1,a2,a3)=&gt;&#123;&#125;)</span><br><span class="line">hook1.call(1,2,3)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>简易实现webpack</p>
+<ul>
+<li>babel语法转换 babylon</li>
+<li>依赖分析 babel-traverse</li>
+</ul>
+</li>
+</ul>
+<h2 id="自定义loader"><a href="#自定义loader" class="headerlink" title="自定义loader"></a>自定义loader</h2><ul>
+<li><p>loader链式调用和执行顺序</p>
+<ul>
+<li>loader只是一个导出为函数的js模块</li>
+<li>module.exports = function(source){return s}</li>
+<li>链式调用时从右到左从后到前依次串行执行</li>
+<li>函数组合的2种方式<ul>
+<li>unix的pipline从左到右</li>
+<li>compose的方式从右到左compose=(f,g)=&gt;(…args)=&gt;f(g(…args)) webpack采用此方式</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>loader-runner</p>
+<ul>
+<li>可用webpack-cli的generate-loader命令</li>
+<li>loader-runner可以在不安装webpack情况下运行loaders</li>
+<li>webpack也使用loader-runner执行loader</li>
+<li>开发中也可以用loader-runner进行loader的开发和调试</li>
+</ul>
+</li>
+<li><p>实战</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mkdir raw-loader &amp;&amp; cd raw-loader</span><br><span class="line">npm init -y </span><br><span class="line">npm i loader-runner</span><br><span class="line"></span><br><span class="line">/src/demo.txt</span><br><span class="line">demotxt</span><br><span class="line"></span><br><span class="line">/src/raw-loader.js</span><br><span class="line">module.exports=function(src)&#123;</span><br><span class="line">  const json = JSON.stringify(src)</span><br><span class="line">              .replace(/\u2028/g,&apos;\\u2028&apos;)</span><br><span class="line">              .replace(/\u2029/g,&apos;\\u2029&apos;)</span><br><span class="line"></span><br><span class="line">  // 正常返回 return `export default $&#123;json&#125;`; </span><br><span class="line">  // 抛错 throw new Error(&apos;myError&apos;);</span><br><span class="line">  // 也可通过this.callback(error,data1 [,data2...])</span><br><span class="line">  this.callback(null, json);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/run-loader.js</span><br><span class="line">const &#123;runLoaders &#125; = require(&apos;loader-runner&apos;);</span><br><span class="line">const fs = require(&apos;fs&apos;);</span><br><span class="line">const path = require(&apos;path&apos;)</span><br><span class="line">runLoaders(&#123;</span><br><span class="line">    resource:path.join(__dirname,&apos;./src/demo.txt&apos;),</span><br><span class="line">    loaders:[</span><br><span class="line">        path.join(__dirname,&apos;./src/raw-loader.js&apos;)</span><br><span class="line">    ],</span><br><span class="line">    context:&#123;</span><br><span class="line">        minimize:true</span><br><span class="line">    &#125;,</span><br><span class="line">    readResource:fs.readFile.bind(fs)</span><br><span class="line">&#125;,function(err,res)&#123;</span><br><span class="line">    console.log(err,res)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">node run-loader.js</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>高级用法</p>
+<ul>
+<li><p>loader-utils的getOptions获取loader参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const loaderUtils = require(&apos;loader-utils&apos;);</span><br><span class="line">module.exports = function(source)&#123;</span><br><span class="line">  const &#123;name&#125; = loaderUtils.getOptions(this);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>loader的异步处理</p>
+<ul>
+<li>通过this.async()返回的一个函数进行异步处理</li>
+<li>第一个参数是error，第二个参数是处理结果<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">module.exports = function(source)&#123;</span><br><span class="line">  const callback = this.async();</span><br><span class="line"></span><br><span class="line">  fs.readFile(path,&apos;utf-8&apos;,(err,data)=&gt;&#123;</span><br><span class="line">    callback(err,data)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>loader的缓存</p>
+<ul>
+<li>webpack中默认开启缓存</li>
+<li>可使用this.cacheable(false)关掉缓存</li>
+<li>缓存的条件是相同的输入有相同的输出</li>
+<li>有依赖的loader无法使用缓存</li>
+</ul>
+</li>
+<li><p>loader的文件输出</p>
+<ul>
+<li>this.emitFile(outputPath,content)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="自定义plugin"><a href="#自定义plugin" class="headerlink" title="自定义plugin"></a>自定义plugin</h2><ul>
+<li><p>插件</p>
+<ul>
+<li>没有loader那样的独立运行环境，只能在webpack内运行</li>
+<li>插件需要导出一个类，类需要实现apply方法</li>
+<li>apply方法接收到一个compiler对象参数</li>
+<li>插件内通过compiler的hooks和compilation的hooks做逻辑处理</li>
+</ul>
+</li>
+<li><p>搭建插件运行环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const DemoPlugin = require(&apos;./plugins/demo.js&apos;);</span><br><span class="line">const options = &#123;&#125;</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry:&#123;</span><br><span class="line">    lib: path.join(__dirname,&apos;src/lib.js&apos;)</span><br><span class="line">  &#125;,</span><br><span class="line">  output:&#123;</span><br><span class="line">    path:path.join(__dirname,&apos;dist&apos;),</span><br><span class="line">    filename:&apos;[name].js&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins:[</span><br><span class="line">    new DemoPlugin(options)</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// plugins/demo.js</span><br><span class="line">module.exports = class DemoPlugin &#123;</span><br><span class="line">  constructor(options)&#123;</span><br><span class="line">    this.options = options</span><br><span class="line">  &#125;</span><br><span class="line">  apply(compiler)&#123;</span><br><span class="line">    console.log(this.options);</span><br><span class="line">    compiler.hooks.done.tap(&apos;demo&apos;,()=&gt;&#123;&#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>错误处理</p>
+<ul>
+<li>接收参数时可以直接throw new Error()</li>
+<li>hooks处理阶段通过compilation.warnings或errors.push(‘msg’)</li>
+</ul>
+</li>
+<li><p>文件输出</p>
+<ul>
+<li>通过compilation.assets配合webpack-sources包<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">const JSZip = require(&apos;jszip&apos;)</span><br><span class="line">const RawSource = require(&apos;webpack-sources&apos;).RawSource</span><br><span class="line">const path = require(&apos;path&apos;)</span><br><span class="line">const zip = new JSZip()</span><br><span class="line">module.exports = class DemoPlugin &#123;</span><br><span class="line">  constructor (options) &#123;</span><br><span class="line">    this.options = options</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  apply (compiler) &#123;</span><br><span class="line">    compiler.hooks.emit.tapAsync(&apos;zipPlugin&apos;, (compilation, cb) =&gt; &#123;</span><br><span class="line">      const folder = zip.folder(this.options.name)</span><br><span class="line">      for (const filename in compilation.assets) &#123;</span><br><span class="line">        const source = compilation.assets[filename].source()</span><br><span class="line">        folder.file(filename, source)</span><br><span class="line">      &#125;</span><br><span class="line">      zip.generateAsync(&#123;</span><br><span class="line">        type: &apos;nodebuffer&apos;</span><br><span class="line">      &#125;).then((content) =&gt; &#123;</span><br><span class="line">        console.log(compilation.options)</span><br><span class="line">        const outputPath = path.join(compilation.options.output.path, this.options.name + &apos;.zip&apos;)</span><br><span class="line">        const relativePath = path.relative(compilation.options.output.path, outputPath)</span><br><span class="line">        compilation.assets[relativePath] = new RawSource(content)</span><br><span class="line">        cb()</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+
       
     </div>
 
