@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://prief.github.io/2019/09/09/k8s-mooc/</loc>
+    
+    <lastmod>2019-09-09T15:13:10.827Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://prief.github.io/2019/08/17/cli/</loc>
     
     <lastmod>2019-09-09T10:45:24.270Z</lastmod>
