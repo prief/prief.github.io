@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://prief.github.io/"/>
-  <updated>2019-09-11T14:18:50.871Z</updated>
+  <updated>2019-10-01T15:03:50.747Z</updated>
   <id>https://prief.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>flutter</title>
+    <link href="https://prief.github.io/2019/10/01/flutter/"/>
+    <id>https://prief.github.io/2019/10/01/flutter/</id>
+    <published>2019-10-01T08:24:22.000Z</published>
+    <updated>2019-10-01T15:03:50.747Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="flutter开发起步"><a href="#flutter开发起步" class="headerlink" title="flutter开发起步"></a>flutter开发起步</h1><h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><ul><li>底层渲染逻辑skia<ul><li>利用自己的渲染引擎skia，不依赖OS的组件</li><li>保证了高度一致性</li></ul></li><li>上层开发语言dart<ul><li>Dart同时支持JIT/AOT</li><li>开发期调试效率高，发布期执行性能好<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2></li></ul></li><li>跨平台</li><li>高保真(自己的渲染引擎skia完成了渲染的闭环，不用js扩展调用原生)</li><li>高性能</li></ul><h2 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h2><ul><li>embedder<ul><li>操作系统适配层</li><li>实现了渲染设置，线程设置，平台插件适配等</li></ul></li><li>engine<ul><li>skia和text提供了调用底层渲染和排版的能力</li><li>dart提供了运行时调用dart和渲染引擎的能力</li></ul></li><li>framework<ul><li>dart实现的UI SDK包含动画、图形绘制、手势识别等</li></ul></li></ul><h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ul><li>Widget以树的形式组织成控件树</li><li>flutter通过每个控件创建不同类型的渲染对象组成渲染对象树</li><li>渲染对象树通过4个阶段完成展示<ul><li>布局 采用深度优先机制遍历渲染对象树，决定对象的位置和尺寸(支持布局边界和父约束)</li><li>绘制 按位置和尺寸绘制到不同的图层，采用深度优先机制遍历(支持重绘边界)</li><li>合成 将所有图层根据位置，尺寸，层级，大小，透明度等规则计算出最终显示效果简化渲染树</li><li>渲染 几何图层数据交给skia引擎加工成二维图像数据最终给GPU进行渲染<img src="/2019/10/01/flutter/flutter.jpg" title="flutter技术点"></li></ul></li></ul><h2 id="跨平台方案"><a href="#跨平台方案" class="headerlink" title="跨平台方案"></a>跨平台方案</h2><ul><li><p>三个时代</p><ul><li>web容器时代(cordova,ionic,微信小程序都使用webview+jsBridge)</li><li>泛web容器时代(reactNative,weex,快应用都把渲染交给原生)</li><li>自绘引擎时代(flutter,客户端只提供一块画布即可)<img src="/2019/10/01/flutter/hybrid.png" title="技术选型对比"></li></ul></li><li><p>图像显示基本原理</p><ul><li>CPU负责图像数据的计算</li><li>GPU负责图像数据的渲染，渲染后放入帧缓冲区，视频控制器根据垂直同步信号VSync以60t/s刷新</li><li>显示器负责图像显示</li></ul></li><li><p>skia</p><ul><li>c++开发的高性能2D图像绘制引擎</li></ul></li></ul><h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><ul><li>android<ul><li>AS</li><li>AVD(Nexus6P)</li></ul></li><li>ios<ul><li>Xcode</li><li>open -a Simulator</li></ul></li><li>flutter<ul><li>export PUB_HOSTED_URL=<a href="https://pub.flutter-io.cn" target="_blank" rel="noopener">https://pub.flutter-io.cn</a></li><li>export FLUTTER_STORAGE_BASE_URL=<a href="https://storage.flutter-io.cn" target="_blank" rel="noopener">https://storage.flutter-io.cn</a></li><li>export FLUTTER_HOME=/Users/dh/dev/flutter</li><li>export PATH=$PATH:$FLUTTER_HOME/bin</li><li>flutter emulators [–launch apple_ios_simulator]</li><li>flutter doctor</li></ul></li><li>doctor问题解决方案<ul><li>ios<ul><li>gem sources –add <a href="https://gems.ruby-china.com/" target="_blank" rel="noopener">https://gems.ruby-china.com/</a> –remove <a href="https://rubygems.org/" target="_blank" rel="noopener">https://rubygems.org/</a></li><li>gem sources -l</li><li>gem update –system</li><li>sudo gem install cocoapods</li><li>pod setup</li><li>brew update</li><li>brew install –HEAD usbmuxd #usb通信抽象为tcp通信，与设备进行多路socket守护进程</li><li>brew link usbmuxd</li><li>brew install –HEAD libimobiledevice # 与设备进行通信的跨平台协议库</li><li>brew install ideviceinstaller # 在ios设备上管理app的工具</li><li>signing</li></ul></li><li>android<ul><li>flutter doctor –android-licenses</li><li>flutter plugin</li></ul></li><li>vscode<ul><li>flutter extension</li></ul></li></ul></li></ul><h2 id="工程结构"><a href="#工程结构" class="headerlink" title="工程结构"></a>工程结构</h2><ul><li>android 安卓子工程</li><li>build 构建产物</li><li>ios ios子工程</li><li>lib/main.dart flutter工程入口文件</li><li>test 测试目录</li><li>flutter_app_demo.iml 工程配置文件</li><li>pubspec.lock 记录当前项目实际依赖信息的文件</li><li>pubspec.yaml 管理第三方库和资源的配置文件</li></ul><h1 id="Dart基础"><a href="#Dart基础" class="headerlink" title="Dart基础"></a>Dart基础</h1><h2 id="特性-1"><a href="#特性-1" class="headerlink" title="特性"></a>特性</h2><ul><li>同时支持JIT/AOT编译模式<ul><li>JIT just in time即时编译，适合开发环境</li><li>AOT ahead of time运行前编译，适合生产环境</li></ul></li><li>内存分配和垃圾回收机制<ul><li>内存线性增长，创建对象时只在堆上移动指针</li><li>并发是通过Isolate实现，使dart实现了无锁的内存分配</li><li>避免了抢占式调度和共享内存</li><li>垃圾回收采用多生代算法，只操作少量的活跃对象，忽略死亡对象</li></ul></li><li>单线程模型<ul><li>dar中没有线程，只有Isolate隔离区，isolate不共享内存</li><li>通过事件循环在事件队列上传递消息</li></ul></li><li>无需单独的声明式布局语言</li></ul><h1 id="flutter基础"><a href="#flutter基础" class="headerlink" title="flutter基础"></a>flutter基础</h1><h1 id="flutter进阶"><a href="#flutter进阶" class="headerlink" title="flutter进阶"></a>flutter进阶</h1><h1 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h1>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;flutter开发起步&quot;&gt;&lt;a href=&quot;#flutter开发起步&quot; class=&quot;headerlink&quot; title=&quot;flutter开发起步&quot;&gt;&lt;/a&gt;flutter开发起步&lt;/h1&gt;&lt;h2 id=&quot;核心&quot;&gt;&lt;a href=&quot;#核心&quot; class=&quot;head
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>k8s-mooc</title>

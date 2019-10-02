@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://prief.github.io/2019/10/01/flutter/</loc>
+    
+    <lastmod>2019-10-01T15:03:50.747Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://prief.github.io/2019/09/09/k8s-mooc/</loc>
     
     <lastmod>2019-09-11T14:18:50.871Z</lastmod>
