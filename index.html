@@ -106,7 +106,9 @@
 </ul>
 </li>
 <li>framework<ul>
-<li>dart实现的UI SDK包含动画、图形绘制、手势识别等</li>
+<li>dart实现的UI SDK包含动画、图形绘制、手势识别等<img src="/2019/10/01/flutter/flutterArch.png" title="flutter">
+
+</li>
 </ul>
 </li>
 </ul>
@@ -135,7 +137,7 @@
 <li><p>图像显示基本原理</p>
 <ul>
 <li>CPU负责图像数据的计算</li>
-<li>GPU负责图像数据的渲染，渲染后放入帧缓冲区，视频控制器根据垂直同步信号VSync以60t/s刷新</li>
+<li>GPU负责图像数据的渲染，渲染后放入帧缓冲区，视频控制器根据垂直同步信号VSync以60t/s刷新给显示器</li>
 <li>显示器负责图像显示</li>
 </ul>
 </li>
@@ -216,7 +218,7 @@
 </ul>
 </li>
 <li>单线程模型<ul>
-<li>dar中没有线程，只有Isolate隔离区，isolate不共享内存</li>
+<li>dart中没有线程，只有Isolate隔离区，isolate不共享内存</li>
 <li>通过事件循环在事件队列上传递消息</li>
 </ul>
 </li>
@@ -280,7 +282,8 @@
 <li>实例变量/方法</li>
 <li>类变量/方法 static关键字</li>
 <li>变量/方法名称前面加上_即可作为private使用，否则就是public，_是库访问级别</li>
-<li>构造函数语法糖就是类中调用同类名相同的方法即命名构造函数</li>
+<li>构造函数语法糖就是类中调用同类名相同的方法</li>
+<li>命名构造函数即类可以有多个构造函数</li>
 <li>实例化时可以省略new关键字</li>
 <li>dart支持初始化列表，即支持多个构造函数，构造函数可以重定向:到另一个构造函数</li>
 </ul>
@@ -550,7 +553,7 @@
 <li>EventBus<ul>
 <li>上面两种依赖父子widget关系树</li>
 <li>eventBus遵循了发布/订阅模式</li>
-<li>全局作用，但容器引起冲突，组件移除要清理事件</li>
+<li>全局作用，但容易引起冲突，组件移除要清理事件</li>
 </ul>
 </li>
 </ul>
@@ -572,18 +575,238 @@
 <li>命名路由<ul>
 <li>需要提前注册，页面切换时根据注册的标示符打开</li>
 <li>Navigator.pushNamed(context,”name”)</li>
+<li>Navigator.of(context).pushNamed(“name”,arguments:”args”);</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>其他<ul>
 <li>默认路由 UnknownRoute</li>
-<li>路由页面打开参数 RouteSettings</li>
-<li>路由页面返回参数</li>
+<li>路由页面打开参数<ul>
+<li>RouteSettings </li>
+<li>args = ModalRoute.of(context).settings.arguments as String;</li>
+</ul>
+</li>
+<li>路由页面返回参数<ul>
+<li>push页面时要设置目标页面关闭时的监听函数以获取返回参数Navigator.pushNamed(context,”name”).then(args =&gt; print args);</li>
+<li>目标页面关闭路由时要传递相关返回参数 Navigator.pop(context,”args”);</li>
 </ul>
 </li>
 </ul>
-<h1 id="flutter进阶"><a href="#flutter进阶" class="headerlink" title="flutter进阶"></a>flutter进阶</h1><h1 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h1>
+</li>
+</ul>
+<h1 id="flutter进阶"><a href="#flutter进阶" class="headerlink" title="flutter进阶"></a>flutter进阶</h1><h2 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h2><ul>
+<li>Animation<ul>
+<li>flutter动画库的核心类</li>
+<li>flutter的动画状态和渲染是分离的</li>
+<li>fultter动画的生成器</li>
+</ul>
+</li>
+<li>AnimationController<ul>
+<li>flutter动画的控制器</li>
+<li>管理Animation，可设置动画的时长、启动动画、暂停、反转等</li>
+<li>controller.forward()启动动画</li>
+<li>controller.repeat()重复动画</li>
+<li>controller.dispose()释放资源</li>
+</ul>
+</li>
+<li>Listener<ul>
+<li>flutter动画的监听器</li>
+<li>是Animation的回调函数，可监听动画的进度变化</li>
+<li>监听变化后重新触发刷新实现动画</li>
+<li>实践中尽量避免直接使用提高性能</li>
+</ul>
+</li>
+<li>AnimatedWidget<ul>
+<li>将Animation状态与其子widget视觉样式绑定，省去了状态监听和刷新UI</li>
+<li>使用时要继承此widget并接收Animation对象作为初始化参数,build方法中读值初始化</li>
+</ul>
+</li>
+<li>AnimatedBuilder<ul>
+<li>自动监听Animation对象变化根据需要刷新UI</li>
+<li>尺寸变化由builder(context,child)函数管理</li>
+<li>此类实现了动画与渲染的职责分离</li>
+</ul>
+</li>
+<li>跨页面共享的动画<ul>
+<li>共享元素变换 SharedElementTransition</li>
+<li>Hero(tag:”name”,child:Widget)</li>
+</ul>
+</li>
+</ul>
+<h2 id="单线程模型"><a href="#单线程模型" class="headerlink" title="单线程模型"></a>单线程模型</h2><ul>
+<li>EventLoop机制<ul>
+<li>MicrotaskQueue微任务队列<ul>
+<li>表示短时间就会完成的异步任务</li>
+<li>微任务在事件循环中的优先级最高，只要有任务就一直霸占着事件循环</li>
+<li>scheduleMicroTask()</li>
+<li>一般不需要此队列</li>
+</ul>
+</li>
+<li>EventQueue事件队列<ul>
+<li>优先级比较低，比较常用</li>
+<li>dart为EventQueue任务提供了Future封装</li>
+<li>Future提供了链式调用能力，可在异步完成后依次执行</li>
+<li>then与Future函数体共用一个事件循环</li>
+<li>Future执行完毕了又给引用添加了一个then方法或Future函数体为null时会把then方法体放入微任务队列，尽快执行<img src="/2019/10/01/flutter/eventLoop.png" title="事件循环">
+<img src="/2019/10/01/flutter/eventLoop.gif" title="事件循环"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>异步处理<ul>
+<li>async/await</li>
+</ul>
+</li>
+<li>并发编程<ul>
+<li>dart是基于单线程模型，但也提供了基于Isolate的多线程机制提高多核cpu利用率</li>
+<li>Isolate都有自己的EventLoop和Queue，资源隔离做的很好</li>
+<li>Isolate之间不共享任何资源，只能依靠消息机制SendPort通信，避免了资源抢占需要加锁的问题</li>
+<li>Isolate.spawn(fnName,args)</li>
+<li>主/并发Isolate之间通信靠ReceivePort.listen()和sendPort.send()</li>
+<li>为了方便使用抽象了支持并发计算的compute函数</li>
+</ul>
+</li>
+</ul>
+<h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><ul>
+<li>网络请求流程<ul>
+<li>构造client，设置通用请求行为（超时）</li>
+<li>构造URI，设置请求header/body</li>
+<li>发起请求，等待响应</li>
+<li>解析响应的内容</li>
+</ul>
+</li>
+<li>flutter实现方式<ul>
+<li>dart:io里的HttpClient</li>
+<li>dart原生的http请求库</li>
+<li>第三方库dio(支持拦截器/请求合并等高级能力)</li>
+</ul>
+</li>
+<li>JSON解析<ul>
+<li>flutter不支持运行时反射，所以不能自动解析JSON只能手动解析</li>
+<li>dart:convert库中内置的JSON解码器把JSON字符串解析成对象</li>
+<li>字符串传给JSON.decode()返回一个Map再传给自定义解析类</li>
+<li>如果JSON数据格式比较复杂或量比较大推荐使用compute函数将解析放到新Isolate完成</li>
+</ul>
+</li>
+</ul>
+<h2 id="持久化存储"><a href="#持久化存储" class="headerlink" title="持久化存储"></a>持久化存储</h2><ul>
+<li>文件<ul>
+<li>目录<ul>
+<li>临时目录Temporary(ios的NSTemporaryDirectory和andriod的getCacheDir)</li>
+<li>文档目录Documents(ios的NSDocumentDirectory和andriod的AppData目录)</li>
+</ul>
+</li>
+<li>编码<ul>
+<li>非常耗时需要在异步环境中编码</li>
+<li>防止异常需要try/catch</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SharedPreferences<ul>
+<li>以原生方式为简单的键值对数据提供存储（string/int/double/bool）</li>
+<li>ios中使用NSUserDefaults</li>
+<li>android中使用SharedPreferences</li>
+</ul>
+</li>
+<li>数据库sqlite<ul>
+<li>设定数据库存储地址时使用join方法自动处理路径分隔符</li>
+<li>创建数据库时传入的version与onCreate方法的回调中的version一致</li>
+<li>在app版本升级过程中需要对数据库存储字段改动需要onUpgrade方法处理</li>
+<li>数据库只会创建1次即onCreate在app卸载前只会执行1次</li>
+</ul>
+</li>
+</ul>
+<h2 id="dart层兼容原生"><a href="#dart层兼容原生" class="headerlink" title="dart层兼容原生"></a>dart层兼容原生</h2><ul>
+<li>方法通道MethodChannel 解决原生能力复用问题<ul>
+<li>基于方法通道(MethodChannel)机制可以把原生代码接口形式暴露给Dart</li>
+<li>构造方法通道时需要指定一个唯一的字符串标识符，然后在这个通道上发起方法调用</li>
+<li>const mc = MethodChannel(‘com.ceair/utils’);</li>
+<li>try { await mc.invokeMethod(‘methodName’) } catch(e){}</li>
+<li>方法通道调用过程中涉及的跨平台数据格式flutter会使用StandardMessageCodec进行序列化</li>
+<li>方法通道是非线程安全的，所以原生和flutter都需要在主线程操作否则可能会有奇怪的bug</li>
+</ul>
+</li>
+<li>平台视图PlatformView 解决原生视图复用问题<ul>
+<li>允许flutter里嵌入原生的视图并加入flutter渲染树中实现混合视图</li>
+<li>flutter通过原生视图的封装类(UIKitView和AndroidView)传入视图标识符发起请求</li>
+<li>原生代码交给PlatformViewFactory实现</li>
+<li>原生代码把视图标识符和工厂进行关联注册让flutter可直接找到工厂</li>
+</ul>
+</li>
+</ul>
+<h2 id="原生工程混编flutter"><a href="#原生工程混编flutter" class="headerlink" title="原生工程混编flutter"></a>原生工程混编flutter</h2><ul>
+<li>混编原理 <ul>
+<li>android原生提供一个FLutterView</li>
+<li>ios原生提供一个FlutterViewController</li>
+</ul>
+</li>
+<li>混编方式<ul>
+<li>原生工程作为flutter工程的子工程，flutter统一管理（开发效率低）</li>
+<li>flutter工程作为原生工程共用的子模块，原生工程不变的三端分离模式（推荐使用）<ul>
+<li>抽离flutter工程，将不同平台的构建产物依照标准组件化形式管理</li>
+<li>android项目把flutter模块打包成aar，通过build.gradle进行依赖管理</li>
+<li>ios项目把flutter模块打包成pod，通过Podfle进行依赖管理</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>flutter模块<ul>
+<li>flutter create -t module flutter_library</li>
+</ul>
+</li>
+<li>android模块集成<ul>
+<li>依赖1 flutter库和引擎 Flutter.jar</li>
+<li>依赖2 flutter工程产物 isolate_snapshot_instr/vm_snapshot_data/FLutter_assets…</li>
+<li>集成1 flutter build apk –[debug|release]</li>
+<li>集成2 把上一步的产物flutter-debug.aar放到安卓工程app/libs目录下</li>
+<li>集成3 build.gradle中添加对aar的依赖后sync一下</li>
+<li>集成4 MainActivity.java中进行调用</li>
+</ul>
+</li>
+<li>ios模块集成<ul>
+<li>依赖1 flutter库和引擎 Flutter.framework</li>
+<li>依赖2 flutter工程产物 App.framework</li>
+<li>集成1 flutter build ios –[debug|release]</li>
+<li>集成2 把上一步的产物拷贝到原生项目根目录下的FlutterEngine目录并创建FlutterEngine.podspec</li>
+<li>集成3 pod lib lint</li>
+<li>集成4 Podfile中集成后需要pod install</li>
+<li>集成5 AppDelegate.m中进行调用</li>
+</ul>
+</li>
+</ul>
+<h2 id="混合导航栈"><a href="#混合导航栈" class="headerlink" title="混合导航栈"></a>混合导航栈</h2><ul>
+<li>原生采用单容器单页面机制(一个ViewController/Activity对应一个页面)</li>
+<li>Flutter采用单容器多页面机制(一个ViewController/Activity对应多个flutter页面)</li>
+<li>原生跳转到flutter<ul>
+<li>ios初始化flutter容器(FlutterViewController)并设置初始路由页面即可</li>
+<li>android需要把View包装到Activity的contentView中并设置初始化路由</li>
+</ul>
+</li>
+<li>flutter跳转到原生<ul>
+<li>flutter打开新的原生页面(通过方法通道进行实现)</li>
+<li>flutter回退到旧的原生页面(需要关闭flutter容器也是通过方法通道进行实现)</li>
+</ul>
+</li>
+<li>性能问题<ul>
+<li>由于flutter容器初始化成本比较高，每启动一个实例都要创建一个新的engine和Isolate</li>
+<li>尽量避免flutter跳到原生后又跳到flutter，尽量在flutter完成业务的闭环</li>
+<li>业界解决方案<ul>
+<li>今日头条修改flutterEngine源码，使多engine在底层共享Isolate</li>
+<li>闲鱼的共享FlutterView，通过hack方法由原生层驱动flutter层渲染内容</li>
+<li>上面2种解决方案都有自己的不足，所以尽量减少此应用场景<img src="/2019/10/01/flutter/hybridNav.png" title="混合导航栈">
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="状态管理"><a href="#状态管理" class="headerlink" title="状态管理"></a>状态管理</h2><ul>
+<li><h1 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h1></li>
+</ul>
+
       
     </div>
 
