@@ -821,7 +821,413 @@ Dart同时支持JIT/AOT
 </li>
 </ul>
 <h2 id="状态管理"><a href="#状态管理" class="headerlink" title="状态管理"></a>状态管理</h2><ul>
-<li><h1 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h1></li>
+<li>Provider<ul>
+<li>官方推荐框架，是InheritWidget的语法糖</li>
+<li>提供了依赖注入的功能，允许widget树灵活处理数据</li>
+<li>可读写的ChangeNotifierProvider/MultiProvider和只读的Provider</li>
+<li>Provider.of()可获取资源，但页面其他Widget也会刷新</li>
+<li>ConsumerN可通过Builder(context,model,child)只更新依赖的widget提高性能</li>
+</ul>
+</li>
+<li>使用<ul>
+<li>pubspec.yaml中添加Provider依赖</li>
+<li>封装: 定义需要共享的数据模型，通过混入ChangeNotifier管理听众，模型中调用notifyListeners()通知听众刷新</li>
+<li>注入: 把模型放到widget的父级或更高ChangeNotifierProvider.value(value:SharedModel(),child:Widget())</li>
+<li>读写: Provider.of()/ConsumerN()</li>
+</ul>
+</li>
+</ul>
+<h2 id="原生推送"><a href="#原生推送" class="headerlink" title="原生推送"></a>原生推送</h2><ul>
+<li>ios<ul>
+<li>使用APNS苹果推送通知服务</li>
+<li>为了保证api统一，ios上也使用封装了APNs的第三方服务</li>
+</ul>
+</li>
+<li>android<ul>
+<li>类似Firebase云消息传递机制FCM(FirebaseCloudMessage)实现推送托管</li>
+<li>大陆通常使用三方推送(极光/友盟)适配</li>
+<li>第三方服务不能享受系统底层的优化，使用自建的长链接通道</li>
+<li>但也是共享所有接入第三方推送的app的推送通道，只要有一个存活就可推送</li>
+</ul>
+</li>
+<li>推送流程<ul>
+<li>业务服务器调用APNS/FCM</li>
+<li>消息到达用户终端设备</li>
+<li>设备解析后把消息转给所属应用</li>
+</ul>
+</li>
+<li>极光接入流程<ul>
+<li>初始化SDK setup(调用原生接口)</li>
+<li>获取地址id registrationID(调用原生接口)</li>
+<li>注册消息通知 setOpenNotificationHandler(原生回调dart)</li>
+<li>单例模式实现整个应用共享</li>
+<li>android<ul>
+<li>JCommonService是一个后台Service，极光共享长链接通道核心</li>
+<li>JPushMessageReceiver是一个BroadcastReceiver可获取推送消息</li>
+<li>AndroidManifest.xml中声明上面2个的注册</li>
+<li>收到消息回调后首先启动MainActivity，等待Flutter初始化完成后再回调flutter推送消息</li>
+</ul>
+</li>
+<li>ios<ul>
+<li>podspec文件引入极光SDKjpush</li>
+<li>用户点击了推送消息，防止是从后台唤醒，要确保flutter初始化好后再回调flutter推送消息</li>
+</ul>
+</li>
+<li>提供应用推送证书，关联极光应用配置<ul>
+<li>android注册appkey后根据包名进行注册并在build.gradle中绑定manifestPlaceholders</li>
+<li>ios首先要申请推送证书(.p12证书或APNsAuthKey)并在平台配置绑定后工程开启push</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="国际化"><a href="#国际化" class="headerlink" title="国际化"></a>国际化</h2><ul>
+<li>本质是语言和地区的差异性配置</li>
+<li>资源<ul>
+<li>字符串文本</li>
+<li>货币单位</li>
+<li>时间格式</li>
+<li>背景图资源</li>
+</ul>
+</li>
+<li>步骤<ul>
+<li>实现LocalizationsDelegate，将所有需要转换的资源声明为其属性</li>
+<li>手动翻译适配</li>
+<li>app初始化时，将代理类设置为应用程序的翻译回调</li>
+<li>官方的方案可以先放弃，借鉴Flutter i18n插件</li>
+</ul>
+</li>
+<li>Flutteri18n<ul>
+<li>as中安装此插件</li>
+<li>pubspec.yaml中声明flutter_localizations sdk: flutter依赖</li>
+<li>res/values/strings_en.arb文件是JSON格式的配置，存放标识符和翻译的键值对</li>
+<li>修改上面的arb文件会自动生成lib/generated/i18n.dart(支持静态映射和动态传参)</li>
+<li>初始化时2个重要参数localizationsDelegates翻译回调和supportedLocales所支持的语言配置</li>
+<li>配置翻译回调时需要GlobalMaterialLocalizations.delegate与GlobalWidgetsLocalizations.delegate是官方widgets本身的翻译回调</li>
+<li>S.of(context)直接获取arb文件中翻译的文案</li>
+<li>翻译的代码只能在获取到context的前提下才能生效即MaterialApp的子widget，通过MaterialApp的onGenerateTitle回调设置title的国际化</li>
+<li>ios程序有一套自建的语言环境管理机制，默认是英文，为了支持国际化需要额外配置Localization</li>
+<li>原生工程配置<ul>
+<li>在flutter框架启动前的配置需要在原生中配置</li>
+<li>android中应用名称在AndroidManifest.xml中application的android:label属性</li>
+<li>并且要在android/app/src/main/res中为要支持的语言创建values目录和strings.xml</li>
+<li>ios工程中的应用名称是在Info.plist文件中，需要一个字符串资源引用的文件InfoPlist.strings并在Localizations中添加多语言</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="适配屏幕分辨率"><a href="#适配屏幕分辨率" class="headerlink" title="适配屏幕分辨率"></a>适配屏幕分辨率</h2><ul>
+<li>适配屏幕旋转<ul>
+<li>竖屏模式/横屏模式2套布局方案</li>
+<li>OrientationBuilder的builder函数可以回调屏幕状态orientation</li>
+<li>MediaQuery.of(context).orientation可以在OrientationBuilder外获取状态</li>
+<li>SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);关闭横屏</li>
+</ul>
+</li>
+<li>适配分辨率<ul>
+<li>将屏幕空间划分为多个窗格即用原生类似的Fragment/ChildViewController概念抽象独立区块视觉功能</li>
+<li>多窗格布局可以在平板电脑和横屏模式上，实现更好的视觉平衡效果</li>
+<li>页面的实现和区块的实现是相互独立的，所以可以实现区块的复用</li>
+<li>MediaQuery.of(context).size.width可获取屏幕宽度</li>
+</ul>
+</li>
+</ul>
+<h2 id="编译模式"><a href="#编译模式" class="headerlink" title="编译模式"></a>编译模式</h2><ul>
+<li>运行模式<ul>
+<li>Debug JIT</li>
+<li>Release AOT</li>
+<li>Profile Release+Profile(Observatory) flutter run –profile</li>
+</ul>
+</li>
+<li>编译模式<ul>
+<li>JIT <ul>
+<li>JustInTime运行时编译</li>
+<li>动态编译/将dart代码编译成中间代码scriptSnapshot最终生成DartKernel(可动态更新)需要在设备上用DartVM解释执行实现widget重建</li>
+<li>可以模拟器和真机运行</li>
+<li>打开assert断言/debug调试/observatory调试/hotReload热重载</li>
+<li>没有优化应用启动速度/代码执行速度/二进制包大小/部署</li>
+<li>flutter run –debug</li>
+</ul>
+</li>
+<li>AOT<ul>
+<li>AheadOfTime运行前编译</li>
+<li>静态编译/生成设备可执行的二进制码</li>
+<li>只能真机运行</li>
+<li>关闭assert断言/debug调试/observatory调试/hotReload热重载</li>
+<li>优化应用启动速度/代码执行速度/二进制包大小/部署</li>
+<li>flutter run –release</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>运行时识别编译模式<ul>
+<li>区别<ul>
+<li>debug模式下打印详细日志，调用开发接口</li>
+<li>release模式下记录精简日志，调用生产接口</li>
+</ul>
+</li>
+<li>识别<ul>
+<li>通过断言识别 assert((){ // DoSth4Debug; return true;}()) release下此代码被删除</li>
+<li>通过DartVM提供的编译常数识别 if(kReleaseMode){}else{/ DoSth4Debug;} 代码总会被打包</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>分离配置环境<ul>
+<li>抽象配置并用InheritedWidget封装</li>
+<li>配置多入口(main_dev.dart/main.dart)</li>
+<li>读取配置(运行时通过InheritedWidget将配置部分应用到子widget)</li>
+<li>编译打包(通过不同选项构建不同的安装包flutter run -t|–target main[_dev].dart)</li>
+</ul>
+</li>
+<li>原生配置差异<ul>
+<li>android: build flavor</li>
+<li>ios: 多个build target</li>
+</ul>
+</li>
+</ul>
+<h2 id="hotReload"><a href="#hotReload" class="headerlink" title="hotReload"></a>hotReload</h2><img src="/2019/10/01/flutter/hotReload.png" title="热重载流程">
+<ul>
+<li>热重载流程<ul>
+<li>扫描工程改动</li>
+<li>增量编译</li>
+<li>推送更新</li>
+<li>代码合并</li>
+<li>Widget重建</li>
+</ul>
+</li>
+<li>不支持热重载场景(此场景可以用hotRestart)<ul>
+<li>代码编译错误</li>
+<li>widget状态无法兼容</li>
+<li>全局变量和静态属性的更改</li>
+<li>main()里的更改</li>
+<li>initState()里的更改</li>
+<li>枚举和泛类型的更改</li>
+</ul>
+</li>
+</ul>
+<h2 id="工具链优化"><a href="#工具链优化" class="headerlink" title="工具链优化"></a>工具链优化</h2><ul>
+<li>输出日志<ul>
+<li>print() 涉及IO操作，耗费系统资源</li>
+<li>debugPrint() 可以定制打印能力如debugPrint = (String msg,{int wrapWidth}{})</li>
+</ul>
+</li>
+<li>断点调试<ul>
+<li>标记断点</li>
+<li>调试应用</li>
+<li>查看信息</li>
+</ul>
+</li>
+<li>布局调试<ul>
+<li>DebugPainting<ul>
+<li>布局边界展示辅助线</li>
+<li>debugPaintSizeEnabled=true</li>
+</ul>
+</li>
+<li>FlutterInspector 查看具体信息</li>
+</ul>
+</li>
+</ul>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
+<li>性能问题<ul>
+<li>GPU线程问题<ul>
+<li>涉及widget裁剪/蒙层等多视图叠加渲染可main中使用checkerboardOffscreenLayers=true检查</li>
+<li>缺少缓存导致静态图像反复绘制可main中使用checkerboardRasterCacheImages=true检查，有问题可使用RepaintBoundary缓存</li>
+</ul>
+</li>
+<li>UI线程问题(cpu)<ul>
+<li>OpenDevTools</li>
+<li>Performance性能工具<ul>
+<li>可记录cpu帧图(火焰图)展示cpu调用栈表示cpu繁忙程度</li>
+<li>y轴表示调用栈，每一层都是一个函数，调用栈越深火焰越高，底部就是正在执行的函数，上方是父函数</li>
+<li>x轴表示单位时间，在x轴越长表示执行时间越长，平顶表示函数可能存在性能问题</li>
+</ul>
+</li>
+<li>有问题可以使用Isolate或compute()将耗时的操作移到主Isolate外完成</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>性能图层<ul>
+<li>PerformanceOverlay</li>
+<li>为采集真实的环境需要使用Profile分析模式</li>
+<li>模拟器使用x86指令集/真机使用ARM指令集</li>
+<li>flutter run –profile</li>
+<li>性能图层展示了最近300帧的表现</li>
+<li>为了保证60Hz的刷新频率，每一帧都要小于16ms(1/60)</li>
+</ul>
+</li>
+<li>经验<ul>
+<li>控制build方法耗时，将widget拆小越小越可复用</li>
+<li>不要使用widget半透明效果，而使用图片代替</li>
+<li>列表采用懒加载</li>
+</ul>
+</li>
+</ul>
+<h2 id="自动化测试"><a href="#自动化测试" class="headerlink" title="自动化测试"></a>自动化测试</h2><ul>
+<li>单元测试<ul>
+<li>对软件中最小可测试单元(语句/函数/方法/类)进行验证</li>
+<li>pubspec.yaml中需要依赖test包 dev_dependencies: test:</li>
+<li>测试用例<ul>
+<li>定义 test()/group()测试用例封装类</li>
+<li>执行</li>
+<li>验证 expect()将执行结果与预期进行比较</li>
+</ul>
+</li>
+<li>模拟mock<ul>
+<li>pubspec.yaml中依赖mockito</li>
+<li>Mock类可模拟任何外部依赖</li>
+<li>when().thenAnswer()当符合条件时进行注入</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>UI测试<ul>
+<li>pubspec.yaml中使用flutter_test包提供核心框架</li>
+<li>testWidgets(‘name’,(tester) async{})测试用例封装类</li>
+<li>await tester.pumpWidget(MyApp())触发MyApp渲染</li>
+<li>find.text(str)查找字符串文本为str的widget</li>
+<li>find.byIcon(Icons.add)查找到按钮控件</li>
+<li>await tester.tap()点击</li>
+<li>await tester.pump()强制渲染刷新</li>
+</ul>
+</li>
+</ul>
+<h1 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h1><h2 id="生产异常捕获和信息采集"><a href="#生产异常捕获和信息采集" class="headerlink" title="生产异常捕获和信息采集"></a>生产异常捕获和信息采集</h2><ul>
+<li><p>flutter异常</p>
+<ul>
+<li>try/catch捕获异常</li>
+<li>dart程序不强制要求必须处理异常(dart用事件循环机制来运行任务，各任务状态独立)</li>
+</ul>
+</li>
+<li><p>dart异常</p>
+<ul>
+<li><p>App异常</p>
+<ul>
+<li>同步异常 通过try/catch捕获</li>
+<li>异步异常 通过Future的catchError语句捕获</li>
+<li>集中管理 通过Zone.runZoned Zone表示代码执行的范围相当于沙盒,onError回调捕获错误，统一处理异常可以把main()的runApp()放到Zone中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">runZoned&lt;Future&lt;Null&gt;&gt;(() async &#123;</span><br><span class="line">  runApp(MyApp());</span><br><span class="line">&#125;, onError: (error, stackTrace) async &#123;</span><br><span class="line"> //Do sth for error</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Framework异常</p>
+<ul>
+<li>触发了底层的try/catch，有异常就会渲染ErrorWidget</li>
+<li>为了提高用户体验需要重写ErrorWidget.builder()自定义错误页面<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ErrorWidget.builder = (FlutterErrorDetails flutterErrorDetails)&#123;</span><br><span class="line">  return Scaffold(</span><br><span class="line">    body: Center(</span><br><span class="line">      child: Text(&quot;Custom Error Widget&quot;),</span><br><span class="line">    )</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>FlutterError</p>
+<ul>
+<li>为了集中处理框架异常</li>
+<li>FlutterError.onError在接收到框架异常时执行相应的回调</li>
+<li>可以把flutter框架的异常统一转发到当前Zone里统一处理，这样就可以捕获应用所有异常<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FlutterError.onError = (FlutterErrorDetails details) async &#123;</span><br><span class="line">  //转发至Zone中</span><br><span class="line">  Zone.current.handleUncaughtError(details.exception, details.stack);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">runZoned&lt;Future&lt;Null&gt;&gt;(() async &#123;</span><br><span class="line">  runApp(MyApp());</span><br><span class="line">&#125;, onError: (error, stackTrace) async &#123;</span><br><span class="line"> //Do sth for error</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>异常上报</p>
+<ul>
+<li>三方服务厂商<ul>
+<li>友盟</li>
+<li>bugly(社区比较活跃)</li>
+<li>sentry(开源)</li>
+</ul>
+</li>
+<li>bugly接入<ul>
+<li>dart接口封装(实现单例的FlutterCrashPlugin的setup/postException的方法通道)</li>
+<li>ios<ul>
+<li>flutter_crash_plugin.podspec引入BuglySDK</li>
+<li>实现原生接口FlutterCrashPlugin</li>
+</ul>
+</li>
+<li>android<ul>
+<li>build.gradle引入BuglySDK(crashreport和nativecrashreport)</li>
+<li>实现原生接口FlutterCrashPlugin</li>
+<li>AndroidManifest.xml中配置网络/日志读取等的权限注册</li>
+</ul>
+</li>
+<li>关联应用配置<ul>
+<li>ios只需要调用dart的setup就可以</li>
+<li>android需要build.gradle中增加NDK架构支持和AndroidP的network_security_config.xml允许http传输数据并在AndroidManifest.xml中新增同名的网络安全配置</li>
+</ul>
+</li>
+<li>接入插件<ul>
+<li>pubspec.yaml中添加dependencies</li>
+<li>main()里拦截到应用所有的错误后调用上报接口</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>底层异常<ul>
+<li>flutter只能拦截dart层的异常</li>
+<li>engine层大部分代码都是C++写的，一旦有异常需要借助原生系统的Crash监听机制</li>
+<li>bugly也可以自动收集原生代码的crash，开发者可以把flutterEngine层的符号表下载下来，使用安卓的ndk-stack或ios的symbolicatecrash或atos命令对对crash堆栈进行解析得出引擎层崩溃的代码</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="线上质量"><a href="#线上质量" class="headerlink" title="线上质量"></a>线上质量</h2><ul>
+<li><p>页面异常率</p>
+<ul>
+<li>异常发生次数/页面pv数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 异常发生次数</span><br><span class="line">int exceptionCount = 0; </span><br><span class="line">Future&lt;Null&gt; _reportError(dynamic error, dynamic stackTrace) async &#123;</span><br><span class="line">  exceptionCount++; //累加异常次数</span><br><span class="line">  FlutterCrashPlugin.postException(error, stackTrace);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Future&lt;Null&gt; main() async &#123;</span><br><span class="line">  FlutterError.onError = (FlutterErrorDetails details) async &#123;</span><br><span class="line">    //将异常转发至Zone</span><br><span class="line">    Zone.current.handleUncaughtError(details.exception, details.stack);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  runZoned&lt;Future&lt;Null&gt;&gt;(() async &#123;</span><br><span class="line">    runApp(MyApp());</span><br><span class="line">  &#125;, onError: (error, stackTrace) async &#123;</span><br><span class="line">    //拦截异常</span><br><span class="line">    await _reportError(error, stackTrace);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 页面打开次数</span><br><span class="line">int totalPV = 0;</span><br><span class="line">//导航监听器</span><br><span class="line">class MyObserver extends NavigatorObserver&#123;</span><br><span class="line">  @override</span><br><span class="line">  void didPush(Route route, Route previousRoute) &#123;</span><br><span class="line">    super.didPush(route, previousRoute);</span><br><span class="line">    totalPV++;//累加PV</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class MyApp extends StatelessWidget &#123;</span><br><span class="line">  @override</span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    return  MaterialApp(</span><br><span class="line">    //设置路由监听</span><br><span class="line">       navigatorObservers: [</span><br><span class="line">         MyObserver(),</span><br><span class="line">       ],</span><br><span class="line">       home: HomePage(),</span><br><span class="line">    ); </span><br><span class="line">  &#125;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 页面异常率计算</span><br><span class="line"></span><br><span class="line">double pageException() &#123;</span><br><span class="line">  if(totalPV == 0) return 0;</span><br><span class="line">  return exceptionCount/totalPV;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>页面帧率</p>
+<ul>
+<li>FPS(60Hz，因为VSync信号周期就是每秒60次)</li>
+<li>window.onReportTimings()回调最近绘制帧所耗费的时间</li>
+<li>FPS = 60 * 实际渲染的帧数 / 本来应该渲染的帧数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import &apos;dart:ui&apos;;</span><br><span class="line"></span><br><span class="line">var orginalCallback;</span><br><span class="line"></span><br><span class="line">void main() &#123;</span><br><span class="line">  runApp(MyApp());</span><br><span class="line">  //设置帧回调函数并保存原始帧回调函数</span><br><span class="line">  orginalCallback = window.onReportTimings;</span><br><span class="line">  window.onReportTimings = onReportTimings;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//仅缓存最近25帧绘制耗时</span><br><span class="line">const maxframes = 25;</span><br><span class="line">final lastFrames = List&lt;FrameTiming&gt;();</span><br><span class="line">//基准VSync信号周期</span><br><span class="line">const frameInterval = const Duration(microseconds: Duration.microsecondsPerSecond ~/ 60);</span><br><span class="line"></span><br><span class="line">void onReportTimings(List&lt;FrameTiming&gt; timings) &#123;</span><br><span class="line">  lastFrames.addAll(timings);</span><br><span class="line">  //仅保留25帧</span><br><span class="line">  if(lastFrames.length &gt; maxframes) &#123;</span><br><span class="line">    lastFrames.removeRange(0, lastFrames.length - maxframes);</span><br><span class="line">  &#125;</span><br><span class="line">  //如果有原始帧回调函数，则执行</span><br><span class="line">  if (orginalCallback != null) &#123;</span><br><span class="line">    orginalCallback(timings);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">double get fps &#123;</span><br><span class="line">  int sum = 0;</span><br><span class="line">  for (FrameTiming timing in lastFrames) &#123;</span><br><span class="line">    //计算渲染耗时</span><br><span class="line">    int duration = timing.timestampInMicroseconds(FramePhase.rasterFinish) - timing.timestampInMicroseconds(FramePhase.buildStart);</span><br><span class="line">    //判断耗时是否在Vsync信号周期内</span><br><span class="line">    if(duration &lt; frameInterval.inMicroseconds) &#123;</span><br><span class="line">      sum += 1;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      //有丢帧，向上取整</span><br><span class="line">      int count = (duration/frameInterval.inMicroseconds).ceil();</span><br><span class="line">      sum += count;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return lastFrames.length/sum * 60;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>页面加载时长</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class MyHomePage extends StatefulWidget &#123;</span><br><span class="line">  int startTime;</span><br><span class="line">  int endTime;</span><br><span class="line">  MyHomePage(&#123;Key key&#125;) : super(key: key) &#123;</span><br><span class="line">    //页面初始化时记录启动时间</span><br><span class="line">    startTime = DateTime.now().millisecondsSinceEpoch;</span><br><span class="line">  &#125;</span><br><span class="line">  @override</span><br><span class="line">  _MyHomePageState createState() =&gt; _MyHomePageState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class _MyHomePageState extends State&lt;MyHomePage&gt; &#123;</span><br><span class="line">  @override</span><br><span class="line">  void initState() &#123;</span><br><span class="line">    super.initState();</span><br><span class="line">    //通过帧绘制回调获取渲染完成时间</span><br><span class="line">    WidgetsBinding.instance.addPostFrameCallback((_) &#123;</span><br><span class="line">      widget.endTime = DateTime.now().millisecondsSinceEpoch;</span><br><span class="line">      int timeSpend = widget.endTime - widget.startTime;</span><br><span class="line">      print(&quot;Page render time:$&#123;timeSpend&#125; ms&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="工程架构"><a href="#工程架构" class="headerlink" title="工程架构"></a>工程架构</h2><ul>
+<li>组件化<ul>
+<li>独立的功能进行拆分</li>
+<li>可以是一个包/页面/UI控件/常用函数</li>
+<li>基本原则<ul>
+<li>单一性原则，清晰自己的边界专注做自己单一的事</li>
+<li>抽象化原则，抽象接口设计，变化因子尽量自己维护</li>
+<li>稳定性原则，外部依赖尽量稳定，如果不稳定考虑下一条原则</li>
+<li>自完备性原则，尽量自给自足减少外部依赖，除非上一条满足</li>
+</ul>
+</li>
+<li>实施步骤<ul>
+<li>剥离并实现基础功能<ul>
+<li>网络请求</li>
+<li>组件中间件</li>
+<li>第三方库封装(尽量不直接依赖外部代码)</li>
+<li>UI组件</li>
+</ul>
+</li>
+<li>抽象并划分业务模块<ul>
+<li>粒度可先粗后细</li>
+<li>后续分步迭代</li>
+</ul>
+</li>
+<li>最小化服务能力</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>平台化<ul>
+<li>组件化的升级，在组件化的基础上增加了统一分层和依赖治理的概念</li>
+<li>组件化关注组件的独立性，平台化关注组件之间的关系合理性(尽量符合单向依赖原则)</li>
+<li>如果下层确实要依赖上层可以增加中间层(EventBus/Provider/Router)</li>
+</ul>
+</li>
+</ul>
+<h2 id="构建打包发布环境"><a href="#构建打包发布环境" class="headerlink" title="构建打包发布环境"></a>构建打包发布环境</h2><ul>
+<li>travisCI</li>
 </ul>
 
       
