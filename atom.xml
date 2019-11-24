@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://prief.github.io/"/>
-  <updated>2019-11-16T07:41:48.617Z</updated>
+  <updated>2019-11-23T08:19:51.601Z</updated>
   <id>https://prief.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pm</title>
+    <link href="https://prief.github.io/2019/11/16/pm/"/>
+    <id>https://prief.github.io/2019/11/16/pm/</id>
+    <published>2019-11-16T07:43:34.000Z</published>
+    <updated>2019-11-23T08:19:51.601Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="常识篇"><a href="#常识篇" class="headerlink" title="常识篇"></a>常识篇</h2><h3 id="转型三大误区"><a href="#转型三大误区" class="headerlink" title="转型三大误区"></a>转型三大误区</h3><ul><li>凡事事必躬亲<ul><li>成功施加影响三个层次<ul><li>让人知道要做 Awareness</li><li>有动力做 Desire</li><li>有能力做 Ability(短期借调/内部转岗/外部引入)</li></ul></li><li>为什么要做/为什么现在做/获取认同和激发动力/选择授权对象</li></ul></li><li>追在屁股后面监工<ul><li>明确目标</li><li>建立机制</li><li>形成秩序(流程和规则)</li></ul></li><li>拿着锤子看哪里都是钉子<ul><li>从项目和团队真实痛点出发</li></ul></li></ul><h3 id="十大领域五大过程组"><a href="#十大领域五大过程组" class="headerlink" title="十大领域五大过程组"></a>十大领域五大过程组</h3><ul><li>国际三大项目管理研究体系<ul><li>PMI 美国项目管理协会</li><li>IPMA 欧洲的国际项目管理协会</li><li>PRINCE2 英国</li></ul></li><li>项目<ul><li>项目是为创造独特的产品、服务或成果而进行的临时性工作</li><li>项目管理是将各种知识、技能、工具、技术应用于项目活动，满足项目的要求，是变理想为现实，化抽象为具体的一门科学和艺术</li><li>PMI把项目管理分为<ul><li>十大知识领域</li><li>五大过程组49个子过程</li></ul></li></ul></li><li>十大知识领域<ul><li>整合管理 1个整体领域</li><li>范围管理 4个核心领域</li><li>进度管理 4个核心领域</li><li>成本管理 4个核心领域</li><li>质量管理 4个核心领域</li><li>资源管理 5个辅助领域</li><li>沟通管理 5个辅助领域</li><li>干系人管理 5个辅助领域</li><li>风险管理 5个辅助领域</li><li>采购管理 5个辅助领域<img src="/2019/11/16/pm/10大领域管理.png" title="10大领域管理"></li></ul></li><li>五大过程组(PDCA戴明环Plan/Do/Check/Act)<ul><li>启动过程组(千里之行始于足下)<ul><li>识别干系人</li><li>制定项目章程</li></ul></li><li>规划过程组(运筹帷幄决胜千里) </li><li>执行过程组(言出必行行之必果)</li><li>监控过程组(审时度势沉着应变)</li><li>收尾过程组(慎终如始则无败事)</li></ul></li><li>网易项目管理<img src="/2019/11/16/pm/网易项目管理纲领.png" title="网易项目管理纲领">  </li></ul><h2 id="硬技能篇"><a href="#硬技能篇" class="headerlink" title="硬技能篇"></a>硬技能篇</h2><h3 id="启动：识别项目四类干系人"><a href="#启动：识别项目四类干系人" class="headerlink" title="启动：识别项目四类干系人"></a>启动：识别项目四类干系人</h3><ul><li>干系人识别  </li><li>高利益高权利<ul><li>代表就是项目发起人sponsor </li></ul></li><li>低利益高权力<ul><li>代表是职能经理 </li></ul></li><li>高利益低权利<ul><li>代表项目组成员 </li></ul></li><li>低利益低权利<ul><li>代表外围支持人员</li></ul></li></ul><h3 id="规划：排除计划中的“延期地雷”"><a href="#规划：排除计划中的“延期地雷”" class="headerlink" title="规划：排除计划中的“延期地雷”"></a>规划：排除计划中的“延期地雷”</h3><ul><li>计划是市场需求或发起人的期望和团队生产力之间的平衡结果</li><li>计划是用来对焦的，做计划就是集体对焦的过程</li><li>雷区<ul><li>不够具体<ul><li>做计划的第一个标准动作WBS(work breakdown structure)工作分解</li><li>WBS就是把项目工作按阶段可交付成果分解成较小的易于管理的组成部分</li><li>明确分成多少阶段多少块内容，涉及哪些角色和环节，将工作项拆解到3个工作日内，具体到人</li></ul></li><li>不够全面<ul><li>做计划的第二个标准动作识别依赖并画出关键路径，从目标的角度进行统筹思考</li></ul></li><li>不够准确<ul><li>做计划第三个标准动作定义完成标准</li><li>完成标准就是某时间点需要完成的事项列表或是达到某些指标</li></ul></li><li>没有共识<ul><li>做计划的第四个标准动作达成共识并公开透明</li><li>召开全员规划会，对齐信息达成共识，发邮件给干系人正式告知</li></ul></li><li>不够即时<ul><li>做计划的第五个标准动作及时调整变更</li><li>公开告知所有项目组成员</li></ul></li></ul></li></ul><h3 id="执行：打造品质要从头开始闭环"><a href="#执行：打造品质要从头开始闭环" class="headerlink" title="执行：打造品质要从头开始闭环"></a>执行：打造品质要从头开始闭环</h3><ul><li>闭环验证方法<ul><li>方案评审(OARP决策机制)<ul><li>Owner 负责人，负责给出方案，组织各方讨论并推进做出决策</li><li>Approver 批准者</li><li>Reviewer 审核者</li><li>Participant 参与者  </li></ul></li><li>BugBash(bug大扫除)<ul><li>时间：在阶段性活动后，需要1-2个小时</li><li>地点：集合到一起，活动更有氛围</li><li>参与者：研发、测试、产品、设计、运营等</li><li>现场安排：反馈问题可视化，现场氛围营造</li><li>活动结束：公示结果，现场奖励，明确改进计划并周知</li></ul></li><li>冒烟用例评审<ul><li>冒烟测试用例是开发和测试之间最基础的合约，是测试的准入标准</li><li>可通过记录冒烟测试通过率来共同提高质量</li></ul></li></ul></li></ul><h3 id="监控：进展巧汇报，用数据说话"><a href="#监控：进展巧汇报，用数据说话" class="headerlink" title="监控：进展巧汇报，用数据说话"></a>监控：进展巧汇报，用数据说话</h3><ul><li><p>紧急汇报：直面问题有章法</p><ul><li>紧急报告基本元素 <ul><li>事件描述</li><li>影响后果</li><li>跟进分析</li><li>响应措施(包含负责人及时间表)</li><li>所需支持</li></ul></li></ul></li><li><p>常规汇报：项目周报三个问题</p><ul><li>项目整体进展状态？</li><li>风险是否可控？</li><li>目标达成有没有问题  </li></ul></li><li><p>数据汇报：善用透明的力量</p><ul><li>数据指标</li><li>jira图表<ul><li>发布倒计时</li><li>工作量燃尽图</li><li>剩余工作量</li><li>工作状态分布</li></ul></li><li>数据透明给团队，利用团队的力量</li></ul></li></ul><h3 id="收尾：项目复盘，持续改进"><a href="#收尾：项目复盘，持续改进" class="headerlink" title="收尾：项目复盘，持续改进"></a>收尾：项目复盘，持续改进</h3><ul><li>设定开放的基调，认清目的，避免追责</li><li>会前准备，梳理整个版本的历程</li><li>复盘流程<ul><li>现场回顾总结(目标/进度/变更/质量等)</li><li>每个人总结做的好/不好的3个点</li><li>白板前review</li><li>集体投票</li><li>总结并讨论改进方案  </li></ul></li><li>打造团队持续改进能力<ul><li></li></ul></li></ul><h2 id="软实力篇"><a href="#软实力篇" class="headerlink" title="软实力篇"></a>软实力篇</h2>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;常识篇&quot;&gt;&lt;a href=&quot;#常识篇&quot; class=&quot;headerlink&quot; title=&quot;常识篇&quot;&gt;&lt;/a&gt;常识篇&lt;/h2&gt;&lt;h3 id=&quot;转型三大误区&quot;&gt;&lt;a href=&quot;#转型三大误区&quot; class=&quot;headerlink&quot; title=&quot;转型三大误区&quot;&gt;&lt;
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>flutter</title>
