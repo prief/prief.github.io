@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://prief.github.io/"/>
-  <updated>2019-11-23T08:19:51.601Z</updated>
+  <updated>2019-12-08T14:16:15.927Z</updated>
   <id>https://prief.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>refe</title>
+    <link href="https://prief.github.io/2019/12/08/refe/"/>
+    <id>https://prief.github.io/2019/12/08/refe/</id>
+    <published>2019-12-08T01:52:17.000Z</published>
+    <updated>2019-12-08T14:16:15.927Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h2><ul><li>学习<ul><li>0基础的可以学习《js高级程序设计》《精通css》，MDN网站等</li><li>进阶学习方法<ul><li>建立知识架构<ul><li>逻辑性和完备性</li><li>任何语言都是用规定的文法表达特定的语义最终操作运行时的过程</li></ul></li><li>追本溯源</li></ul></li></ul></li><li>js知识架构<ul><li>文法<ul><li>词法</li><li>语法</li></ul></li><li>语义</li><li>运行时（程序=数据结构+算法）<ul><li>数据结构<ul><li>类型(7种基本类型和7种语言类型)</li><li>实例(内置对象等)</li></ul></li><li>算法（执行过程）<ul><li>程序与模块</li><li>事件循环</li><li>微任务</li><li>函数/语句的执行</li></ul></li></ul></li></ul></li><li>html/css知识架构<ul><li>html<ul><li>元素(功能)<ul><li>文档元信息(meta/link/style/base)</li><li>语义相关内容(section/nav)</li><li>链接(文档内/外链接)</li><li>替换型元素(img/audio/video)</li><li>表单(input/button)</li><li>表格(table/thead)</li><li>总集</li></ul></li><li>语言<ul><li>实体</li><li>命名空间</li><li>补充标准ARIA</li></ul></li><li>补充标准</li></ul></li><li>css<ul><li>语言<ul><li>@rule</li><li>选择器</li><li>单位</li></ul></li><li>功能<ul><li>布局(正常流/弹性布局)</li><li>绘制(颜色和形状/文字等)</li><li>交互(动画和其他交互)</li></ul></li></ul></li></ul></li><li>浏览器实现原理和api<ul><li>实现原理<ul><li>解析</li><li>构建DOM</li><li>计算CSS</li><li>渲染、合成和绘制</li></ul></li><li>api<ul><li>DOM</li><li>CSSOM</li><li>事件</li><li>api总集和</li></ul></li></ul></li><li>前端工程实践<ul><li>性能</li><li>工具链</li><li>持续集成</li><li>搭建系统</li><li>架构和基础库<h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3></li></ul></li><li>7种语言类型<ul><li>Undefined<ul><li>undefined</li></ul></li><li>Null<ul><li>null</li></ul></li><li>String<ul><li>最大长度2^53-1，是指字符串的UTF16编码长度</li><li>通常使用utf8和utf16</li><li>unicode码点通常U+?表示，0-65536码点称为基本字符区域BMP</li></ul></li><li>Number<ul><li>有精度限制，符合双精度浮点数规则</li><li>NaN占用了一个数字</li><li>Infinity无穷大</li><li>-Infinity负无穷大</li><li>区分是+0还是-0的方式就是检测1/x是Infinity还是-Infinity</li><li>比较浮点数可以通过两个数的差的绝对值是否小于最小精度值</li><li>Math.abs(0.1 + 0.2 - 0.3) &lt;= Number.EPSILON</li></ul></li><li>Boolean<ul><li>true</li><li>false</li></ul></li><li>Object<ul><li>.运算符提供了装箱操作，在基础类型上构造临时对象</li></ul></li><li>Symbol<ul><li>一切非字符串的对象key的集合，ES6中整个对象系统被Symbol重塑</li><li>Symbol可以有字符串类型的描述，但即使描述相同Symbol也不相等</li><li>var mySymbol = Symbol(‘label’), 使用new调用会报错</li></ul></li></ul></li><li>类型转换<ul><li>StringToNumber<ul><li>支持二进制/八进制/十进制/十六进制</li><li>支持正负号和科学计数法</li><li>parseInt建议传入第二个进制参数，parseFloat只支持十进制</li></ul></li><li>装箱转换<ul><li>基本类型转换成对应的对象</li><li>Object()显示装箱，函数的call方法可以强迫产生装箱</li><li>装箱机制会频繁产生临时对象，性能要求高时应避免装箱操作</li><li>var symbolObject = (function(){return this;}).call(Symbol(“a”))</li><li>typeof symbolObject 为 object</li><li>symbolObject.constructor 为 Symbol</li><li>symbolObject instanceof Symbol也为true</li></ul></li><li>拆箱转换<ul><li>ToPrimitive()是对象类型到基本类型的转换</li><li>根据运算上下文尝试调用valueOf()和toString()进行拆箱</li><li>如果都不存在，或返回的不是基本类型则会产生类型错误TypeError</li><li>ES6可以显示指定o[Symbol.toPrimitive]=()=&gt;{return ‘’}</li><li>ES6显示指定后toString()和valueOf()都不会被调用了</li></ul></li></ul></li></ul><h2 id="html-css"><a href="#html-css" class="headerlink" title="html/css"></a>html/css</h2><h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><h2 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h2>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;开篇&quot;&gt;&lt;a href=&quot;#开篇&quot; class=&quot;headerlink&quot; title=&quot;开篇&quot;&gt;&lt;/a&gt;开篇&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;学习&lt;ul&gt;
+&lt;li&gt;0基础的可以学习《js高级程序设计》《精通css》，MDN网站等&lt;/li&gt;
+&lt;li&gt;进阶学习方法&lt;ul&gt;
+
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>pm</title>
     <link href="https://prief.github.io/2019/11/16/pm/"/>
     <id>https://prief.github.io/2019/11/16/pm/</id>
     <published>2019-11-16T07:43:34.000Z</published>
-    <updated>2019-11-23T08:19:51.601Z</updated>
+    <updated>2019-12-08T01:51:18.952Z</updated>
     
     <content type="html"><![CDATA[<h2 id="常识篇"><a href="#常识篇" class="headerlink" title="常识篇"></a>常识篇</h2><h3 id="转型三大误区"><a href="#转型三大误区" class="headerlink" title="转型三大误区"></a>转型三大误区</h3><ul><li>凡事事必躬亲<ul><li>成功施加影响三个层次<ul><li>让人知道要做 Awareness</li><li>有动力做 Desire</li><li>有能力做 Ability(短期借调/内部转岗/外部引入)</li></ul></li><li>为什么要做/为什么现在做/获取认同和激发动力/选择授权对象</li></ul></li><li>追在屁股后面监工<ul><li>明确目标</li><li>建立机制</li><li>形成秩序(流程和规则)</li></ul></li><li>拿着锤子看哪里都是钉子<ul><li>从项目和团队真实痛点出发</li></ul></li></ul><h3 id="十大领域五大过程组"><a href="#十大领域五大过程组" class="headerlink" title="十大领域五大过程组"></a>十大领域五大过程组</h3><ul><li>国际三大项目管理研究体系<ul><li>PMI 美国项目管理协会</li><li>IPMA 欧洲的国际项目管理协会</li><li>PRINCE2 英国</li></ul></li><li>项目<ul><li>项目是为创造独特的产品、服务或成果而进行的临时性工作</li><li>项目管理是将各种知识、技能、工具、技术应用于项目活动，满足项目的要求，是变理想为现实，化抽象为具体的一门科学和艺术</li><li>PMI把项目管理分为<ul><li>十大知识领域</li><li>五大过程组49个子过程</li></ul></li></ul></li><li>十大知识领域<ul><li>整合管理 1个整体领域</li><li>范围管理 4个核心领域</li><li>进度管理 4个核心领域</li><li>成本管理 4个核心领域</li><li>质量管理 4个核心领域</li><li>资源管理 5个辅助领域</li><li>沟通管理 5个辅助领域</li><li>干系人管理 5个辅助领域</li><li>风险管理 5个辅助领域</li><li>采购管理 5个辅助领域<img src="/2019/11/16/pm/10大领域管理.png" title="10大领域管理"></li></ul></li><li>五大过程组(PDCA戴明环Plan/Do/Check/Act)<ul><li>启动过程组(千里之行始于足下)<ul><li>识别干系人</li><li>制定项目章程</li></ul></li><li>规划过程组(运筹帷幄决胜千里) </li><li>执行过程组(言出必行行之必果)</li><li>监控过程组(审时度势沉着应变)</li><li>收尾过程组(慎终如始则无败事)</li></ul></li><li>网易项目管理<img src="/2019/11/16/pm/网易项目管理纲领.png" title="网易项目管理纲领">  </li></ul><h2 id="硬技能篇"><a href="#硬技能篇" class="headerlink" title="硬技能篇"></a>硬技能篇</h2><h3 id="启动：识别项目四类干系人"><a href="#启动：识别项目四类干系人" class="headerlink" title="启动：识别项目四类干系人"></a>启动：识别项目四类干系人</h3><ul><li>干系人识别  </li><li>高利益高权利<ul><li>代表就是项目发起人sponsor </li></ul></li><li>低利益高权力<ul><li>代表是职能经理 </li></ul></li><li>高利益低权利<ul><li>代表项目组成员 </li></ul></li><li>低利益低权利<ul><li>代表外围支持人员</li></ul></li></ul><h3 id="规划：排除计划中的“延期地雷”"><a href="#规划：排除计划中的“延期地雷”" class="headerlink" title="规划：排除计划中的“延期地雷”"></a>规划：排除计划中的“延期地雷”</h3><ul><li>计划是市场需求或发起人的期望和团队生产力之间的平衡结果</li><li>计划是用来对焦的，做计划就是集体对焦的过程</li><li>雷区<ul><li>不够具体<ul><li>做计划的第一个标准动作WBS(work breakdown structure)工作分解</li><li>WBS就是把项目工作按阶段可交付成果分解成较小的易于管理的组成部分</li><li>明确分成多少阶段多少块内容，涉及哪些角色和环节，将工作项拆解到3个工作日内，具体到人</li></ul></li><li>不够全面<ul><li>做计划的第二个标准动作识别依赖并画出关键路径，从目标的角度进行统筹思考</li></ul></li><li>不够准确<ul><li>做计划第三个标准动作定义完成标准</li><li>完成标准就是某时间点需要完成的事项列表或是达到某些指标</li></ul></li><li>没有共识<ul><li>做计划的第四个标准动作达成共识并公开透明</li><li>召开全员规划会，对齐信息达成共识，发邮件给干系人正式告知</li></ul></li><li>不够即时<ul><li>做计划的第五个标准动作及时调整变更</li><li>公开告知所有项目组成员</li></ul></li></ul></li></ul><h3 id="执行：打造品质要从头开始闭环"><a href="#执行：打造品质要从头开始闭环" class="headerlink" title="执行：打造品质要从头开始闭环"></a>执行：打造品质要从头开始闭环</h3><ul><li>闭环验证方法<ul><li>方案评审(OARP决策机制)<ul><li>Owner 负责人，负责给出方案，组织各方讨论并推进做出决策</li><li>Approver 批准者</li><li>Reviewer 审核者</li><li>Participant 参与者  </li></ul></li><li>BugBash(bug大扫除)<ul><li>时间：在阶段性活动后，需要1-2个小时</li><li>地点：集合到一起，活动更有氛围</li><li>参与者：研发、测试、产品、设计、运营等</li><li>现场安排：反馈问题可视化，现场氛围营造</li><li>活动结束：公示结果，现场奖励，明确改进计划并周知</li></ul></li><li>冒烟用例评审<ul><li>冒烟测试用例是开发和测试之间最基础的合约，是测试的准入标准</li><li>可通过记录冒烟测试通过率来共同提高质量</li></ul></li></ul></li></ul><h3 id="监控：进展巧汇报，用数据说话"><a href="#监控：进展巧汇报，用数据说话" class="headerlink" title="监控：进展巧汇报，用数据说话"></a>监控：进展巧汇报，用数据说话</h3><ul><li><p>紧急汇报：直面问题有章法</p><ul><li>紧急报告基本元素 <ul><li>事件描述</li><li>影响后果</li><li>跟进分析</li><li>响应措施(包含负责人及时间表)</li><li>所需支持</li></ul></li></ul></li><li><p>常规汇报：项目周报三个问题</p><ul><li>项目整体进展状态？</li><li>风险是否可控？</li><li>目标达成有没有问题  </li></ul></li><li><p>数据汇报：善用透明的力量</p><ul><li>数据指标</li><li>jira图表<ul><li>发布倒计时</li><li>工作量燃尽图</li><li>剩余工作量</li><li>工作状态分布</li></ul></li><li>数据透明给团队，利用团队的力量</li></ul></li></ul><h3 id="收尾：项目复盘，持续改进"><a href="#收尾：项目复盘，持续改进" class="headerlink" title="收尾：项目复盘，持续改进"></a>收尾：项目复盘，持续改进</h3><ul><li>设定开放的基调，认清目的，避免追责</li><li>会前准备，梳理整个版本的历程</li><li>复盘流程<ul><li>现场回顾总结(目标/进度/变更/质量等)</li><li>每个人总结做的好/不好的3个点</li><li>白板前review</li><li>集体投票</li><li>总结并讨论改进方案  </li></ul></li><li>打造团队持续改进能力<ul><li></li></ul></li></ul><h2 id="软实力篇"><a href="#软实力篇" class="headerlink" title="软实力篇"></a>软实力篇</h2>]]></content>
     

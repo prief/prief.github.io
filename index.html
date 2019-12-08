@@ -59,6 +59,222 @@
 
   
     
+    <h3 class="article-title"><a href="/2019/12/08/refe/"><span>refe</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/12/08/refe/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-12-08T01:52:17.000Z">
+          2019-12-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h2><ul>
+<li>学习<ul>
+<li>0基础的可以学习《js高级程序设计》《精通css》，MDN网站等</li>
+<li>进阶学习方法<ul>
+<li>建立知识架构<ul>
+<li>逻辑性和完备性</li>
+<li>任何语言都是用规定的文法表达特定的语义最终操作运行时的过程</li>
+</ul>
+</li>
+<li>追本溯源</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>js知识架构<ul>
+<li>文法<ul>
+<li>词法</li>
+<li>语法</li>
+</ul>
+</li>
+<li>语义</li>
+<li>运行时（程序=数据结构+算法）<ul>
+<li>数据结构<ul>
+<li>类型(7种基本类型和7种语言类型)</li>
+<li>实例(内置对象等)</li>
+</ul>
+</li>
+<li>算法（执行过程）<ul>
+<li>程序与模块</li>
+<li>事件循环</li>
+<li>微任务</li>
+<li>函数/语句的执行</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>html/css知识架构<ul>
+<li>html<ul>
+<li>元素(功能)<ul>
+<li>文档元信息(meta/link/style/base)</li>
+<li>语义相关内容(section/nav)</li>
+<li>链接(文档内/外链接)</li>
+<li>替换型元素(img/audio/video)</li>
+<li>表单(input/button)</li>
+<li>表格(table/thead)</li>
+<li>总集</li>
+</ul>
+</li>
+<li>语言<ul>
+<li>实体</li>
+<li>命名空间</li>
+<li>补充标准ARIA</li>
+</ul>
+</li>
+<li>补充标准</li>
+</ul>
+</li>
+<li>css<ul>
+<li>语言<ul>
+<li>@rule</li>
+<li>选择器</li>
+<li>单位</li>
+</ul>
+</li>
+<li>功能<ul>
+<li>布局(正常流/弹性布局)</li>
+<li>绘制(颜色和形状/文字等)</li>
+<li>交互(动画和其他交互)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>浏览器实现原理和api<ul>
+<li>实现原理<ul>
+<li>解析</li>
+<li>构建DOM</li>
+<li>计算CSS</li>
+<li>渲染、合成和绘制</li>
+</ul>
+</li>
+<li>api<ul>
+<li>DOM</li>
+<li>CSSOM</li>
+<li>事件</li>
+<li>api总集和</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>前端工程实践<ul>
+<li>性能</li>
+<li>工具链</li>
+<li>持续集成</li>
+<li>搭建系统</li>
+<li>架构和基础库<h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3></li>
+</ul>
+</li>
+<li>7种语言类型<ul>
+<li>Undefined<ul>
+<li>undefined</li>
+</ul>
+</li>
+<li>Null<ul>
+<li>null</li>
+</ul>
+</li>
+<li>String<ul>
+<li>最大长度2^53-1，是指字符串的UTF16编码长度</li>
+<li>通常使用utf8和utf16</li>
+<li>unicode码点通常U+?表示，0-65536码点称为基本字符区域BMP</li>
+</ul>
+</li>
+<li>Number<ul>
+<li>有精度限制，符合双精度浮点数规则</li>
+<li>NaN占用了一个数字</li>
+<li>Infinity无穷大</li>
+<li>-Infinity负无穷大</li>
+<li>区分是+0还是-0的方式就是检测1/x是Infinity还是-Infinity</li>
+<li>比较浮点数可以通过两个数的差的绝对值是否小于最小精度值</li>
+<li>Math.abs(0.1 + 0.2 - 0.3) &lt;= Number.EPSILON</li>
+</ul>
+</li>
+<li>Boolean<ul>
+<li>true</li>
+<li>false</li>
+</ul>
+</li>
+<li>Object<ul>
+<li>.运算符提供了装箱操作，在基础类型上构造临时对象</li>
+</ul>
+</li>
+<li>Symbol<ul>
+<li>一切非字符串的对象key的集合，ES6中整个对象系统被Symbol重塑</li>
+<li>Symbol可以有字符串类型的描述，但即使描述相同Symbol也不相等</li>
+<li>var mySymbol = Symbol(‘label’), 使用new调用会报错</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>类型转换<ul>
+<li>StringToNumber<ul>
+<li>支持二进制/八进制/十进制/十六进制</li>
+<li>支持正负号和科学计数法</li>
+<li>parseInt建议传入第二个进制参数，parseFloat只支持十进制</li>
+</ul>
+</li>
+<li>装箱转换<ul>
+<li>基本类型转换成对应的对象</li>
+<li>Object()显示装箱，函数的call方法可以强迫产生装箱</li>
+<li>装箱机制会频繁产生临时对象，性能要求高时应避免装箱操作</li>
+<li>var symbolObject = (function(){return this;}).call(Symbol(“a”))</li>
+<li>typeof symbolObject 为 object</li>
+<li>symbolObject.constructor 为 Symbol</li>
+<li>symbolObject instanceof Symbol也为true</li>
+</ul>
+</li>
+<li>拆箱转换<ul>
+<li>ToPrimitive()是对象类型到基本类型的转换</li>
+<li>根据运算上下文尝试调用valueOf()和toString()进行拆箱</li>
+<li>如果都不存在，或返回的不是基本类型则会产生类型错误TypeError</li>
+<li>ES6可以显示指定o[Symbol.toPrimitive]=()=&gt;{return ‘’}</li>
+<li>ES6显示指定后toString()和valueOf()都不会被调用了</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="html-css"><a href="#html-css" class="headerlink" title="html/css"></a>html/css</h2><h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><h2 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h2>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2019/11/16/pm/"><span>pm</span></a></h3>
     
   
