@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://prief.github.io/2019/09/09/k8s-mooc/</loc>
+    
+    <lastmod>2020-01-05T15:03:52.854Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://prief.github.io/2019/12/08/refe/</loc>
     
     <lastmod>2019-12-08T14:16:15.927Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>https://prief.github.io/2019/10/01/flutter/</loc>
     
     <lastmod>2019-11-16T07:41:48.617Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prief.github.io/2019/09/09/k8s-mooc/</loc>
-    
-    <lastmod>2019-09-11T14:18:50.871Z</lastmod>
     
   </url>
   
