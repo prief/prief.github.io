@@ -123,9 +123,11 @@ service
 <li><p>service</p>
 <ul>
 <li>通过labelSelector选择后端服务</li>
-<li>通过clusterIp暴露服务<h2 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h2></li>
+<li>通过clusterIp暴露服务</li>
 </ul>
 </li>
+<li><p><a href="https://k8s.imroc.io/" target="_blank" rel="noopener">https://k8s.imroc.io/</a></p>
+<h2 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h2></li>
 <li><p>master</p>
 <ul>
 <li>etcd</li>
@@ -258,7 +260,7 @@ service
 <li>yum localinstall -y *.rpm</li>
 <li>systemctl enable docker</li>
 <li>df -h # 查看空间较大的分区并在分区下创建dockerdata目录准备存放docker数据</li>
-<li>#设置docker数据目录并启动docker服务 systemctl start docker<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">    &quot;graph&quot;: &quot;/var/lib/docker&quot;,</span><br><span class="line">    &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],</span><br><span class="line">    &quot;log-driver&quot;: &quot;json-file&quot;,</span><br><span class="line">    &quot;log-opts&quot;: &#123;</span><br><span class="line">        &quot;max-size&quot;: &quot;100m&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;storage-driver&quot;: &quot;overlay2&quot;,</span><br><span class="line">    &quot;storage-opts&quot;: [</span><br><span class="line">        &quot;overlay2.override_kernel_check=true&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt; /etc/systemd/system/docker.service.d/http-proxy.conf</span><br><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=&quot; &quot;HTTPS_PROXY=&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<li>#设置docker数据目录并启动docker服务 systemctl start docker<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">    &quot;graph&quot;: &quot;/var/lib/docker&quot;,</span><br><span class="line">    &quot;registry-mirrors&quot;: [&quot;https://4vo01fev.mirror.aliyuncs.com&quot;],</span><br><span class="line">    &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],</span><br><span class="line">    &quot;log-driver&quot;: &quot;json-file&quot;,</span><br><span class="line">    &quot;log-opts&quot;: &#123;</span><br><span class="line">        &quot;max-size&quot;: &quot;100m&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;storage-driver&quot;: &quot;overlay2&quot;,</span><br><span class="line">    &quot;storage-opts&quot;: [</span><br><span class="line">        &quot;overlay2.override_kernel_check=true&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt; /etc/systemd/system/docker.service.d/http-proxy.conf</span><br><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=&quot; &quot;HTTPS_PROXY=&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -326,7 +328,7 @@ service
 <li>journalctl -f #查看日志<h2 id="可用性测试"><a href="#可用性测试" class="headerlink" title="可用性测试"></a>可用性测试</h2></li>
 </ul>
 </li>
-<li><p>kubectl apply -f nginx-ds.yaml</p>
+<li><p>kubectl apply -f nginx-ds.yaml  </p>
 </li>
 <li><p>ping podIp</p>
 </li>
@@ -359,6 +361,18 @@ service
 <li>hostname</li>
 <li>hostnamectl set-hostname name</li>
 <li>vi /etc/hosts</li>
+</ul>
+</li>
+<li><p>rhel更换yum</p>
+<ul>
+<li>rpm -qa | grep yum | xargs rpm -e –nodeps</li>
+<li>mkdir yumrpm &amp;&amp; cd yumrpm</li>
+<li>wget <a href="https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-3.4.3-163.el7.centos.noarch.rpm" target="_blank" rel="noopener">https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-3.4.3-163.el7.centos.noarch.rpm</a></li>
+<li>wget <a href="https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-metadata-parser-1.1.4-10.el7.x86_64.rpm" target="_blank" rel="noopener">https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-metadata-parser-1.1.4-10.el7.x86_64.rpm</a></li>
+<li>wget <a href="https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-utils-1.1.31-52.el7.noarch.rpm" target="_blank" rel="noopener">https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-utils-1.1.31-52.el7.noarch.rpm</a></li>
+<li>wget <a href="https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-updateonboot-1.1.31-52.el7.noarch.rpm" target="_blank" rel="noopener">https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-updateonboot-1.1.31-52.el7.noarch.rpm</a></li>
+<li>wget <a href="https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-plugin-fastestmirror-1.1.31-52.el7.noarch.rpm" target="_blank" rel="noopener">https://mirrors.aliyun.com/centos/7/os/x86_64/Packages/yum-plugin-fastestmirror-1.1.31-52.el7.noarch.rpm</a></li>
+<li>rpm -ivh yum*</li>
 </ul>
 </li>
 <li><p>安装依赖包</p>
