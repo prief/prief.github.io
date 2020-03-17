@@ -59,6 +59,1159 @@
 
   
     
+    <h3 class="article-title"><a href="/2020/02/28/fe/"><span>fe</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/02/28/fe/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-02-28T05:18:52.000Z">
+          2020-02-28
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="fe"><a href="#fe" class="headerlink" title="fe"></a>fe</h3><h4 id="js"><a href="#js" class="headerlink" title="js"></a>js</h4><ul>
+<li>原始类型<ul>
+<li>Boolean</li>
+<li>String</li>
+<li>Number</li>
+<li>Undefined</li>
+<li>Null</li>
+<li>Symbol</li>
+</ul>
+</li>
+<li>类型判断<ul>
+<li>typeof<ul>
+<li>undefined</li>
+<li>boolean</li>
+<li>string</li>
+<li>number</li>
+<li>function</li>
+<li>object</li>
+</ul>
+</li>
+<li>instanceof<ul>
+<li>数组</li>
+<li>自定义类</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>类型传递<ul>
+<li>值类型按值传递<ul>
+<li>Boolean</li>
+<li>String</li>
+<li>Number</li>
+<li>Undefined</li>
+<li>Null</li>
+</ul>
+</li>
+<li>引用类型按共享传递<ul>
+<li>Object</li>
+<li>Function</li>
+<li>Array</li>
+<li>Date</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>原型和原型链<ul>
+<li>引用类型都有对象的特性，可自由扩展属性</li>
+<li>引用类型都有一个<strong>proto</strong>属性指向原型对象</li>
+<li>所有的函数都有prototype属性指向原型对象</li>
+<li>引用类型的<strong>proto</strong>指向它构造函数的prototype</li>
+<li>当试图得到一个对象的某个属性时如果本身没有则去<strong>proto</strong>上寻找形成原型链</li>
+</ul>
+</li>
+<li>作用域和作用域链<ul>
+<li>全局作用域</li>
+<li>函数作用域</li>
+<li>ES6后增加块级作用域</li>
+<li>当前作用域中没有的变量称为自由变量，自由变量向父级作用域寻值，形成作用域链</li>
+</ul>
+</li>
+</ul>
+<h4 id="css"><a href="#css" class="headerlink" title="css"></a>css</h4><ul>
+<li>选择器权重和优先级<ul>
+<li>!important</li>
+<li>内联样式</li>
+<li>ID选择器</li>
+<li>类、伪类、属性选择器</li>
+<li>元素选择器</li>
+</ul>
+</li>
+<li>盒子模型<ul>
+<li>margin</li>
+<li>border</li>
+<li>padding</li>
+<li>content</li>
+<li>分类<ul>
+<li>border-box</li>
+<li>content-box</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>position<ul>
+<li>static</li>
+<li>relative</li>
+<li>absolute</li>
+<li>fixed</li>
+</ul>
+</li>
+<li>flex<ul>
+<li>container<ul>
+<li>flex-direction</li>
+<li>justify-content</li>
+<li>align-items</li>
+</ul>
+</li>
+<li>item</li>
+</ul>
+</li>
+<li>重绘和回流<ul>
+<li>重绘<ul>
+<li>简单的进行样式的变化，如颜色、背景等，不影响几何信息</li>
+<li>开销小</li>
+</ul>
+</li>
+<li>回流（重排）<ul>
+<li>DOM中的尺寸大小几何信息，位置信息发生变化导致重新渲染</li>
+<li>开销大</li>
+<li>getComputedStyle/currentStyle获取即时属性值的操作也会触发回流</li>
+</ul>
+</li>
+<li>避免<ul>
+<li>缓存DOM对象</li>
+<li>避免逐条修改样式，使用类名合并</li>
+<li>将DOM离线后操作不会有性能问题，操作完毕后上线display:none/block;</li>
+<li>现代浏览器会维护一个flush队列，在不得已的时候会执行队列</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>1px线实现方式<ul>
+<li>渐变</li>
+<li>缩放</li>
+<li>图片(base64/svg)</li>
+</ul>
+</li>
+<li>图片保真<ul>
+<li>统一使用最高倍图，但浪费带宽</li>
+<li>srcset属性</li>
+</ul>
+</li>
+<li>字体适配<ul>
+<li>默认最小限制<ul>
+<li>PC上是12px</li>
+<li>手机上是8px</li>
+</ul>
+</li>
+<li>不建议使用奇数数值，容易在低端手机上出现锯齿</li>
+<li>尽量使用默认系统字体</li>
+<li>font-family取值<ul>
+<li>具体字体名称</li>
+<li>通用类别<ul>
+<li>serif 衬线字体族</li>
+<li>sans-serif 非衬线字体族</li>
+<li>monospace 等宽字体</li>
+<li>cursive 草书字体</li>
+<li>fantasy 艺术字体</li>
+<li>systme-ui 系统默认字体</li>
+<li>emoji 兼容表情符号</li>
+<li>math 数学表达式</li>
+<li>fangsong 仿宋</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h4><ul>
+<li>程序<ul>
+<li>数据</li>
+<li>算法</li>
+</ul>
+</li>
+<li>数据结构<ul>
+<li>简单数据结构<ul>
+<li>有序数据结构：栈、队列、链表，省空间，存储空间小</li>
+<li>无序数据结构：字典、集合、散列集，省时间，读取时间快</li>
+</ul>
+</li>
+<li>高级数据结构<ul>
+<li>树、堆</li>
+<li>图</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>常见算法<ul>
+<li>递归</li>
+<li>排序</li>
+<li>枚举</li>
+</ul>
+</li>
+<li>算法复杂度<ul>
+<li>时间复杂度（好估算、好评估）<ul>
+<li>常数阶O(1) #每行一次性的语句就是常数阶</li>
+<li>线性阶O(n)</li>
+<li>平方阶O(n^2)</li>
+<li>立方阶O(n^3)</li>
+<li>k次方阶O(n^k)</li>
+<li>指数阶O(2^n)</li>
+<li>对数阶O(logN)</li>
+<li>线性对数阶O(nlogN)</li>
+</ul>
+</li>
+<li>空间复杂度</li>
+<li>分析技巧<ul>
+<li>几重循环，一般就是1层循环就是O(n)，两重循环就是O(n^2)</li>
+<li>如果有二分，则为O(logN)</li>
+<li>每行一次性的语句则为1</li>
+<li>所有行的复杂度相加后除去常数即得复杂度</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="浏览器相关"><a href="#浏览器相关" class="headerlink" title="浏览器相关"></a>浏览器相关</h4><ul>
+<li>加载过程<ul>
+<li>DNS解析</li>
+<li>TCP连接</li>
+<li>HTTP请求</li>
+<li>HTTP响应</li>
+<li>客户端渲染<ul>
+<li>根据html生成DOM</li>
+<li>根据css生成CSSOM</li>
+<li>DOM和CSSOM整合生成RenderTree</li>
+<li>布局合成 、绘制渲染</li>
+<li>遇到script会阻塞渲染，因为js执行和浏览器渲染共用一个线程</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>性能优化<ul>
+<li>减少页面体积，提升网络加载<ul>
+<li>静态资源压缩、合并</li>
+<li>静态资源缓存</li>
+<li>使用CDN</li>
+</ul>
+</li>
+<li>优化页面渲染<ul>
+<li>css放前、js放后</li>
+<li>懒加载</li>
+<li>减少DOM操作</li>
+<li>事件节流</li>
+<li>SSR</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>web安全<ul>
+<li>SQL注入</li>
+<li>XSS</li>
+<li>CSRF</li>
+</ul>
+</li>
+</ul>
+<h4 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h4><ul>
+<li><p>DNS解析</p>
+<ul>
+<li>浏览器DNS缓存</li>
+<li>DNS prefetch</li>
+</ul>
+</li>
+<li><p>TCP连接</p>
+<ul>
+<li>长连接</li>
+<li>预连接</li>
+<li>接入SPDY协议</li>
+</ul>
+</li>
+<li><p>HTTP请求</p>
+<ul>
+<li>减少次数（loader中的exclude、三方库DllPlugin/DllReferencePlugin）</li>
+<li>减少体积（webpack-bundle-analyzer、代码压缩混淆、gzip、tree-shaking、按需加载）</li>
+<li>CDN<ul>
+<li>content delivery network</li>
+<li>2大功能<ul>
+<li>缓存</li>
+<li>回源</li>
+</ul>
+</li>
+<li>CDN域名和业务服务域名一定要分开，避免cookie无用传输</li>
+</ul>
+</li>
+<li>Gzip<ul>
+<li>gzip的内核就是Deflate</li>
+<li>通常能减小70%的体积</li>
+<li>原理就是把内容中重复的字符串临时替换，使整个文件变小，所以重复率越高，收益越好</li>
+<li>nginx等代理文件中可以配置index.js/index.js.gz 以减少cpu临时压缩的消耗</li>
+</ul>
+</li>
+<li>图片优化<ul>
+<li>JPEG/JPG 有损压缩、体积小、色彩丰富，常用轮播图，不支持透明</li>
+<li>PNG 无损压缩、质量高、支持透明，常用单色小图logo，体积大<ul>
+<li>PNG-8  二进制的位数8，最多支持256种颜色</li>
+<li>PNG-24 二进制的位数24，最多支持1600万种颜色</li>
+</ul>
+</li>
+<li>SVG<ul>
+<li>文本文件</li>
+<li>体积小、不失真、可压缩</li>
+<li>对图像的处理不是基于像素，而是基于对图像的描述</li>
+<li>可以放到HTML的DOM中，也可以单独保存.svg文件</li>
+<li>渲染成本比较高，性能要求比较高</li>
+</ul>
+</li>
+<li>Base64<ul>
+<li>文本文件</li>
+<li>依赖编码，小图标解决方案</li>
+<li>编码后，体积会增大1/3</li>
+</ul>
+</li>
+<li>WebP<ul>
+<li>年轻的全能选手</li>
+<li>支持有损和无损压缩</li>
+<li>支持透明、支持动态图、支持丰富的色彩、体积比较小</li>
+<li>兼容性比较差，编码时比jpg需要更多计算资源</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>渲染</p>
+<ul>
+<li>SSR<ul>
+<li>SEO</li>
+<li>首屏白屏</li>
+</ul>
+</li>
+<li>CSS</li>
+<li>JSji</li>
+<li>DOM</li>
+<li>懒加载</li>
+<li>事件节流和防抖</li>
+<li>回流和重绘</li>
+</ul>
+</li>
+<li><p>浏览器引擎</p>
+<ul>
+<li>渲染引擎（内核）<ul>
+<li>功能部件<ul>
+<li>html解释器，将html输出DOM</li>
+<li>css解释器，将css输出CSSOM</li>
+<li>布局绘制，合成renderTree</li>
+<li>网络</li>
+<li>存储</li>
+<li>图形、图片解码器</li>
+<li>音视频</li>
+</ul>
+</li>
+<li>常见分类<ul>
+<li>Trident（IE）</li>
+<li>Gecko（Firefox）</li>
+<li>Blink（Chrome、Opera）是webkit的一个分支</li>
+<li>Webkit（Safari）</li>
+</ul>
+</li>
+<li>优化<ul>
+<li>css<ul>
+<li>css解释器对每条规则都按从右到左的顺序去匹配，因此要减少选择器嵌套</li>
+<li>避免使用通配符，只对需要用到的元素进行选择</li>
+<li>css是阻塞渲染的资源，需要尽早加载，尽早渲染，把css往前放</li>
+</ul>
+</li>
+<li>js<ul>
+<li>默认的js也会阻塞DOM和CSSOM，因为可能会操作DOM</li>
+<li>async模式加载js不会阻塞浏览器，异步加载js，加载完毕后立即执行</li>
+<li>defer模式加载js不会阻塞浏览器，异步加载js，加载完毕后延迟到DOMContentLoaded后执行</li>
+</ul>
+</li>
+<li>DOM<ul>
+<li>对DOM的修改引发了DOM几何尺寸的变化，浏览器都要重新计算几何属性，再将结果绘制出来，即回流重排</li>
+<li>对DOM的修改没有引发几何尺寸的变化，不需要重新计算几何属性，跳过重排直接执行重绘</li>
+<li>减少DOM的访问和操作</li>
+<li>必要的DOM操作可以使用DocumentFragment，不会有性能问题</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>js引擎<ul>
+<li>异步队列<ul>
+<li>micro-task<ul>
+<li>process.nextTick</li>
+<li>promise</li>
+<li>MutationObserver</li>
+</ul>
+</li>
+<li>macro-task<ul>
+<li>setTimeout</li>
+<li>setInteral</li>
+<li>setImmediate</li>
+<li>IO操作</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>执行过程<ul>
+<li>将一个macro-task执行并出队</li>
+<li>将一对micro-task执行并出对</li>
+<li>执行渲染，更新界面</li>
+<li>处理worker相关的任务</li>
+<li>循环，当我们需要在异步任务中实现DOM修改时，把它包装成micro-task是明智的选择</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>浏览器缓存</p>
+<ul>
+<li><p>MemoryCache</p>
+<ul>
+<li>本着节约内存的原则，一般较小的资源有几率入内存</li>
+</ul>
+</li>
+<li><p>ServiceWorkerCache 离线缓存</p>
+<ul>
+<li>脱离主线程之外的独立线程</li>
+<li>不能操作DOM，只能做些js的计算，数据的请求</li>
+<li>serviceWorker生命周期<ul>
+<li>install</li>
+<li>active</li>
+<li>working</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>HTTPCache</p>
+<ul>
+<li>强缓存（200）<ul>
+<li>expires（http1.0,依赖本地时间）</li>
+<li>cache-control(http1.1,完全替代expires，优先级高)<ul>
+<li>max-age=31536000(有效时间长度，单位秒)</li>
+<li>s-maxage优先级高于max-age，只在代理服务器上有效</li>
+<li>public可以被客户端和代理服务器缓存，private只能被客户端缓存，默认private</li>
+<li>no-cache 忽略所有客户端缓存，与服务器协商缓存</li>
+<li>no-store 忽略所有缓存，包括协商缓存，直接请求资源</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>协商缓存（304）<ul>
+<li>Last-Modified/If-Modified-Since（时间戳）<ul>
+<li>只是更新了文件的元信息，比如touch了文件一下，也会造成更新</li>
+<li>时间粒度只能到秒，如果1秒内完成了内容的变更，却不会更新</li>
+</ul>
+</li>
+<li>ETag/If-None-Match<ul>
+<li>解决上述2个问题</li>
+<li>基于文件内容为资源编码的唯一字符串标示</li>
+<li>因为ETag的生成要耗费服务器资源，所以是上面的补充，不能完全替代，优先级高于上面<img src="/2020/02/28/fe/http协商缓存响应头设置流程.png" title="http协商缓存响应头设置流程">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>PushCache </p>
+<ul>
+<li>http2的特性</li>
+<li>是缓存的最后一道防线，在上面3种缓存都未命中的情况下才会询问PushCache</li>
+<li>不同的页面共享了一个http2连接，就共享同一个PushCache</li>
+<li>会话级的缓存，session关闭，缓存失效</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>本地存储</p>
+<ul>
+<li>cookie<ul>
+<li>状态维持，解决http无状态的问题</li>
+<li>体积限制，最大4k</li>
+<li>流量消耗</li>
+</ul>
+</li>
+<li>storage<ul>
+<li>localStorage 永久有效</li>
+<li>sessionStorage 会话级有效</li>
+</ul>
+</li>
+<li>IndexedDB<ul>
+<li>非关系型数据库<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">var db;</span><br><span class="line">// 参数1位数据库名，参数2为版本号</span><br><span class="line">const request = window.indexedDB.open(&quot;name&quot;, 1)</span><br><span class="line">// 使用IndexedDB失败时的监听函数</span><br><span class="line">request.onerror = function(event) &#123;</span><br><span class="line">  console.log(&apos;无法使用IndexedDB&apos;)</span><br><span class="line">&#125;</span><br><span class="line">// 成功</span><br><span class="line">request.onsuccess  = function(event)&#123;</span><br><span class="line">  // 此处就可以获取到db实例</span><br><span class="line">  db = event.target.result</span><br><span class="line">  console.log(&quot;你打开了IndexedDB&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// onupgradeneeded事件会在初始化数据库/版本发生更新时被调用，我们在它的监听函数中创建object store</span><br><span class="line">request.onupgradeneeded = function(event)&#123;</span><br><span class="line">  let objectStore</span><br><span class="line">  // 如果同名表未被创建过，则新建test表</span><br><span class="line">  if (!db.objectStoreNames.contains(&apos;test&apos;)) &#123;</span><br><span class="line">    objectStore = db.createObjectStore(&apos;test&apos;, &#123; keyPath: &apos;id&apos; &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">  // 创建事务，指定表格名称和读写权限</span><br><span class="line">  const transaction = db.transaction([&quot;test&quot;],&quot;readwrite&quot;)</span><br><span class="line">  // 拿到Object Store对象</span><br><span class="line">  const objectStore = transaction.objectStore(&quot;test&quot;)</span><br><span class="line">  // 向表格写入数据</span><br><span class="line">  objectStore.add(&#123;id: 1, name: &apos;test1&apos;&#125;)</span><br><span class="line"></span><br><span class="line">  // 操作成功时的监听函数</span><br><span class="line">  transaction.oncomplete = function(event) &#123;</span><br><span class="line">    console.log(&quot;操作成功&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">  // 操作失败时的监听函数</span><br><span class="line">  transaction.onerror = function(event) &#123;</span><br><span class="line">    console.log(&quot;这里有一个Error&quot;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// lazyload</span><br><span class="line">// 获取所有的图片标签</span><br><span class="line">const imgs = document.getElementsByTagName(&apos;img&apos;)</span><br><span class="line">// 获取可视区域的高度</span><br><span class="line">const viewHeight = window.innerHeight || document.documentElement.clientHeight</span><br><span class="line">// num用于统计当前显示到了哪一张图片，避免每次都从第一张图片开始检查是否露出</span><br><span class="line">let num = 0</span><br><span class="line">function lazyload()&#123;</span><br><span class="line">    for(let i=num; i&lt;imgs.length; i++) &#123;</span><br><span class="line">        // 用可视区域高度减去元素顶部距离可视区域顶部的高度</span><br><span class="line">        let distance = viewHeight - imgs[i].getBoundingClientRect().top</span><br><span class="line">        // 如果可视区域高度大于等于元素顶部距离可视区域顶部的高度，说明元素露出</span><br><span class="line">        if(distance &gt;= 0 )&#123;</span><br><span class="line">            // 给元素写入真实的src，展示图片</span><br><span class="line">            imgs[i].src = imgs[i].getAttribute(&apos;data-src&apos;)</span><br><span class="line">            // 前i张图片已经加载完毕，下次从第i+1张开始检查是否露出</span><br><span class="line">            num = i + 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 监听Scroll事件</span><br><span class="line">window.addEventListener(&apos;scroll&apos;, lazyload, false);</span><br><span class="line"></span><br><span class="line">// fn是我们需要包装的事件回调, delay是时间间隔的阈值</span><br><span class="line">function throttle(fn, delay) &#123;</span><br><span class="line">  // last为上一次触发回调的时间, timer是定时器</span><br><span class="line">  let last = 0, timer = null</span><br><span class="line">  // 将throttle处理结果当作函数返回</span><br><span class="line">  </span><br><span class="line">  return function () &#123; </span><br><span class="line">    // 保留调用时的this上下文</span><br><span class="line">    let context = this</span><br><span class="line">    // 保留调用时传入的参数</span><br><span class="line">    let args = arguments</span><br><span class="line">    // 记录本次触发回调的时间</span><br><span class="line">    let now = +new Date()</span><br><span class="line">    </span><br><span class="line">    // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值</span><br><span class="line">    if (now - last &lt; delay) &#123;</span><br><span class="line">    // 如果时间间隔小于我们设定的时间间隔阈值，则为本次触发操作设立一个新的定时器</span><br><span class="line">       clearTimeout(timer)</span><br><span class="line">       timer = setTimeout(function () &#123;</span><br><span class="line">          last = now</span><br><span class="line">          fn.apply(context, args)</span><br><span class="line">        &#125;, delay)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        // 如果时间间隔超出了我们设定的时间间隔阈值，那就不等了，无论如何要反馈给用户一次响应</span><br><span class="line">        last = now</span><br><span class="line">        fn.apply(context, args)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 用新的throttle包装scroll的回调</span><br><span class="line">const better_scroll = throttle(() =&gt; console.log(&apos;触发了滚动事件&apos;), 1000)</span><br><span class="line">document.addEventListener(&apos;scroll&apos;, better_scroll)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// throttle</span><br><span class="line">// fn是我们需要包装的事件回调, interval是时间间隔的阈值</span><br><span class="line">function throttle(fn, interval) &#123;</span><br><span class="line">  // last为上一次触发回调的时间</span><br><span class="line">  let last = 0</span><br><span class="line">  </span><br><span class="line">  // 将throttle处理结果当作函数返回</span><br><span class="line">  return function () &#123;</span><br><span class="line">      // 保留调用时的this上下文</span><br><span class="line">      let context = this</span><br><span class="line">      // 保留调用时传入的参数</span><br><span class="line">      let args = arguments</span><br><span class="line">      // 记录本次触发回调的时间</span><br><span class="line">      let now = +new Date()</span><br><span class="line">      </span><br><span class="line">      // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值</span><br><span class="line">      if (now - last &gt;= interval) &#123;</span><br><span class="line">      // 如果时间间隔大于我们设定的时间间隔阈值，则执行回调</span><br><span class="line">          last = now;</span><br><span class="line">          fn.apply(context, args);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 用throttle来包装scroll的回调</span><br><span class="line">const better_scroll = throttle(() =&gt; console.log(&apos;触发了滚动事件&apos;), 1000)</span><br><span class="line">document.addEventListener(&apos;scroll&apos;, better_scroll)</span><br><span class="line"></span><br><span class="line">// fn是我们需要包装的事件回调, delay是每次推迟执行的等待时间</span><br><span class="line">function debounce(fn, delay) &#123;</span><br><span class="line">  // 定时器</span><br><span class="line">  let timer = null</span><br><span class="line">  </span><br><span class="line">  // 将debounce处理结果当作函数返回</span><br><span class="line">  return function () &#123;</span><br><span class="line">    // 保留调用时的this上下文</span><br><span class="line">    let context = this</span><br><span class="line">    // 保留调用时传入的参数</span><br><span class="line">    let args = arguments</span><br><span class="line"></span><br><span class="line">    // 每次事件被触发时，都去清除之前的旧定时器</span><br><span class="line">    if(timer) &#123;</span><br><span class="line">        clearTimeout(timer)</span><br><span class="line">    &#125;</span><br><span class="line">    // 设立新定时器</span><br><span class="line">    timer = setTimeout(function () &#123;</span><br><span class="line">      fn.apply(context, args)</span><br><span class="line">    &#125;, delay)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 用debounce来包装scroll的回调</span><br><span class="line">const better_scroll = debounce(() =&gt; console.log(&apos;触发了滚动事件&apos;), 1000)</span><br><span class="line">document.addEventListener(&apos;scroll&apos;, better_scroll)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>性能监测<ul>
+<li>可视化工具<ul>
+<li>Performance</li>
+<li>LightHouse</li>
+</ul>
+</li>
+<li>性能api<ul>
+<li>performance</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="技能分层"><a href="#技能分层" class="headerlink" title="技能分层"></a>技能分层</h4><ul>
+<li><p>基础页面开发（pc网页）</p>
+<ul>
+<li>设计稿审查<ul>
+<li>确定设计稿的开发友好性（是否有还原成本高和无法实现的地方）</li>
+<li>特殊元素是否有合理的边界处理（如文案超出外层容器怎么办）</li>
+<li>确定页面的框架结构（layout）</li>
+<li>识别可复用的组件（跨页面可复用/当前页面可复用）</li>
+</ul>
+</li>
+<li>编写页面骨骼框架<ul>
+<li>盒模型统一 box-sizing:border-box;</li>
+<li>布局<ul>
+<li>普通文档流</li>
+<li>浮动布局</li>
+<li>绝对布局</li>
+<li>弹性布局</li>
+<li>网格布局</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>填充网页内容</li>
+<li>润色<ul>
+<li>BEM <ul>
+<li>基于组件的css命名规范</li>
+<li>block模块，模块名字的单词之间用-连接</li>
+<li>element元素，模块中的子元素，用__连接模块名</li>
+<li>modifier修饰符，元素的其他形态，用–连接</li>
+<li>B-B__E–M</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>兼容性测试<ul>
+<li>html兼容性</li>
+<li>css兼容性</li>
+<li>js兼容性</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>响应式页面开发（移动端网页） </p>
+<ul>
+<li>目标<ul>
+<li>为不同的浏览器窗口使用不同的样式代码</li>
+<li>页面元素的尺寸能够依据浏览器窗口变化而平滑变化</li>
+</ul>
+</li>
+<li>步骤<ul>
+<li>添加vierport的meta标签</li>
+<li>使用mediaQuery <ul>
+<li>@media(min|max-width|height orientation)</li>
+<li>两种方式<ul>
+<li>style代码里@media (){}</li>
+<li><link media="(min-width: 769px)" href="min-769.css"></li>
+</ul>
+</li>
+<li>样式断点，参考bulma框架<ul>
+<li>mobile</li>
+<li>tablet 769</li>
+<li>desktop 1024</li>
+<li>widescreen 1216</li>
+<li>fullhd 1408</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用viewport单位和rem 解决元素的尺寸能响应变化<ul>
+<li>使用vw作为唯一单位<ul>
+<li>sass函数将设计稿尺寸的像素单位转换为vw单位</li>
+<li>所有尺寸全部转换为vw包括文字</li>
+<li>1px使用transform的scale实现<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// iPhone 6尺寸作为设计稿基准</span><br><span class="line">$vw_base: 375; </span><br><span class="line">@function vw($px) &#123;</span><br><span class="line">    @return ($px / $vm_base) * 100vw;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>滑屏应用开发（活动营销页面）</p>
+</li>
+<li><p>动效开发（活动营销页面）</p>
+</li>
+</ul>
+<h4 id="软技能"><a href="#软技能" class="headerlink" title="软技能"></a>软技能</h4><ul>
+<li>健身</li>
+<li>理财</li>
+<li>韧性</li>
+<li>责任心</li>
+<li>持续学习能力</li>
+<li>团队合作能力</li>
+<li>交流沟通能力</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/02/22/web-sec/"><span>web-sec</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/02/22/web-sec/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-02-22T04:36:13.000Z">
+          2020-02-22
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h3><ul>
+<li>服务端<ul>
+<li>SQL注入</li>
+<li>命令注入</li>
+<li>文件上传</li>
+<li>暴力破解</li>
+</ul>
+</li>
+<li>客户端<ul>
+<li>XSS</li>
+<li>CSRF</li>
+<li>点击劫持</li>
+<li>URL跳转</li>
+<li>钓鱼 仿冒官网进行信息获取</li>
+<li>暗链 植入灰黑产业的链接，用户不可见，但可以提高排名</li>
+<li>webshell 通过网页部署后门程序，执行非法命令</li>
+</ul>
+</li>
+</ul>
+<h3 id="web基础"><a href="#web基础" class="headerlink" title="web基础"></a>web基础</h3><ul>
+<li>URL规范<ul>
+<li>schema://</li>
+<li>username:password@</li>
+<li>hostname:port/</li>
+<li>path?</li>
+<li>querystring#</li>
+<li>anchor</li>
+</ul>
+</li>
+<li>HTTP报文<ul>
+<li>头行</li>
+<li>头部</li>
+<li>空行</li>
+<li>主体</li>
+</ul>
+</li>
+<li>SQL<ul>
+<li>order by FIELD/index ASC/DESC，默认升序</li>
+<li>select * from t1 union select * from t2 默认合并重复</li>
+<li>select * from t1 union all select * from t2 不合并重复</li>
+<li>注释 <ul>
+<li><h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1></li>
+<li>– 内容 </li>
+<li>/* 内容 */</li>
+</ul>
+</li>
+<li>内置命令<ul>
+<li>source file #导入sql文件</li>
+<li>select current_user #显示当前用户</li>
+<li>select load_file(PATH) #显示文件内容</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>PHP<ul>
+<li>脚本范围 <?php 内容 ?></li>
+<li>注释<ul>
+<li>// 内容</li>
+<li><h1 id="内容-1"><a href="#内容-1" class="headerlink" title="内容"></a>内容</h1></li>
+<li>/* 内容 */</li>
+</ul>
+</li>
+<li>echo 可以用，一次可以输入多个变量</li>
+<li>print 一次只能输出一个变量，有返回值</li>
+<li>$var表示变量，区分大小写</li>
+<li>引入外部php文件<ul>
+<li>include 当脚本错误时，只是警告，继续执行</li>
+<li>require 当脚本错误时，停止脚本执行</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h2><h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><ul>
+<li>cross site scripting 跨站脚本攻击</li>
+<li>分类<br>XSS类型 ｜ 存储型 ｜ 反射型 ｜ DOM型</li>
+<li>– ｜ — ｜ — ｜—<br>触发过程 ｜ 黑客构造XSS后用户访问XSS页面 ｜ 用户访问XSS页面 ｜ 用户访问XSS页面<br>数据存储 ｜ 数据库 ｜ URL ｜ URL的hash中<br>谁来输出 ｜ 后端WEB程序 ｜ 后端WEB程序 ｜ 前端JS<br>输出位置 ｜ HTTP响应 ｜ HTTP响应 ｜ 动态构造的DOM</li>
+</ul>
+<h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h3><ul>
+<li>cross site request forgery 跨站请求伪造</li>
+<li>在用户登陆的情况下以不知情的方式执行非法操作</li>
+</ul>
+<h3 id="点击劫持"><a href="#点击劫持" class="headerlink" title="点击劫持"></a>点击劫持</h3><ul>
+<li>通过覆盖不可见的iframe引导用户点击操作的恶意行为</li>
+<li>也称UI覆盖攻击</li>
+</ul>
+<h3 id="URL跳转漏洞"><a href="#URL跳转漏洞" class="headerlink" title="URL跳转漏洞"></a>URL跳转漏洞</h3><ul>
+<li>借助未验证的URL跳转，把非法的URL嫁接到安全的URL后引导用户到非法网站</li>
+<li>如img.alipay.com/sys/html/wait.html?goto=恶意网址</li>
+<li>现在的短网址更隐蔽</li>
+<li>方式<ul>
+<li>header头的location</li>
+<li>meta标签的refresh,url</li>
+<li>js的location.href </li>
+</ul>
+</li>
+</ul>
+<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><ul>
+<li>SQL injection</li>
+<li>万能密码<ul>
+<li>利用’ –进行字符串的闭合和注释进行攻击</li>
+<li>本质就是SQL注入的利用方式</li>
+</ul>
+</li>
+<li>原理<ul>
+<li>数据当作了代码来执行</li>
+<li>本质就是数据和代码未分离</li>
+</ul>
+</li>
+</ul>
+<h3 id="命令注入"><a href="#命令注入" class="headerlink" title="命令注入"></a>命令注入</h3><ul>
+<li>必要条件<ul>
+<li>调用可执行系统命令的函数(system/eval…)</li>
+<li>函数或函数的参数可控</li>
+<li>拼接命令注入</li>
+</ul>
+</li>
+</ul>
+<h3 id="文件操作漏洞"><a href="#文件操作漏洞" class="headerlink" title="文件操作漏洞"></a>文件操作漏洞</h3><ul>
+<li>上传漏洞<ul>
+<li>正常的有上传头像、附件的上传功能</li>
+<li>上传webShell</li>
+<li>上传木马</li>
+</ul>
+</li>
+<li>下载漏洞<ul>
+<li>下载系统任意文件</li>
+<li>下载程序代码</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/02/17/vue/"><span>vue</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/02/17/vue/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-02-17T04:10:54.000Z">
+          2020-02-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="cli"><a href="#cli" class="headerlink" title="cli"></a>cli</h2><ul>
+<li>features<ul>
+<li>babel</li>
+<li>ts</li>
+<li>pwa</li>
+<li>router</li>
+<li>vuex</li>
+<li>cssPreProcessor</li>
+<li>linter/formatter</li>
+<li>unitTesting</li>
+<li>e2eTesting</li>
+</ul>
+</li>
+<li>dir<ul>
+<li>node_modules</li>
+<li>public<ul>
+<li>favicon.ico</li>
+<li>index.html</li>
+</ul>
+</li>
+<li>src<ul>
+<li>assets</li>
+<li>components</li>
+<li>router</li>
+<li>store</li>
+<li>views</li>
+<li>main.js</li>
+<li>App.vue</li>
+</ul>
+</li>
+<li>tests<ul>
+<li>unit</li>
+<li>e2e</li>
+</ul>
+</li>
+<li>.gitignore</li>
+<li>.postcssrc.js</li>
+<li>.eslintrc.js</li>
+<li>.browserslistrc        </li>
+<li>babel.config.js</li>
+<li>package.json</li>
+<li>package-lock.json</li>
+<li>README.md</li>
+</ul>
+</li>
+<li>ext<ul>
+<li>npm/yarm</li>
+<li>webpack</li>
+<li>环境配置</li>
+<li>接口配置</li>
+<li>单页应用</li>
+<li>多页应用</li>
+<li>实用工具</li>
+<li>开发技巧</li>
+</ul>
+</li>
+</ul>
+<h2 id="browserlist"><a href="#browserlist" class="headerlink" title="browserlist"></a>browserlist</h2><ul>
+<li>目标浏览器列表，给所有插件共享如autoprefixer等 </li>
+<li>可以写单独的.browserslistrc文件也可写在package.json.browserslist中</li>
+<li>最终的数据来源于CanIUse</li>
+<li>可以在项目中运行npx browserslist进行查看</li>
+</ul>
+<h2 id="env环境"><a href="#env环境" class="headerlink" title="env环境"></a>env环境</h2><ul>
+<li>环境<ul>
+<li>公共配置</li>
+<li>开发环境配置</li>
+<li>测试环境配置</li>
+<li>生产环境配置</li>
+</ul>
+</li>
+<li>推荐使用js文件进行config配置，可以支持动态参数/变量等</li>
+</ul>
+<h2 id="单页应用配置"><a href="#单页应用配置" class="headerlink" title="单页应用配置"></a>单页应用配置</h2><ul>
+<li>路由配置<ul>
+<li>如果路由存在二级目录，需要添加base属性值否则默认/</li>
+<li>默认路由模式为hash，可修改history</li>
+<li>路由组件可以进行懒加载 component:()=&gt;import(/* webpackChunkName: “name” */ “path2vue”)</li>
+</ul>
+</li>
+<li>vuex配置<ul>
+<li>通过 actions 异步提交 mutations 去 修改 state 的值并通过 getter 获取</li>
+<li>大型项目目录<ul>
+<li>index.js #组装模块并导出store<ul>
+<li>state</li>
+<li>mutations</li>
+<li>actions</li>
+<li>getters</li>
+<li>modules</li>
+</ul>
+</li>
+<li>actions.js #根级别的action</li>
+<li>mutations.js #跟级别的mutation</li>
+<li>modules<ul>
+<li>moduleA.js A模块<ul>
+<li>state</li>
+<li>mutations</li>
+<li>actions</li>
+<li>getters</li>
+</ul>
+</li>
+<li>moduleB.js B模块</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>接口配置<ul>
+<li>目录<ul>
+<li>src<ul>
+<li>services<ul>
+<li>index.js #接口封装</li>
+<li>moduleA.js #模块A接口</li>
+<li>moduleB.js #模块B接口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>devServer配置proxy<ul>
+<li>moduleX.js中一般不配置host</li>
+<li>devServer.proxy.PATTERN.target代理目标地址</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>公共设施配置<ul>
+<li>封装公共的方法等</li>
+<li>目录<ul>
+<li>src<ul>
+<li>common<ul>
+<li>index.js #公共配置入口，统一向外暴露</li>
+<li>validate.js #表单验证</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>多页应用配置<ul>
+<li>entries</li>
+<li>htmlWebpackPlugin</li>
+<li>上面2个分开的配置也可以统一使用pages配置</li>
+<li>多页间路由跳转必须使用location的原生方法，可以封装到Vue原型链上</li>
+<li>多页间路由跳转需要注意historyApi前后端配置</li>
+<li>模版配置时需要注意inject的值防止重复注入</li>
+<li>模块配置可以通过htmlWebpackPlugin.options添加自定义配置</li>
+</ul>
+</li>
+<li>webpack配置<ul>
+<li>alias解决复杂路径问题，css/html中需要~</li>
+<li>CompressionWebpackPlugin进行压缩如gzip</li>
+</ul>
+</li>
+</ul>
+<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><ul>
+<li><p>基础</p>
+<ul>
+<li>过多的if/switch判断可以用对象代替</li>
+<li>路由跳转使用name而不是path，方便维护</li>
+<li>key值推荐使用数组中不会变化且唯一的值</li>
+<li>使用computed代替watch</li>
+<li>统一管理缓存变量，增加types.js把字符串变量化</li>
+<li>避免for/in遍历数组，防止数组原型被修改</li>
+</ul>
+</li>
+<li><p>api</p>
+<ul>
+<li>Vue.config.performance=true;开启性能监控，配合VuePerformanceDevtool插件分析</li>
+<li>捕获异常<ul>
+<li>try/catch</li>
+<li>window.onerror</li>
+<li>Vue.config.errorHandler=(err,vm,info)=&gt;{}</li>
+<li>watch:{obj:{handler(){},deep:b,immediate:b}}</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>可复用</p>
+<ul>
+<li>步骤<ul>
+<li>出现重复代码</li>
+<li>封装成一个变量</li>
+<li>封装函数</li>
+<li>封装组件</li>
+<li>封装插件</li>
+</ul>
+</li>
+<li>组件<ul>
+<li>封装<ul>
+<li>全部封装</li>
+<li>插槽封装</li>
+</ul>
+</li>
+<li>分类<ul>
+<li>容器组件，主要处理组件逻辑</li>
+<li>展示组件，主要处理组件样式</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>插件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/* toast.js */</span><br><span class="line">import ToastComponent from &apos;./toast.vue&apos; // 引入组件</span><br><span class="line"></span><br><span class="line">let $vm</span><br><span class="line"></span><br><span class="line">export default &#123;    </span><br><span class="line">    install(Vue, options) &#123;</span><br><span class="line">        </span><br><span class="line">        // 判断实例是否存在</span><br><span class="line">        if (!$vm) &#123;            </span><br><span class="line">            const ToastPlugin = Vue.extend(ToastComponent); // 创建一个“扩展实例构造器”</span><br><span class="line">            </span><br><span class="line">            // 创建 $vm 实例</span><br><span class="line">            $vm = new ToastPlugin(&#123;                </span><br><span class="line">                el: document.createElement(&apos;div&apos;)  // 声明挂载元素          </span><br><span class="line">            &#125;);            </span><br><span class="line">            </span><br><span class="line">            document.body.appendChild($vm.$el); // 把 toast 组件的 DOM 添加到 body 里</span><br><span class="line">        &#125; </span><br><span class="line">        </span><br><span class="line">        // 给 toast 设置自定义文案和时间</span><br><span class="line">        let toast = (text, duration) =&gt; &#123;</span><br><span class="line">            $vm.text = text;</span><br><span class="line">            $vm.duration = duration;</span><br><span class="line">            </span><br><span class="line">            // 在指定 duration 之后让 toast 消失</span><br><span class="line">            setTimeout(() =&gt; &#123;</span><br><span class="line">                $vm.isShow = false;  </span><br><span class="line">            &#125;, $vm.duration);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 判断 Vue.$toast 是否存在</span><br><span class="line">        if (!Vue.$toast) &#123;            </span><br><span class="line">            Vue.$toast = toast;        </span><br><span class="line">        &#125;        </span><br><span class="line">        </span><br><span class="line">        Vue.prototype.$toast = Vue.$toast; // 全局添加 $toast 事件</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 入口文件注册</span><br><span class="line">import Toast from &apos;@/widgets/toast/toast.js&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(Toast); // 注册 Toast</span><br><span class="line"></span><br><span class="line"># 使用</span><br><span class="line">this.$toast(&apos;Hello World&apos;, 2000);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>开发工具</p>
+<ul>
+<li>vueDevtool</li>
+<li>vuePerformanceDevtool</li>
+<li>pageSpeedInsights</li>
+<li>JSONViewer</li>
+<li>webpack-bundle-analyser</li>
+<li>safari调试ios页面</li>
+<li>chrome://inspect调试安卓页面</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/02/12/ldap/"><span>ldap</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/02/12/ldap/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-02-12T04:12:40.000Z">
+          2020-02-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="ldap"><a href="#ldap" class="headerlink" title="ldap"></a>ldap</h2><ul>
+<li>lightweight directory access protocol</li>
+<li>运行在TCP/IP上的目录访问协议，本质上是一个为只读访问而优化的非关系数据库</li>
+<li>ldap中的信息按照目录信息数组织结构</li>
+<li>树中的一个节点称之为条目Entry，包含了节点的属性和属性值</li>
+<li>ldap服务的实现<ul>
+<li>windows的AD</li>
+<li>openldap</li>
+</ul>
+</li>
+</ul>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
+<li>Entry/Object 条目或对象，ldap中的每个单元都认为是条目</li>
+<li>DN 条目名称</li>
+<li>OU 组织名称</li>
+<li>DC 域组件，一般多个，如dc=baidu,dc=com</li>
+<li>CN 通用名称，如人名或对象名</li>
+</ul>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 安装OpenLDAP</span><br><span class="line">mkdir -p ~/openldap/&#123;config,database&#125;</span><br><span class="line">docker pull osixia/openldap:1.2.2</span><br><span class="line">docker run -d --name ldap-service --hostname ldap-service -p 389:389 -p 689:689 -v ~/openldap/database:/var/lib/ldap -v ~/openldap/config:/etc/ldap/slapd.d --env LDAP_ORGANISATION=&quot;test.com&quot; --env LDAP_DOMAIN=&quot;test.com&quot; --env LDAP_ADMIN_PASSWORD=&quot;password&quot; --env LDAP_TLS=false --detach osixia/openldap:1.2.2</span><br><span class="line"></span><br><span class="line"># 图形管理工具</span><br><span class="line">docker pull osixia/phpldapadmin:0.7.2</span><br><span class="line">docker run --name phpldapadmin-service -p 6443:443 -p 6680:80 --hostname phpldapadmin-service --link ldap-service:test.com --env PHPLDAPADMIN_LDAP_HOSTS=test.com --env PHPLDAPADMIN_HTTPS=false --detach osixia/phpldapadmin:0.7.2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 访问 http://localhost:6680</span><br><span class="line"># 账号 cn=admin,dc=test,dc=com</span><br><span class="line"># 密码 password</span><br></pre></td></tr></table></figure>
+
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><ul>
+<li>增加用户组</li>
+<li>增加用户</li>
+<li>更新用户属性</li>
+<li>对接gitlab/jira系统</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2019/12/08/refe/"><span>refe</span></a></h3>
     
   
@@ -3538,982 +4691,11 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2019/08/15/vscode/"><span>vscode</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/08/15/vscode/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-08-15T14:44:49.000Z">
-          2019-08-15
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="命令面板"><a href="#命令面板" class="headerlink" title="命令面板"></a>命令面板</h1><h2 id="常用"><a href="#常用" class="headerlink" title="常用"></a>常用</h2><ul>
-<li>cmd + shift + P<ul>
-<li>shell &amp;&amp; install code in PATH</li>
-<li>transfrom upper|lower</li>
-</ul>
-</li>
-<li>cmd + P<ul>
-<li>快速搜索打开文件</li>
-</ul>
-</li>
-<li>cmd<ul>
-<li>code –help</li>
-<li>code -r reuseWindow folder|file</li>
-<li>code -r -g package.json:128 #打开文件128行</li>
-<li>code -r -d file1 file2 #对比2个文件</li>
-<li>ls | code -r - #接受管道数据</li>
-</ul>
-</li>
-</ul>
-<h1 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h1><h2 id="光标"><a href="#光标" class="headerlink" title="光标"></a>光标</h2><ul>
-<li>option + 左箭头 #单词为单位向左跳动</li>
-<li>option + 右箭头 #单词为单位向右跳动</li>
-<li>cmd + 左箭头  #直接跳到行首</li>
-<li>cmd + 右箭头  #直接跳到行尾</li>
-<li>cmd + 上箭头  #直接跳到文件头部</li>
-<li>cmd + 下箭头  #直接跳到文件尾部</li>
-<li>cmd + Enter  #下面开始一行</li>
-<li>cmd + option + 上下 # 创建多光标</li>
-<li>ctrl + g #跳到指定行</li>
-<li>cmd + shift + O #跳到指定符号</li>
-</ul>
-<h2 id="文本选择"><a href="#文本选择" class="headerlink" title="文本选择"></a>文本选择</h2><ul>
-<li>移动光标的同时按住shift进行文本的选择</li>
-<li>cmd + D #多文本选择</li>
-</ul>
-<h2 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h2><ul>
-<li>option + 上下 #移动当前行</li>
-</ul>
-<h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><ul>
-<li>option + shift + 上下 #复制当前行</li>
-</ul>
-<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><ul>
-<li>cmd + delete #删除光标到行首</li>
-<li>cmd + shift + K #删除当前行</li>
-<li>cmd + X #剪切</li>
-</ul>
-<h2 id="格式化代码"><a href="#格式化代码" class="headerlink" title="格式化代码"></a>格式化代码</h2><ul>
-<li>option + shift + F </li>
-</ul>
-<h1 id="vscode相关"><a href="#vscode相关" class="headerlink" title="vscode相关"></a>vscode相关</h1><h2 id="创建codeSnippets"><a href="#创建codeSnippets" class="headerlink" title="创建codeSnippets"></a>创建codeSnippets</h2><ul>
-<li>cmd + shift + P</li>
-<li>user snippets<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> &quot;Print to console&quot;: &#123;</span><br><span class="line">    &quot;prefix&quot;: &quot;log&quot;,</span><br><span class="line">    &quot;body&quot;: [</span><br><span class="line">        &quot;console.log($&#123;1:i&#125;);&quot;,</span><br><span class="line">        &quot;console.log($&#123;1:i&#125; + 1); // $&#123;1:i&#125; + 1&quot;,</span><br><span class="line">        &quot;$2&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;description&quot;: &quot;Log output to console&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="vscode"><a href="#vscode" class="headerlink" title=".vscode"></a>.vscode</h2><ul>
-<li>settings.json</li>
-<li>tasks.json</li>
-<li>launch.json</li>
-<li>extensions.json</li>
-</ul>
-<h2 id="语言支持"><a href="#语言支持" class="headerlink" title="语言支持"></a>语言支持</h2><ul>
-<li>json<ul>
-<li>可自己定义jsonSchema做智能提示</li>
-</ul>
-</li>
-<li>markdown<ul>
-<li>open preview</li>
-</ul>
-</li>
-<li>js<ul>
-<li>jsDoc(可做接口文档/编码提示)</li>
-<li>d.ts(ts接口定义)</li>
-<li>// @ts-check 开启ts校验逐步过度到ts</li>
-<li>logpoint 把原本调试时需要的console.log与断点结合 { str + “” }</li>
-</ul>
-</li>
-<li>emmet<ul>
-<li>emmet.triggerExpansionOnTab: true #输入后按tab自动展开</li>
-<li>“emmet.includeLanguages”: {“vue-html”: “html”}</li>
-<li>ui&gt;li*3</li>
-<li>div+p</li>
-<li>div#list&gt;li.list-item</li>
-<li>#page&gt;div.logo+ul#navigation&gt;li*5&gt;a{Item $}</li>
-<li>转到匹配对/删除节点(自动删除开闭节点)</li>
-</ul>
-</li>
-</ul>
-<h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
-<li>是一个nodejs应用</li>
-<li>可以操作vscodeAPI进行插件功能实现</li>
-</ul>
-<h2 id="创建插件"><a href="#创建插件" class="headerlink" title="创建插件"></a>创建插件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">npm i -g yeoman generator-code</span><br><span class="line">yo code myExtName</span><br><span class="line">// extension.js</span><br><span class="line">const vscode = require(&quot;vscode&quot;);</span><br><span class="line">exports.activate = function activate(ctx)&#123;&#125;</span><br><span class="line">exports.deactivate = function deactivate()&#123;&#125;</span><br><span class="line"></span><br><span class="line">//package.json</span><br><span class="line">engines : &#123; &quot;vscode&quot;: &quot;^1.29.0&quot; &#125;</span><br><span class="line">&quot;activationEvents&quot;: [ &quot;onCommand:extension.sayHello&quot; ]</span><br><span class="line">&quot;contributes&quot;: &#123; &quot;commands&quot;: [ &#123;&quot;command&quot;: &quot;extension.sayHello&quot;, &quot;title&quot;: &quot;Hello World&quot; &#125;]&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2019/08/11/my-tools/"><span>my tools</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/08/11/my-tools/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-08-11T03:13:12.000Z">
-          2019-08-11
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="os"><a href="#os" class="headerlink" title="os"></a>os</h1><ul>
-<li>git</li>
-<li>iterm</li>
-<li>wireshark</li>
-</ul>
-<h1 id="fe"><a href="#fe" class="headerlink" title="fe"></a>fe</h1><ul>
-<li>chrome</li>
-<li>vscode<ul>
-<li>vscode-icons</li>
-<li>markdown TOC</li>
-<li>gitlens</li>
-<li>debugger for chrome</li>
-<li>code runner</li>
-<li>Java Extension Pack</li>
-<li>go</li>
-<li>python</li>
-<li>vetur</li>
-<li>eslint</li>
-</ul>
-</li>
-<li>node<ul>
-<li></li>
-</ul>
-</li>
-</ul>
-<h1 id="android"><a href="#android" class="headerlink" title="android"></a>android</h1><ul>
-<li>as</li>
-</ul>
-<h1 id="ios"><a href="#ios" class="headerlink" title="ios"></a>ios</h1><ul>
-<li>homebrew</li>
-<li>xcode</li>
-</ul>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/tools/">tools</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2019/08/11/net-protocol-capature-packets/"><span>net protocol &amp; capature packets</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/08/11/net-protocol-capature-packets/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-08-10T23:30:55.000Z">
-          2019-08-11
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="协议栈"><a href="#协议栈" class="headerlink" title="协议栈"></a>协议栈</h2><ul>
-<li>应用层<ul>
-<li>http/1.1</li>
-<li>websocket</li>
-<li>http/2.0</li>
-</ul>
-</li>
-<li>表示层<ul>
-<li>tls/ssl</li>
-</ul>
-</li>
-<li>传输层<ul>
-<li>tcp</li>
-</ul>
-</li>
-<li>网络层<ul>
-<li>ip</li>
-</ul>
-</li>
-<li>链路层<ul>
-<li>以太网</li>
-</ul>
-</li>
-</ul>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
-<li>chrome</li>
-<li>wireshark</li>
-<li>dig</li>
-<li>tcpdump</li>
-</ul>
-<h1 id="http-1-1"><a href="#http-1-1" class="headerlink" title="http/1.1"></a>http/1.1</h1><h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
-<li>RFC: request for comments</li>
-<li>http/1.1<ul>
-<li>无状态</li>
-<li>请求/响应模式</li>
-<li>可扩展的语义</li>
-<li>自描述的消息格式</li>
-</ul>
-</li>
-<li>ABNF: 扩充巴科斯-瑙尔范式<ul>
-<li>空白字符SP来分割各个元素</li>
-<li>/表示可供选择的规则</li>
-<li>%x##-##表示值的范围</li>
-<li>()组合，视为一个元素</li>
-<li>m*n表示重复m-n次</li>
-<li>[]表示可选序列</li>
-<li>DIGIT表示数字</li>
-<li>HEXDIG表示十六进制数字</li>
-<li>SP表示空格</li>
-<li>CRLF表示兼容的回车换行</li>
-</ul>
-</li>
-<li>OSI: open system interconnection reference model概念模型<ul>
-<li>应用层（http/email/dns/smtp/ftp/telnet）</li>
-<li>表示层（ssl）</li>
-<li>会话层（session）</li>
-<li>传输层（tcp/udp）</li>
-<li>网络层（ip，广域网路由器）</li>
-<li>数据链路层（mac，局域网交换机）</li>
-<li>物理层</li>
-</ul>
-</li>
-<li>TCP/IP 事实实现方案<ul>
-<li>应用层（http/email/dns/smtp/ftp/telnet）</li>
-<li>传输层（tcp/udp）</li>
-<li>网络层（ip/icmp/arp）</li>
-<li>物理层（ethernet）</li>
-</ul>
-</li>
-<li>评估web架构的关键属性<ul>
-<li>性能performance<ul>
-<li>网络性能 throughput吞吐量&lt;=bandwidth</li>
-<li>用户感知性能</li>
-<li>网络效率 缓存/cdn/减少交互次数</li>
-</ul>
-</li>
-<li>可伸缩性scalability</li>
-<li>简单性simplicity</li>
-<li>可见性visiable</li>
-<li>可移植性portablity</li>
-<li>可靠性reliability</li>
-<li>可修改性modifiability<ul>
-<li>可进化</li>
-<li>可定制</li>
-<li>可扩展</li>
-<li>可配置</li>
-<li>可重用</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>URI<ul>
-<li>URI是URL+URN的超集，统一掉概念</li>
-<li>schema://user:pass@hostname:port/path?query#fragment</li>
-</ul>
-</li>
-<li>method<ul>
-<li>GET</li>
-<li>HEAD</li>
-<li>POST</li>
-<li>PUT</li>
-<li>DELETE</li>
-<li>CONNECT</li>
-<li>OPTIONS</li>
-<li>TRACE</li>
-</ul>
-</li>
-<li>status<ul>
-<li>1xx 请求服务器已经收到，需要进一步处理<ul>
-<li>100 Continue常用上传大文件前</li>
-<li>101 Switch Protocols升级协议ws/h2</li>
-<li>102 Processing webdav协议</li>
-</ul>
-</li>
-<li>2xx 成功处理了请求，当接收到不认识的2xx时默认用200<ul>
-<li>200 OK</li>
-<li>201 Created成功创建</li>
-<li>202 Accepted</li>
-<li>206 Partial Content 使用range协议返回部分内容</li>
-</ul>
-</li>
-<li>3xx 重定向<ul>
-<li>301 Moved Permanently 永久重定向，可被缓存</li>
-<li>302 Found 临时重定向，不能被缓存</li>
-<li>304 Not Modified 可复用缓存</li>
-</ul>
-</li>
-<li>4xx 客户端错误<ul>
-<li>400 Bad Request</li>
-<li>401 Unauthorized未认证</li>
-<li>403 Forbidden</li>
-<li>404 Not Found</li>
-</ul>
-</li>
-<li>5xx 服务端错误<ul>
-<li>500 Internel Server Error 内部服务器错误，当接收到不认识的5xx时默认用500</li>
-<li>501 Not Implemented</li>
-<li>502 Bad Gateway</li>
-<li>503 Service Unavailable</li>
-<li>504 Gateway Timeout</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>长短连接 <ul>
-<li>Connection: Keep-Alive | Close</li>
-<li>http/1.1默认支持长连接</li>
-<li>如果Connection后面跟header字段则表示对代理服务器要求不做此header转发</li>
-<li>Connection只表示tcp连接的两端，不能表示跨中间的服务器</li>
-</ul>
-</li>
-<li>header<ul>
-<li>X-Forwarded-For 用于传递ip，每走一层都会append一个ip</li>
-<li>X-Real-IP 只记录用户外网ip</li>
-<li>Referer 来源，通常做防盗链</li>
-<li>User-Agent</li>
-<li>From 通常是爬虫添加的后面跟邮件地址告诉server可通过邮件联系</li>
-<li>Allow server支持的method</li>
-<li>Accept* 协商资源表现形式<ul>
-<li>Accept: MIME q=0.8;</li>
-<li>Accept-Language: zh-CN,zh q=0.8</li>
-<li>Accept-Encoding: gzip | br | deflate</li>
-<li>Accept-Range: bytes | none 是否支持range请求</li>
-</ul>
-</li>
-<li>Transer-Encoding: chunked | gzip 不定长包体传输格式</li>
-<li>Content-Disposition: inline | attachment[; filename=xx.xx]</li>
-</ul>
-</li>
-<li>MIME<ul>
-<li>Multipurpose Internet Mail Extensions</li>
-<li>格式：type/subType(;params)</li>
-<li>type<ul>
-<li>text</li>
-<li>image</li>
-<li>audio</li>
-<li>video</li>
-<li>application</li>
-</ul>
-</li>
-<li>params<ul>
-<li>attribute=value</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Form关键属性<ul>
-<li>action表示uri</li>
-<li>method表示方法<ul>
-<li>GET</li>
-<li>POST</li>
-</ul>
-</li>
-<li>enctype<ul>
-<li>application/x-www-form-urlencoded 默认编码方式 k=v&amp;k=v 需要encode</li>
-<li>multipart/form-data 有boundary做分割，一般用于文件传输</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Range请求<ul>
-<li>做多线程下载/断点续传/点播视频等</li>
-<li>请求头部标明<ul>
-<li>Range: bytes=0-499[,500-1000[,1001-]]</li>
-<li>Range: bytes=-4 最后3个字节</li>
-<li>If-Range: Etag | httpDate 验证已经下载的部分是否有变动</li>
-</ul>
-</li>
-<li>响应头部标明<ul>
-<li>Content-Range: bytes 0-100/2000 表示共2000长度，返回了前101字节</li>
-<li>Content-Range: bytes 0-100/* 表示不知道总长度但返回了前101字节  </li>
-<li>Content-Range: multipart/byterages; boundary=…</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>cookie<ul>
-<li>Set-Cookie<ul>
-<li>每一个Set-Cookie只能设置一个name=value，如需多个需要多个Set-Cookie</li>
-<li>name=value; expires= httpDate; max-age=X; domain=X; path=/; secure; httpOnly;</li>
-</ul>
-</li>
-<li>Cookie<ul>
-<li>可以把多个Set-Cookie返回的name组合成一个进行请求</li>
-<li>name=value;[ name=value;]</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>同源三要素<ul>
-<li>schema</li>
-<li>hostname</li>
-<li>port</li>
-</ul>
-</li>
-<li>跨域<ul>
-<li>可跨域的组件（满足可扩展可用性）<ul>
-<li>script</li>
-<li>link</li>
-<li>img</li>
-<li>iframe</li>
-<li>video</li>
-<li>audio</li>
-</ul>
-</li>
-<li>攻击与防护<ul>
-<li>csrf <ul>
-<li>cross-site request forgery</li>
-<li>通过referer可做一层防护</li>
-<li>通过csrfToken即服务器响应表单时添加隐藏的token信息已备后续验证也可做防护</li>
-</ul>
-</li>
-<li>xss cross-site scripting</li>
-</ul>
-</li>
-<li>cors<ul>
-<li>cross origin resource sharing</li>
-<li>简单请求三要素<ul>
-<li>GET/HEAD/POST之一</li>
-<li>Accepte/Accept-Language/Content-Type安全header之一</li>
-<li>Content-Type是text/plain|application/x-www-form-urlencoded|multipart/form-data之一</li>
-</ul>
-</li>
-<li>复杂请求<ul>
-<li>简单请求之外的都是复杂请求</li>
-<li>复杂请求必须先走一个OPTIONS请求</li>
-</ul>
-</li>
-<li>请求相关头部<ul>
-<li>Origin</li>
-<li>Access-Control-Request-Method</li>
-<li>Access-Control-Request-Headers</li>
-</ul>
-</li>
-<li>响应相关头部<ul>
-<li>Access-Control-Allow-Origin</li>
-<li>Access-Control-Allow-Methods</li>
-<li>Access-Control-Allow-Headers</li>
-<li>Access-Control-Allow-Credentials</li>
-<li>Access-Control-Max-Age</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>缓存<ul>
-<li>优先级<ul>
-<li>s-maxage</li>
-<li>max-age</li>
-<li>Expires</li>
-<li>预估过期时间（浏览器实现实现的”10%算法”）</li>
-</ul>
-</li>
-<li>Cache-Control<ul>
-<li>请求中<ul>
-<li>max-age=t | max-stale=t | min-fresh=t </li>
-<li>no-store | no-cache | no-transform | only-if-cached</li>
-</ul>
-</li>
-<li>响应中<ul>
-<li>must-revalidate | proxy-revalidate</li>
-<li>public | private </li>
-<li>no-cache | no-store | no-transform</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>重定向<ul>
-<li>301 http/1.0 永久重定向，可以被缓存，重定向后的请求可以改变method，通常使用get</li>
-<li>302 http/1.0 临时重定向，不可被缓存，重定向后的请求可以改变method，通常使用get</li>
-<li>307 http/1.1 临时重定向，不可被缓存，重定向后的请求不能改变method</li>
-<li>308 http/1.1 永久重定向，可以被缓存，重定向后的请求不能改变method</li>
-</ul>
-</li>
-<li>隧道<ul>
-<li>tunnel通过http连接来传输非http协议格式的数据</li>
-<li>常用于穿越防火墙/传递ssl消息</li>
-<li>通过connect建立连接后变为双向传输，不必遵守http协议</li>
-</ul>
-</li>
-<li>爬虫<ul>
-<li>robots.txt<ul>
-<li>User-Agent 允许哪些机器人</li>
-<li>Disallow 禁止哪些目录</li>
-<li>Crawl-delay 访问间隔防止流量过大</li>
-<li>Allow 允许哪些目录</li>
-<li>Sitemap 站点地图</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="dns"><a href="#dns" class="headerlink" title="dns"></a>dns</h2><ul>
-<li>域名与ip之间的映射数据库</li>
-<li>查询方式<ul>
-<li>迭代查询</li>
-<li>递归查询</li>
-</ul>
-</li>
-<li>query<ul>
-<li>questions<ul>
-<li>QNAME<ul>
-<li>.分割多段，每段字节数打头再跟其ASCII编码</li>
-<li>最终以 00 结尾</li>
-</ul>
-</li>
-<li>QTYPE<ul>
-<li>1 A ipv4地址</li>
-<li>2 NS 权威域名服务器</li>
-<li>5 CNAME 别名</li>
-<li>28 AAAA ipv6地址</li>
-</ul>
-</li>
-<li>QCLASS<ul>
-<li>IN 表示internet</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>response<ul>
-<li>NAME</li>
-<li>TTL time to live</li>
-<li>RDLENGTH RDATA length</li>
-<li>RDATA 查询值，如ip或CNAME值</li>
-</ul>
-</li>
-</ul>
-<h1 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a>wireshark</h1><h2 id="BPF过滤器"><a href="#BPF过滤器" class="headerlink" title="BPF过滤器"></a>BPF过滤器</h2><ul>
-<li>Berkeley Packet Filter</li>
-<li>在设备驱动级别提供抓包接口</li>
-<li>表达式<ul>
-<li>原语<ul>
-<li>Type: host port portrange…</li>
-<li>Dir: dst src…</li>
-<li>proto: tcp udp…</li>
-</ul>
-</li>
-<li>操作符<ul>
-<li>&amp;&amp; and</li>
-<li>|| or</li>
-<li>! not</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="独有的显示过滤器"><a href="#独有的显示过滤器" class="headerlink" title="独有的显示过滤器"></a>独有的显示过滤器</h2><ul>
-<li>view -&gt; internels -&gt; support protocols</li>
-<li>操作符<ul>
-<li>eq ==</li>
-<li>ne !=</li>
-<li>gt &gt;</li>
-<li>ge &gt;=</li>
-<li>lt &lt;</li>
-<li>le &lt;=</li>
-<li>contains</li>
-<li>matches ~</li>
-</ul>
-</li>
-<li>函数<ul>
-<li>upper</li>
-<li>lower</li>
-<li>len</li>
-<li>count</li>
-<li>string</li>
-</ul>
-</li>
-</ul>
-<h1 id="websocket"><a href="#websocket" class="headerlink" title="websocket"></a>websocket</h1><h2 id="基础-1"><a href="#基础-1" class="headerlink" title="基础"></a>基础</h2><ul>
-<li>demo页面：<a href="http://www.websocket.org" target="_blank" rel="noopener">http://www.websocket.org</a></li>
-<li>客户端发送数据要进行掩码处理防止针对代理服务器的缓存污染攻击</li>
-<li>pingpong心跳保持会话</li>
-<li>优点<ul>
-<li>浏览器支持率比较高</li>
-<li>支持服务器推送</li>
-</ul>
-</li>
-<li>不足<ul>
-<li>设计比较简单，很多功能和性能上的问题没有真正解决</li>
-</ul>
-</li>
-</ul>
-<h2 id="握手"><a href="#握手" class="headerlink" title="握手"></a>握手</h2><img src="/2019/08/11/net-protocol-capature-packets/handshake.png" title="websocket握手包头">
-
-<h2 id="解密tls"><a href="#解密tls" class="headerlink" title="解密tls"></a>解密tls</h2><ul>
-<li>通过浏览器DEBUG日志获得tls握手阶段生成的密钥</li>
-<li>步骤<ul>
-<li>配置环境变量SSLKEYLOGFILE=path2log使chrome输出DEBUG日志</li>
-<li>wireshark配置解析DEBUG日志(编辑/首选项/protocols/tls)</li>
-</ul>
-</li>
-</ul>
-<h1 id="http2"><a href="#http2" class="headerlink" title="http2"></a>http2</h1><h2 id="基础-2"><a href="#基础-2" class="headerlink" title="基础"></a>基础</h2><ul>
-<li>http1.1的问题<ul>
-<li>高延迟<ul>
-<li>带宽在增加，延迟却没办法降低</li>
-<li>浏览器并发限制</li>
-<li>同一连接串行处理请求</li>
-</ul>
-</li>
-<li>无状态特性带来了巨大的http头部</li>
-<li>不支持服务器推送</li>
-</ul>
-</li>
-<li>h2主要特性<ul>
-<li>传输数据量大幅减小<ul>
-<li>标头压缩</li>
-<li>二进制传输</li>
-</ul>
-</li>
-<li>多路复用并支持优先级</li>
-<li>服务器推送</li>
-<li>必须使用tls</li>
-</ul>
-</li>
-<li>tls握手通讯过程<ul>
-<li>验证身份</li>
-<li>达成安全套件共识</li>
-<li>传递密钥</li>
-<li>加密通讯</li>
-</ul>
-</li>
-<li>h2核心概念<ul>
-<li>连接connection</li>
-<li>数据流stream<ul>
-<li>通过stream实现多路复用</li>
-</ul>
-</li>
-<li>消息message<ul>
-<li>header帧</li>
-<li>data帧</li>
-</ul>
-</li>
-<li>数据帧frame</li>
-</ul>
-</li>
-</ul>
-<h2 id="frame"><a href="#frame" class="headerlink" title="frame"></a>frame</h2><ul>
-<li>帧头部<img src="/2019/08/11/net-protocol-capature-packets/frameHeader.png" title="帧头部"></li>
-<li>作用<ul>
-<li>多路复用(同一stream内的frame必须是有序的，接收端根据streamID并发组装消息)</li>
-<li>客户端建立的流必须是奇数，服务端建立的是偶数</li>
-<li>状态管理的约束(ID不能复用，只能递增，超出最大值后必须断掉tcp连接重新建立)</li>
-</ul>
-</li>
-<li>帧类型type<ul>
-<li>DATA</li>
-<li>HEADERS</li>
-<li>PRIORITY</li>
-<li>RST_STREAM</li>
-<li>SETTINGS</li>
-<li>PUSH_PROMISE</li>
-<li>PINNG</li>
-<li>GOAWAY</li>
-<li>WINDOW_UPDATE</li>
-<li>CONTINUATION</li>
-</ul>
-</li>
-<li>hpack<ul>
-<li>头部压缩算法</li>
-<li>三种压缩方式相结合<ul>
-<li>静态字典</li>
-<li>动态字典</li>
-<li>压缩算法huffman编码</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="服务推送"><a href="#服务推送" class="headerlink" title="服务推送"></a>服务推送</h2><ul>
-<li>每一条推送都基于一个请求</li>
-<li>在请求的响应中可以恢复即将推送的资源</li>
-<li>再开一个stream进行资源的推送，不同的stream可以实现并发</li>
-</ul>
-<h2 id="流控"><a href="#流控" class="headerlink" title="流控"></a>流控</h2><ul>
-<li>应用层和tcp层都可以做</li>
-<li>发送和接口流量控制是可以分开作用的</li>
-<li>只有DATA帧才受流控限制</li>
-<li>流控不能被禁用</li>
-</ul>
-<h2 id="h2现存问题"><a href="#h2现存问题" class="headerlink" title="h2现存问题"></a>h2现存问题</h2><ul>
-<li>tcp+tls建链握手过多<ul>
-<li>必须建立在tls之上</li>
-</ul>
-</li>
-<li>多路复用与tcp队头阻塞问题<ul>
-<li>本质还是在tcp流中是串行的</li>
-<li>串行对头中丢失一个包就会阻塞后面的包</li>
-</ul>
-</li>
-<li>tcp是由操作系统内核实现的，内核更新慢</li>
-</ul>
-<h2 id="http3"><a href="#http3" class="headerlink" title="http3"></a>http3</h2><ul>
-<li>基于quick协议与h2协议共同成为h3</li>
-<li>quick协议基于udp/ip协议之上，h2协议之下</li>
-<li>quick协议实现了<ul>
-<li>多路复用</li>
-<li>tls</li>
-<li>拥塞控制</li>
-<li>丢包重发</li>
-</ul>
-</li>
-<li>优势<ul>
-<li>可以连接迁移</li>
-<li>解决了队头阻塞问题</li>
-<li>1RTT完全就握手完毕</li>
-</ul>
-</li>
-</ul>
-<h1 id="tls"><a href="#tls" class="headerlink" title="tls"></a>tls</h1><h2 id="基础-3"><a href="#基础-3" class="headerlink" title="基础"></a>基础</h2><ul>
-<li>概念<ul>
-<li>ssl secure sockets layer</li>
-<li>tls transport layer security</li>
-</ul>
-</li>
-<li>发展历史<ul>
-<li>ssl3.0</li>
-<li>tls1.0</li>
-<li>tls1.1</li>
-<li>tls1.2</li>
-<li>tls1.3</li>
-</ul>
-</li>
-<li>设计目的<ul>
-<li>身份验证</li>
-<li>保密性</li>
-<li>完整性</li>
-</ul>
-</li>
-<li>主要功能<ul>
-<li>握手</li>
-<li>交换密钥</li>
-<li>告警</li>
-<li>对称加密数据</li>
-<li>记录</li>
-</ul>
-</li>
-<li>tls握手通讯过程<ul>
-<li>验证身份</li>
-<li>达成安全套件共识</li>
-<li>传递密钥</li>
-<li>加密通讯</li>
-</ul>
-</li>
-<li>安全加密套件<ul>
-<li>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</li>
-<li>ECDHE 密钥交换算法</li>
-<li>RSA 身份验证算法</li>
-<li>AES 对称加密算法</li>
-<li>128 对称加密强度</li>
-<li>GCM 对称加密模式</li>
-<li>SHA256 签名hash算法</li>
-</ul>
-</li>
-</ul>
-<h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><ul>
-<li>工作原理<ul>
-<li>XOR运算 速度快</li>
-<li>padding填充 <ul>
-<li>会把明文进行blockCipher分组进行加密</li>
-<li>当分组后最后一个block可能长度不够XOR运算，需要padding</li>
-<li>填充时可以按bit位进行填充也可按byte字节填充</li>
-<li>RFC中常用按byte字节进行填充，填充内容是多少个字节就填充多少个数字，即PKCS7填充算法</li>
-</ul>
-</li>
-<li>工作模式<ul>
-<li>常用GCM工作模式</li>
-<li>Galois/Counter Mode</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>AES<ul>
-<li>advanced encryption standard加密算法</li>
-<li>常用填充算法PKCS7</li>
-<li>常用工作模式GCM</li>
-<li>三种密钥长度<ul>
-<li>AES-128密钥长度16字节，加密轮数10</li>
-<li>AES-192密钥长度24字节，加密轮数12</li>
-<li>AES-256密钥长度32字节，加密轮数14</li>
-</ul>
-</li>
-<li>加密步骤<ul>
-<li>明文按照16字节拆分成若干块，每个块是4*4矩阵</li>
-<li>按填充算法进行最后一块的填充</li>
-<li>每一个明文块用AES加密算法和密钥进行加密</li>
-<li>拼接所有密文块</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><ul>
-<li>RSA </li>
-<li>openssl<ul>
-<li>生成私钥 openssl genrsa -out private.pem</li>
-<li>提取公钥 openssl rsa -in private.pem -pubout -out public.pem</li>
-<li>加密文件 openssl rsautl -encrypt -in hello.txt -inkey public.pem -pubin -out hello.en </li>
-<li>解密文件 openssl rsautl -decrypt -in hello.en -inkey private.pem -out hello.de</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/wireshark/">wireshark</a><a href="/tags/tcp-ip/">tcp/ip</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2019/08/10/spring-boot-k8s/"><span>spring boot &amp; k8s</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/08/10/spring-boot-k8s/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-08-10T15:01:19.000Z">
-          2019-08-10
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>记录spring boot &amp; k8s学习过程 </p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/spring/">spring</a><a href="/tags/k8s/">k8s</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
+  
+  <a href="/page/2/" class="pagination-next">Next</a>
   
 </nav>
     </main>
