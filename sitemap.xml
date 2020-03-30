@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://prief.github.io/2020/02/28/fe/</loc>
+    <loc>https://prief.github.io/2019/08/11/my-tools/</loc>
     
-    <lastmod>2020-03-24T08:06:40.874Z</lastmod>
+    <lastmod>2020-03-30T03:44:28.341Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://prief.github.io/2019/08/11/my-tools/</loc>
+    <loc>https://prief.github.io/2019/08/17/webpack/</loc>
     
-    <lastmod>2020-02-27T06:16:52.313Z</lastmod>
+    <lastmod>2020-03-29T03:00:09.843Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prief.github.io/2020/02/28/fe/</loc>
+    
+    <lastmod>2020-03-24T08:06:40.874Z</lastmod>
     
   </url>
   
@@ -75,13 +82,6 @@
     <loc>https://prief.github.io/2019/08/15/vscode/</loc>
     
     <lastmod>2019-09-09T10:40:17.673Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prief.github.io/2019/08/17/webpack/</loc>
-    
-    <lastmod>2019-09-09T10:21:04.293Z</lastmod>
     
   </url>
   

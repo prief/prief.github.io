@@ -124,6 +124,23 @@ npm">
 <li>./node_modules/.bin/webpack -v</li>
 </ul>
 </li>
+<li>模块路径解析<ul>
+<li>绝对路径（不推荐）</li>
+<li>相对路径<ul>
+<li>查找相对路径下的同名的文件或目录</li>
+<li>是文件则直接加载</li>
+<li>是目录则查找目录下的package.json中的main字段</li>
+<li>有则按其加载</li>
+<li>没有main字段或没有package.json则加载index.js</li>
+</ul>
+</li>
+<li>模块名<ul>
+<li>查找当前目录/上级目录中node_modules中的同名目录</li>
+<li>查找全局node_modules中的模块</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h2><ul>
 <li>基础<ul>
@@ -156,6 +173,13 @@ npm">
 </li>
 <li>loaders<ul>
 <li>本质是一个函数，接收源文件作为参数输出转换后的结果</li>
+<li>执行顺序<ul>
+<li>同一个rule中多个loader从后到前执行</li>
+<li>多个loader匹配时用enforce:pre|post约定顺序</li>
+<li>行内loader，在require(‘loader1!./file.json’)</li>
+<li>所有的loader按照前置loader/行内loader/普通loader/后置loader顺序执行</li>
+</ul>
+</li>
 <li>babel-loader<ul>
 <li>解析ES6/7</li>
 <li>需要安装@babel/core @babel/preset-env @babel/proposal-class-properties等</li>
@@ -199,6 +223,27 @@ npm">
 </li>
 </ul>
 <h2 id="高级配置"><a href="#高级配置" class="headerlink" title="高级配置"></a>高级配置</h2><ul>
+<li><p>环境差异</p>
+<ul>
+<li>module.exports=(env,argv)=&gt;{console.log(argv.mode)}</li>
+<li>生产环境<ul>
+<li>压缩资源</li>
+<li>分离资源</li>
+</ul>
+</li>
+<li>开发环境<ul>
+<li>debug</li>
+<li>hotReload</li>
+</ul>
+</li>
+<li>配置拆分<ul>
+<li>base.js</li>
+<li>dev.js</li>
+<li>prod.js</li>
+</ul>
+</li>
+</ul>
+</li>
 <li><p>构建监听</p>
 <ul>
 <li>webpack 命令行传 –watch</li>
@@ -214,7 +259,7 @@ npm">
 <li>webpack.config.js<ul>
 <li>mode: ‘development’</li>
 <li>plugins: [new webpack.HotModuleReplacementPlugin()]</li>
-<li>devServer:{hot:true,contentBase:’./dist’}</li>
+<li>devServer:{hot:true,contentBase:’./dist’,before(app){app.get(“path”,(req,res)=&gt;{res.json({})})},proxy:{“/api”:{target:’’,pathRewrite:{}}}}</li>
 </ul>
 </li>
 <li>WDS灵活定制版WDM webapck-dev-middleware</li>
@@ -223,6 +268,12 @@ npm">
 <li>bundle由本地的bundleServer返回给浏览器</li>
 <li>HMR的patch由本地的HMRServer(WebSockt)返回浏览器的HMRRuntime</li>
 <li>浏览器执行bundle和patch执行代码</li>
+<li>核心api<ul>
+<li>module.hot</li>
+<li>module.hot.accept(“指定模块”,()=&gt;{})</li>
+<li>module.hot.dispose((data)=&gt;{}) #当前模块</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -239,6 +290,14 @@ npm">
 <li>html 使用html-webpack-plugin的minify对象属性</li>
 <li>css 使用optimize-css-assets-webpack-plugin和cssnano</li>
 <li>js 内置了uglifyjs-webpack-plugin</li>
+</ul>
+</li>
+<li><p>按需加载</p>
+<ul>
+<li>import(/* webpackChunkName: “lodash” */ ‘lodash’).then((_) =&gt; {})</li>
+<li>webpackChunkName作为注释会告知webpack动态加载模块的名称，配合output.chunkFilename指定chunk输出的文件名，否则会以简单的数字标示</li>
+<li>需要syntax-dynamic-import这个babel插件处理import()</li>
+<li>按需动态加载的import()语法依赖promise，对于低版本的要promise的polyfill</li>
 </ul>
 </li>
 <li><p>postcss</p>
@@ -320,9 +379,10 @@ npm">
 <li>把模块中没被引用的方法在uglify阶段去除掉</li>
 <li>使用<ul>
 <li>必须是ES6的语法，不能用在CommonJS，ES6可以静态分析</li>
-<li>在.babelrc里设置module:false即可</li>
+<li>在.babelrc里设置module:false把模块的静态分析交给webpack处理</li>
+<li>对class类的treeShaking需要在.babelrc里配置loose:true</li>
 <li>mode为production情况下默认开启了此功能</li>
-<li>要求导出的函数不能有副作用，否则也会失效</li>
+<li>要求导出的函数不能有副作用，否则也会失效,即包的package.json.sideEffects:false声明</li>
 </ul>
 </li>
 <li>原理<ul>
