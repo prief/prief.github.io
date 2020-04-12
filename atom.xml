@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://prief.github.io/"/>
-  <updated>2020-04-12T02:08:57.454Z</updated>
+  <updated>2020-04-12T14:54:42.039Z</updated>
   <id>https://prief.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>rpc021</title>
+    <link href="https://prief.github.io/2020/04/12/rpc021/"/>
+    <id>https://prief.github.io/2020/04/12/rpc021/</id>
+    <published>2020-04-12T14:14:35.000Z</published>
+    <updated>2020-04-12T14:54:42.039Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="rpc"><a href="#rpc" class="headerlink" title="rpc"></a>rpc</h3><ul><li>remote procedure call 远程过程调用</li><li>允许本地计算机调用远程计算机上的程序，不需要了解底层网络细节，整个过程就像调用本地一样</li><li>目的就是解决http超文本传输协议效率低</li><li>常见的是java的dubbo和google的grpc</li><li>框架涉及面<ul><li>网络通信</li><li>超时机制</li><li>协议</li><li>序列化</li><li>打解包/编解码</li><li>连接池</li><li>拦截器</li><li>服务发现</li><li>负载均衡</li><li>分布式链路追踪</li><li>监控</li><li>日志</li><li>认证鉴权</li><li>并发处理</li><li>性能</li><li>组件化</li><li>插件体系</li></ul></li><li>框架架构图<img src="/2020/04/12/rpc021/rpc.png" title="框架架构图"></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;rpc&quot;&gt;&lt;a href=&quot;#rpc&quot; class=&quot;headerlink&quot; title=&quot;rpc&quot;&gt;&lt;/a&gt;rpc&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;remote procedure call 远程过程调用&lt;/li&gt;
+&lt;li&gt;允许本地计算机调用远程计算机上的程序，不需要
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>archi-jike</title>
