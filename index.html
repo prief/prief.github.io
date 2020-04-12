@@ -59,6 +59,1401 @@
 
   
     
+    <h3 class="article-title"><a href="/2020/04/05/archi-jike/"><span>archi-jike</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/04/05/archi-jike/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-04-04T23:53:24.000Z">
+          2020-04-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>软件架构是有关软件整体结构与组件的抽象描述，用于指导软件系统各个方面的设计</li>
+<li>目标<ul>
+<li>高性能</li>
+<li>高可用</li>
+<li>可扩展</li>
+</ul>
+</li>
+<li>分层<ul>
+<li>访问层</li>
+<li>网关层</li>
+<li>服务层</li>
+<li>存储层</li>
+<li>监控/限流/降级<h3 id="分层"><a href="#分层" class="headerlink" title="分层"></a>分层</h3></li>
+</ul>
+</li>
+<li>目的<ul>
+<li>分而治之</li>
+<li>各司其职</li>
+</ul>
+</li>
+<li>常见分层<ul>
+<li>计算机OSI7层模型</li>
+<li>web系统的mvc/mvvm模型</li>
+<li>基于领域模型的分层(电商系统…)</li>
+</ul>
+</li>
+<li>演进<ul>
+<li>servletJSP时代<ul>
+<li>servlet+tomcat完成web接入</li>
+<li>javaBean+JDBC完成数据层接入</li>
+<li>JSP完成页面展示</li>
+</ul>
+</li>
+<li>SSH<ul>
+<li>strutsMVC完成web接入JSP完成表示层</li>
+<li>spring完成业务逻辑/会话管理</li>
+<li>hibernate完成数据存储接入和持久化</li>
+</ul>
+</li>
+<li>SSM<ul>
+<li>springMVC更适用前后端分离</li>
+<li>spring支持注解/配置声明式事务处理</li>
+<li>mybatis配置缓存/解耦数据库对象和java对象</li>
+</ul>
+</li>
+<li>SpringBoot<ul>
+<li>整合了spring所有框架，提供allInOne服务</li>
+<li>提供简单的配置和注解的接入方式</li>
+</ul>
+</li>
+<li>分布式分层</li>
+</ul>
+</li>
+<li>亿级流量平台分层架构<ul>
+<li>功能<ul>
+<li>水平扩展</li>
+<li>负载均衡</li>
+<li>高可用</li>
+<li>数据一致性</li>
+</ul>
+</li>
+<li>分层(需要每一层都能分布式)<ul>
+<li>访问层，用于web接入/反向代理/负载均衡</li>
+<li>网关层，用于业务api</li>
+<li>服务层，具备服务治理/调度/异步通信等</li>
+<li>存储层(存储接入层/存储层)，用于提供透明的存储结构的访问代理和数据落地能力</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="访问层"><a href="#访问层" class="headerlink" title="访问层"></a>访问层</h3><ul>
+<li>lvs<ul>
+<li>采用ip负载均衡技术和基于内容请求分发技术做的负载均衡</li>
+<li>概念<ul>
+<li>CIP clientIP</li>
+<li>DIP directorIP</li>
+<li>RIP realServerIP</li>
+</ul>
+</li>
+<li>模式<ul>
+<li>NAT<ul>
+<li>networkAddressTranslation网络地址转换</li>
+<li>CIP-&gt;DIP-&gt;RIP-&gt;DIP-&gt;CIP(lvs两次SNAT/DNAT)</li>
+<li>进出流量都走lvs,部署和配置比较简单，但lvs始终要维护两端的socket连接,可能会成为瓶颈</li>
+</ul>
+</li>
+<li>DR<ul>
+<li>directRouting直接路由</li>
+<li>CIP-&gt;DIP-&gt;RIP-&gt;CIP(要修改DIP-&gt;RIP时的mac地址)</li>
+<li>响应流量不走lvs,减少lvs始终维护两端socket的性能开销,但要求DIP和RIP要在同一机房</li>
+<li>通常使用此模式，在同一机房也会有很高的性能</li>
+</ul>
+</li>
+<li>TUN<ul>
+<li>tunneling隧道</li>
+<li>CIP-&gt;DIP-&gt;RIP-&gt;CIP(在DIP发送到RIP时做了二次封装,RIP拿到包后要二次解析)</li>
+<li>响应流量不走lvs,同时DIP和RIP也不一定要在同一机房,但要求RS必须支持隧道模式即要二次解析IP包</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>调度策略<ul>
+<li>轮询/权重轮询</li>
+<li>最少连接/权重最少连接</li>
+<li>ip_hash/ip_hash_group/url_hash/url_hash_group…</li>
+</ul>
+</li>
+<li>优势<ul>
+<li>ip层的负载均衡,没有应用层回调的消耗，性能高</li>
+<li>通过DR/TUN模式使响应不走lvs</li>
+<li>支持后端心跳检测,自动故障转移恢复</li>
+<li>配合主从keepAlive和VIP实现自身高可用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>nginx<ul>
+<li>功能<ul>
+<li>请求解析(http/https)</li>
+<li>负载均衡(应用层)</li>
+<li>缓存调度</li>
+<li>授权认证</li>
+<li>接入处理(过滤非法请求)</li>
+<li>业务逻辑</li>
+<li>响应处理</li>
+<li>压缩技术</li>
+</ul>
+</li>
+<li>职责分类<ul>
+<li>接入层nginx</li>
+<li>应用层nginx(缓存调度/业务逻辑/限流降级)</li>
+</ul>
+</li>
+<li>高性能原因<ul>
+<li>master-worker进程模型<ul>
+<li>master进程系统调用<ul>
+<li>socket()</li>
+<li>bind()</li>
+<li>listen()</li>
+<li>fork()</li>
+</ul>
+</li>
+<li>worker进程系统调用<ul>
+<li>accept()</li>
+<li>recv()</li>
+<li>send()</li>
+<li>close()</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>异步模型<ul>
+<li>select(缺点:只能并发1024个请求/低效的遍历性能消耗)</li>
+<li>epoll(linux2.6后实现的事件机制,解决了上面2个问题)</li>
+</ul>
+</li>
+<li>流式处理请求workflow,有主子请求</li>
+<li>协程机制解决worker上不能有阻塞操作<ul>
+<li>协程<ul>
+<li>栈/局部变量在用户空间模拟，切换开销小</li>
+<li>协程间是协作关系</li>
+<li>临界区不需要加锁</li>
+<li>遇到阻塞主动放弃切换</li>
+</ul>
+</li>
+<li>线程<ul>
+<li>栈/局部变量是内核空间的映射，切换开销大</li>
+<li>多线程并发运行是竞争cpu关系</li>
+<li>临界区需要同步加锁</li>
+<li>遇到阻塞进入等待cpu切换</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>nginx lua</li>
+</ul>
+</li>
+<li>具体应用<ul>
+<li>负载均衡<ul>
+<li>upstream</li>
+<li>proxy_pass</li>
+</ul>
+</li>
+<li>代理缓存(先要有后端的代理才能使用代理缓存)<ul>
+<li>proxy_cache_path PATH levels=1:2 keys_zone=NAME:100m inactive=7d max_size=100g;<ul>
+<li>把缓存文件放在PATH中</li>
+<li>levels=1:2 缓存文件目录层级和目录名称长度</li>
+<li>keys_zone 指定了一个内存空间，并设置大小来缓存key与缓存文件目录的映射关系</li>
+<li>inactive=7d 缓存文件7天后失效淘汰</li>
+<li>max_size=100g 缓存文件总大小超过100g后释放淘汰</li>
+</ul>
+</li>
+<li>使用<ul>
+<li>proxy_cache NAME; # 使用缓存空间</li>
+<li>proxy_cache_valid 200 206 302 304 10d; # 后端返回以下响应码时缓存多久</li>
+<li>proxy_cache_key $uri; # 一般使用$uri作为缓存的key;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="网关层"><a href="#网关层" class="headerlink" title="网关层"></a>网关层</h3><ul>
+<li>分布式会话管理<ul>
+<li>会话机制<ul>
+<li>session<ul>
+<li>通过判断SID里是否包含用户信息判定用户是否登陆</li>
+<li>依赖后端的session容器和前端的cookie，无法解决cookie跨域和禁用的问题</li>
+</ul>
+</li>
+<li>cookie<ul>
+<li>后端验证用户信息后将凭证做数字签名，加密后写入cookie的ticket，验证时取出ticket解密判断</li>
+<li>不依赖后端session容器但也没有解决cookie跨域和禁用的问题</li>
+</ul>
+</li>
+<li>token<ul>
+<li>后端验证用户信息后将凭证做数字签名，加密后写入token返回前端，前端请求时参数或header中携带token</li>
+<li>不依赖cookie，但需要请求时携带token</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>安全问题<ul>
+<li>cookie被劫持，xss/csrf安全攻击</li>
+<li>token凭证被劫持，伪造</li>
+</ul>
+</li>
+<li>解决方式<ul>
+<li>https</li>
+<li>风控系统主动失效及过期机制</li>
+</ul>
+</li>
+<li>分布式会话管理<ul>
+<li>登陆凭证放入集中的会话管理redis/memcached</li>
+<li>对应session的处理机制要重写</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>接入层控制<ul>
+<li>控制内容<ul>
+<li>身份验证<ul>
+<li>通过会话管理获取用户登陆凭证</li>
+<li>通过用户凭证获取用户信息</li>
+<li>验证对应的url/资源是否可以被用户访问</li>
+</ul>
+</li>
+<li>流量控制<ul>
+<li>对应url流量是否可以被承载否则限流(filter的pre/post进行计数即可实现)</li>
+<li>对应服务分级的流量是否被承载</li>
+<li>对应整个系统的总流量是否被承载</li>
+</ul>
+</li>
+<li>路由服务<ul>
+<li>根据url规则找到对应的服务</li>
+<li>判断服务的状态，做服务路由调用</li>
+</ul>
+</li>
+<li>记录调试或统计信息</li>
+</ul>
+</li>
+<li>通过接入层框架的通用的filter功能实现<ul>
+<li>javaServletFilter</li>
+<li>springMVCHandlerInterceptor</li>
+<li>zuulFilter</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>服务调用及聚合<ul>
+<li>如果需要多个后端服务调用则需要在网关层这里做聚合</li>
+<li>分类<ul>
+<li>重接入<ul>
+<li>springMVC+dubbo</li>
+<li>优点：可灵活的在controller层处理业务逻辑，聚合服务</li>
+<li>缺点：服务的单一性不够，后端服务不便管理</li>
+</ul>
+</li>
+<li>轻接入<ul>
+<li>zuul</li>
+<li>优点：服务单一，接入控制可以页面配置</li>
+<li>缺点：聚合能力不够，需要后端提供</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="核心服务层之服务通信"><a href="#核心服务层之服务通信" class="headerlink" title="核心服务层之服务通信"></a>核心服务层之服务通信</h3><ul>
+<li>微服务<ul>
+<li>传统服务缺点<ul>
+<li>所有服务耦合在一起</li>
+<li>隔离型弱，互相影响</li>
+<li>部署臃肿</li>
+<li>开发维护困难</li>
+</ul>
+</li>
+<li>微服务<ul>
+<li>特性<ul>
+<li>高内聚,低耦合,专注自己的核心业务</li>
+<li>隔离型强,不会相互影响(进程上)</li>
+<li>轻量的通信机制</li>
+<li>独立开发,单独部署</li>
+</ul>
+</li>
+<li>需要解决的问题<ul>
+<li>服务治理(服务注册和发现,负载均衡和智能容错,服务监控和健康管理,限流降级熔断)</li>
+<li>数据一致性</li>
+<li>调用性能</li>
+<li>研发流程调试,部署,测试</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>dubbo服务治理<ul>
+<li>来解决微服务服务治理的轻量级开源javaRPC框架</li>
+<li>核心能力<ul>
+<li>面向接口的远程方法调用</li>
+<li>服务自动注册和发现</li>
+<li>负载均衡和智能容错</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>异步消息服务<ul>
+<li>分类<ul>
+<li>JMS(apacheActiveMQ)</li>
+<li>Kafka(流式处理)</li>
+<li>RocketMQ(alibaba基于Kafka开发的分布式一致性服务)</li>
+</ul>
+</li>
+<li>JMS<ul>
+<li>javaMessageService</li>
+<li>特点<ul>
+<li>点对点(每个消息都被发送到特定的队列,接收者从队列中顺序消费,队列保留着消息直到被消费或超时)</li>
+<li>发布订阅(客户端将消息发到主题,消息队列存放主题,订阅者消费主题)</li>
+</ul>
+</li>
+<li>activeMQ缺点<ul>
+<li>以消息为单位,为保证消息稳定性需要落盘,但可能落盘时不连续,磁盘寻值有性能问题</li>
+<li>消费时是推模式,对consumer的线程压力非常大</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Kafka<ul>
+<li>默认支持点对点，但不常用，常用发布订阅</li>
+<li>客户端将消息发到主题,消息队列存放主题,订阅者消费主题,消息持久化到队尾,消费通过客户端指针,吞吐量高</li>
+<li>比activeMQ优点<ul>
+<li>引入broker概念把相同topic的消息连续的落到同一个文件,保证磁盘IO性能</li>
+<li>消费时是拉模式,根据consumer性能决定消费速度</li>
+<li>引入了nameServer类似zookeeper的组件和队列/失败重试队列来保证消息稳定可靠</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>RocketMQ<ul>
+<li>结合了Kafka和ActiveMQ的优点,把Kafka很多的api封装成类似ActiveMQ简单易用</li>
+<li>消息队列维护高可用,并支持事务回溯机制(增加了prepare队列)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="核心服务层之调度-池化"><a href="#核心服务层之调度-池化" class="headerlink" title="核心服务层之调度/池化"></a>核心服务层之调度/池化</h3><ul>
+<li>任务调度<ul>
+<li>应用场景<ul>
+<li>业务跑批轮询等待处理</li>
+<li>失败的异常重试</li>
+<li>定时任务处理</li>
+</ul>
+</li>
+<li>单机实现方式<ul>
+<li>Timer定时器机制<ul>
+<li>java自带，比较简单</li>
+<li>所有任务都在同一个线程中串行执行，同一时间只能执行一个任务，不适合多线程并发多任务</li>
+</ul>
+</li>
+<li>ScheduledExecutor<ul>
+<li>内置了线程池，解决Timer单线程的问题</li>
+<li>任务数不能超过线程池数，否则也会相互影响</li>
+</ul>
+</li>
+<li>Quartz<ul>
+<li>包含任务JobDetail类和调度Trigger类</li>
+<li>定时检测到任务后Job会在线程池中申请线程执行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>分布式调度方式及实现<ul>
+<li>Quartz分布式版本<ul>
+<li>部署机器的时间一致</li>
+<li>部署的代码一致</li>
+<li>需要中间层同步竞争锁(数据库)</li>
+</ul>
+</li>
+<li>Elasticsearch-Job分片分布式<ul>
+<li>借鉴了竞争锁的机制,不过使用zookeeper实现</li>
+<li>自己实现了任务是否分片，解决大job问题</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>池化技术<ul>
+<li>通过复用减少系统消耗，提升系统性能</li>
+<li>分类<ul>
+<li>对象池<ul>
+<li>利用复用对象减少创建对象/垃圾回收的开销</li>
+<li>例如线程池通过复用线程提升性能</li>
+</ul>
+</li>
+<li>连接池<ul>
+<li>数据库连接池/redis连接池/http连接池</li>
+<li>通过复用tcp连接减少创建和释放连接的时间</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实战<ul>
+<li>java线程池<ul>
+<li>核心/最小线程数大小(任务进来后首选核心线程)</li>
+<li>等待队列长度(核心线程都busy时新进的任务进等待队列)</li>
+<li>最大线程数大小(等待队列也满了又有新进的任务则开启新线程,等待队列出对执行)</li>
+<li>拒绝策略(达到最大线程后又有新进的任务则会按拒绝策略执行,分为被动等待或直接报错)</li>
+<li>idle等待时间(弹性线程空闲等待时间后会回收)</li>
+</ul>
+</li>
+<li>连接池(数据库/redis/httpClient)<ul>
+<li>连接状态<ul>
+<li>init</li>
+<li>connect</li>
+<li>busy</li>
+<li>close</li>
+</ul>
+</li>
+<li>核心连接数</li>
+<li>最大连接数</li>
+<li>连接等待时间(tcp/ip建连时间)</li>
+<li>数据读取时间</li>
+<li>idle等待时间(弹性连接空闲等待时间后会释放)</li>
+<li>validate<ul>
+<li>获取连接时</li>
+<li>使用连接时(常用)</li>
+<li>释放连接时</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>tomcat线程/连接池<ul>
+<li>客户端连接池</li>
+<li>io线程池</li>
+<li>worker线程池</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="核心服务层之缓存-隔离-队列"><a href="#核心服务层之缓存-隔离-队列" class="headerlink" title="核心服务层之缓存/隔离/队列"></a>核心服务层之缓存/隔离/队列</h3><ul>
+<li>缓存<ul>
+<li>设计原则<ul>
+<li>存储设备读写速度最快(cpu/内存)</li>
+<li>数据离应用最近(业务服务器/局域网/机房)</li>
+<li>数据离用户最近(app/CDN/nginx缓存/api网关/核心业务redis)</li>
+</ul>
+</li>
+<li>分类<ul>
+<li>CDN缓存</li>
+<li>反向代理缓存 nginxProxyCache</li>
+<li>分布式缓存 redis</li>
+<li>本地应用缓存 JVM Guava</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>隔离<ul>
+<li>硬件隔离(虚拟机)</li>
+<li>操作系统隔离(容器虚拟化)</li>
+<li>进程隔离(系统拆分)</li>
+<li>线程隔离(线程池独立)</li>
+<li>读写隔离</li>
+<li>动静隔离</li>
+<li>冷热隔离(热点账户/热点数据)</li>
+</ul>
+</li>
+<li>队列<ul>
+<li>先进先出的线性表</li>
+<li>用途<ul>
+<li>异步处理</li>
+<li>系统解耦</li>
+<li>流量削峰<ul>
+<li>排队有时候会比并发效率更高</li>
+<li>排队可以控制并发流量开关/大小</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据存储层"><a href="#数据存储层" class="headerlink" title="数据存储层"></a>数据存储层</h3><ul>
+<li>数据存储<ul>
+<li>分类<ul>
+<li>传统IT<ul>
+<li>excel提供简单的关系存储</li>
+<li>磁盘提供文件存储</li>
+<li>sql数据库提供关系型存储</li>
+</ul>
+</li>
+<li>互联网行业<ul>
+<li>分布式存储需要无限可扩展的网络文件系统</li>
+<li>关系型数据库需要提供事务一致性的保证</li>
+<li>非关系型数据库需要提供更高性能的简化存储</li>
+<li>磁盘和内存需要性能和稳定中间权衡</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>数据结构<ul>
+<li>结构化数据(表,有完备的模式)</li>
+<li>非结构化数据(音视频文件等)</li>
+<li>半结构化数据(xml表示简历格式)</li>
+</ul>
+</li>
+<li>数据库结构<ul>
+<li>关系型数据库</li>
+<li>非关系型数据库</li>
+</ul>
+</li>
+<li>选型<ul>
+<li>非结构化数据选择网络文件系统/网络磁盘</li>
+<li>结构化数据根据是否需要SQL和关系事务的支持<ul>
+<li>关系型数据库</li>
+<li>非关系型数据库(磁盘非关系/内存非关系)</li>
+</ul>
+</li>
+<li>半结构化数据<ul>
+<li>首先使用XML或JSON等可扩展的结构化数据进行描述</li>
+<li>然后根据是否落地选择非关系型数据库</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>常用<ul>
+<li>NAS <ul>
+<li>network attached storage网络附属存储</li>
+<li>网络文件系统,基底层设备,提供文件磁盘</li>
+<li>有cpu/内存/网络接入端口/磁盘插槽</li>
+</ul>
+</li>
+<li>OSS<ul>
+<li>object storage service</li>
+<li>基于bucket管理网络文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>关系型与非关系型<ul>
+<li>关系型数据库mysql<ul>
+<li>关系型存储格式,如表</li>
+<li>非主键字段依赖索引提高查询速度,查询需要快照和锁机制</li>
+<li>事务保障效率高<ul>
+<li>set autocommit=0;</li>
+<li>begin;</li>
+<li>SQL;</li>
+<li>commit;</li>
+</ul>
+</li>
+<li>可以使用join进行复杂查询</li>
+</ul>
+</li>
+<li>非关系型数据库mongoDB<ul>
+<li>kv存储格式</li>
+<li>通常使用k查询,对应关系型的主键,比索引更快,大多使用单线程存储,无需锁</li>
+<li>没有事务的概念</li>
+<li>对复杂查询的能力较弱但场景也比较少</li>
+<li>mongoDB<ul>
+<li>是非关系型数据库中功能最丰富,最像关系型数据库的非关系型数据库</li>
+<li>数据结构非常松散,类似JSON的BSON格式</li>
+<li>db.NAME.find().pretty()/insert()/update()/remove()/createIndex()/sort()/limit()/skip()</li>
+</ul>
+</li>
+<li>redis<ul>
+<li>用作数据库/高速缓存/消息队列代理</li>
+<li>支持字符串/哈希表/列表/集合/有序集合/位图等数据类型</li>
+<li>内置复制/LRU淘汰回收/事务及不同级别的磁盘持久化功能</li>
+<li>通过Redis Sentinel提供高可用</li>
+<li>通过Redis Cluster提供自动分区</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>代理访问层<ul>
+<li>代理对象分类<ul>
+<li>nginx反向代理</li>
+<li>mycat代理mysql</li>
+<li>twemproxy代理redis/redis4自带的redisCluster也可支持代理</li>
+</ul>
+</li>
+<li>代理作用<ul>
+<li>集中收口</li>
+<li>负载均衡</li>
+<li>故障转移</li>
+<li>路由策略</li>
+<li>缓存策略</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="监控-限流-降级"><a href="#监控-限流-降级" class="headerlink" title="监控/限流/降级"></a>监控/限流/降级</h3><ul>
+<li>监控<ul>
+<li>指标<ul>
+<li>硬件(zabbix监控)<ul>
+<li>CpuIdleTime</li>
+<li>FreeMemory</li>
+<li>IOWait</li>
+<li>NetworkFree</li>
+</ul>
+</li>
+<li>软件(cat heartbeat监控)<ul>
+<li>CpuLoadAverage</li>
+<li>ParNewCount</li>
+<li>ParNewTime</li>
+<li>OldGCCount</li>
+<li>OldGCTime</li>
+</ul>
+</li>
+<li>接口(cat transaction监控)<ul>
+<li>url/dubbo failure times</li>
+<li>9X线(95%Line/99.9%Line/99.99%Line)</li>
+</ul>
+</li>
+<li>异常(cat exception监控)<ul>
+<li>ExceptionTimesAndContent</li>
+</ul>
+</li>
+<li>大盘(cat 大盘监控)<ul>
+<li>基线成功率</li>
+<li>基线失败率</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>限流<ul>
+<li>原因<ul>
+<li>流量远比能力大</li>
+<li>永远不知道对方会怎么样</li>
+<li>永远不知道自己会怎么样</li>
+</ul>
+</li>
+<li>维度<ul>
+<li>url(外部接口)</li>
+<li>dubbo接口(内部接口)</li>
+<li>sql操作数</li>
+</ul>
+</li>
+<li>内容<ul>
+<li>TPS/QPS</li>
+<li>限制并发数</li>
+<li>限制总数</li>
+</ul>
+</li>
+<li>算法原理<ul>
+<li>限制并发数(服务内以接口为单位设置并发总数锁,超过并发总数返回异常,达到限制并发的功能)</li>
+<li>令牌桶算法(以桶模拟对应的令牌池,定时器会根据TPS重置桶,达到限制TPS的功能)</li>
+<li>漏桶算法(以固定的速度流出流量,可以应对一定程度的突发流量,达到削峰填谷的功能)</li>
+</ul>
+</li>
+<li>实战<ul>
+<li>Guava的ratelimiter实现令牌桶</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>降级<ul>
+<li>保护系统正常运行,也要保证用户体验</li>
+<li>策略<ul>
+<li>关闭接口并设置默认返回</li>
+<li>降级逻辑</li>
+<li>主动降级</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2020/04/01/k8s/"><span>k8s</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/04/01/k8s/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-04-01T06:53:14.000Z">
+          2020-04-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h3><ul>
+<li>可扩展<ul>
+<li>CNI Container Network Interface</li>
+<li>CSI Container Storage Interface</li>
+<li>CRI Container Runtime Interface</li>
+</ul>
+</li>
+<li>整体架构<ul>
+<li>C/S<ul>
+<li>kubectl作为CLI操作server的master</li>
+<li>master调度编排node</li>
+<li>生产环境的master要部署多个以保证高可用</li>
+</ul>
+</li>
+<li>master<ul>
+<li>api-server</li>
+<li>controller-manager</li>
+<li>scheduler</li>
+<li>etcd</li>
+</ul>
+</li>
+<li>node<ul>
+<li>kubelet</li>
+<li>kube-proxy</li>
+<li>containerRuntime(docker)</li>
+<li>pod</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>快速部署<ul>
+<li>KIND(k8s in docker)</li>
+<li>Minikube<ul>
+<li>BIOS开启虚拟化</li>
+<li>OS安装虚拟机virtualBox</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="kubeadm生产可用部署"><a href="#kubeadm生产可用部署" class="headerlink" title="kubeadm生产可用部署"></a>kubeadm生产可用部署</h3><ul>
+<li>禁用swap<ul>
+<li>cat /proc/swap</li>
+<li>swapoff -a #关闭swap</li>
+<li>lsblk #查看设备属性，是否有swap</li>
+<li>vi /etc/fstab #注释和swap相关的设备</li>
+<li>free #查看是否还有swap</li>
+</ul>
+</li>
+<li>查看机器uuid和mac<ul>
+<li>cat /sys/class/dmi/id/product_uuid</li>
+<li>ip a</li>
+<li>确保全集群唯一</li>
+</ul>
+</li>
+<li>查看端口是否被占用<ul>
+<li>yum install -y net-tools</li>
+<li>netstat -tnlp | grep -E ‘6443|23[79,80]|1025[0,1,2]’</li>
+</ul>
+</li>
+<li>安装组件<ul>
+<li>kubeadm</li>
+<li>kubelet</li>
+<li>kubectl</li>
+</ul>
+</li>
+<li>配置kubelet由systemd管理<ul>
+<li>/etc/systemd/system/kubelet.service</li>
+<li>/etc/systemd/system/kubelet.service.d/kubadm.conf</li>
+<li>systemctl enable kubelet</li>
+</ul>
+</li>
+<li>安装前置依赖<ul>
+<li>CRI管理软件包cri-tools<ul>
+<li>crictl</li>
+<li>critest</li>
+</ul>
+</li>
+<li>socat<ul>
+<li>实现端口转发</li>
+<li>yum install -y socat</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>初始化<ul>
+<li>kubeadm config images pull</li>
+<li>或k8s.gcr.io改为registry.aliyuncs.com/google_containers，docker pull下来后再改tag</li>
+<li>kubeadm init</li>
+<li>kubeadm join</li>
+</ul>
+</li>
+<li>配置kubectl<ul>
+<li>mkdir -p $HOME/.kube</li>
+<li>cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</li>
+<li>chown $(id -u):$(id -g) $HOME/.kube/config</li>
+</ul>
+</li>
+<li>验证<ul>
+<li>kubectl cluster-info</li>
+<li>kubectl get nodes</li>
+</ul>
+</li>
+<li>配置网络<ul>
+<li>sysctl net.bridge.bridge-nf-call-iptables=1</li>
+<li>flannel需要kubeadm init时传递 –pod-network-cidr=10.244.0.0/16</li>
+<li>重置kubeadm reset</li>
+<li>kubectl apply -f config.yaml</li>
+<li>kubectl get pods –all-namespaces</li>
+</ul>
+</li>
+</ul>
+<h3 id="kubectl"><a href="#kubectl" class="headerlink" title="kubectl"></a>kubectl</h3><ul>
+<li>kubectl options</li>
+<li>kubectl [flags] [options]</li>
+<li>$HOME/.kube/config<ul>
+<li>集群api地址</li>
+<li>用于认证的证书地址</li>
+</ul>
+</li>
+<li>kubectl get nodes -o yaml</li>
+<li>kubectl get all</li>
+<li>kubectl api-resources</li>
+<li>kubectl explain </li>
+<li>kubectl run NAME –image=image</li>
+<li>kubectl expose deploy/redis –port 6379 –protocol=TCP –target-port=6379 –name=redis-server –type=ClusterIP｜NodePort</li>
+<li>kubectl port-forward  svc/redis-server 6379:6379 #把内部ClusterIP的svc暴露外部访问</li>
+<li>kubectl scale deploy/redis –replicas=3</li>
+</ul>
+<h3 id="核心对象"><a href="#核心对象" class="headerlink" title="核心对象"></a>核心对象</h3><ul>
+<li>Pod</li>
+<li>Deployment</li>
+<li>ReplicaSet</li>
+<li>Service<ul>
+<li>ClusterIP 默认的service类型，仅集群内可访问的虚拟IP</li>
+<li>NodePort 在node上绑定固定port(port范围在service-node-port-range配置，默认30000-32767)可以通过nodeIP:nodePort访问服务</li>
+<li>LoadBalancer 通过云供应商CloudProvider创建一个外部负载均衡器，自动创建所需的nodePort或ClusterIP</li>
+<li>ExternalName 通过将服务由DNS CNAME转发到指定的域名，需要kube-dns支持</li>
+</ul>
+</li>
+</ul>
+<h3 id="认证与授权"><a href="#认证与授权" class="headerlink" title="认证与授权"></a>认证与授权</h3><ul>
+<li>api安全保证<ul>
+<li>Authentication 识别用户身份认证</li>
+<li>Authorization 控制用户对资源访问的授权</li>
+<li>AdmissionControl 资源管理的准入控制</li>
+</ul>
+</li>
+<li>跳过安全保证<ul>
+<li>kubectl proxy可以直接通过http访问服务</li>
+<li>直接访问kube-apiserver上启动服务时配置的insecure-port默认8080</li>
+</ul>
+</li>
+<li>k8s用户<ul>
+<li>一般用户<ul>
+<li>只能通过外部服务管理</li>
+<li>无法通过api添加到集群</li>
+</ul>
+</li>
+<li>serviceAccount<ul>
+<li>由k8sApi管理的用户，与特定的namespace绑定</li>
+<li>会自动挂到pod容器中的/var/run/secrets/kubernetes.io/serviceaccount/目录中，其中包含namespace,token等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>k8sApi操作<ul>
+<li>与serviceAccount相关</li>
+<li>匿名请求<ul>
+<li>kube-apiserver的–anonymous-auth参数控制是否开启，默认开启</li>
+<li>匿名用户默认的用户名 system:anonymous</li>
+<li>匿名用户默认的所属组 system:unauthenticated</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>认证机制<ul>
+<li>X509客户端证书<ul>
+<li>默认/etc/kubernetes/pki/ca.crt</li>
+<li>认证时使用证书subject的CN(common name)域作为用户名，O(organization)域作为组名</li>
+</ul>
+</li>
+<li>引导token<ul>
+<li>kubeadm init后会显示token</li>
+<li>非kubeadm需要设置 enable-bootstrap-token-auth=true</li>
+</ul>
+</li>
+<li>静态token文件<ul>
+<li>启动kube-apiserver时配置–token-auth-file=FILE</li>
+<li>请求时加上 Authorization: Bearer TOKEN请求头</li>
+</ul>
+</li>
+<li>静态密码文件<ul>
+<li>启动kube-apiserver时配置–basic-auth-file=FILe</li>
+<li>请求时加上 Authorization: Basic BASE64ENCODED(USER:PASS)</li>
+</ul>
+</li>
+<li>serviceAccountToken</li>
+<li>OpenID:提供了OAuth2的认证支持,云厂商也支持</li>
+<li>认证代理:配合身份验证代理进行使用,比如提供通用的授权网关</li>
+<li>webhook:提供webhook配合远端服务器使用</li>
+</ul>
+</li>
+<li>授权机制<ul>
+<li>支持多种授权机制<ul>
+<li>ABAC(attribute-based access control) 基于属性的访问控制</li>
+<li>RBAC(role-based access control) 基于角色的访问控制，类似mongoDB</li>
+<li>Node 特殊的授权机制，专门用于kubelet发出的api请求做授权验证</li>
+<li>Webhook 使用外部服务进行</li>
+<li>AlwaysAllow 允许全部，这个是默认配置</li>
+<li>AlwaysDeny 禁止全部，通常用于测试</li>
+</ul>
+</li>
+<li>默认的授权都是拒绝</li>
+<li>当某种授权拒绝或通过后便会返回，不再请求其他授权机制</li>
+<li>当所有授权机制都未通过便返回403</li>
+</ul>
+</li>
+<li>角色<ul>
+<li>分类<ul>
+<li>Role 一组权限的集合，但被限制在namespace内</li>
+<li>ClusterRole 对于集群级别的资源是不被namespace限制的，并且还有一些非资源类的请求</li>
+</ul>
+</li>
+<li>绑定<ul>
+<li>rolebinding</li>
+<li>clusterrolebinding</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>查看kubectl用户权限<ul>
+<li>kubectl config current-context</li>
+<li>kubectl config view users -o yaml</li>
+<li>kubectl config view users –raw -o jsonpath=’{ .users[?(@.name == “kubernetes-admin”)].user.client-certificate-data}’ |base64 -d  #显示证书内容</li>
+<li>kubectl config view users –raw -o jsonpath=’{ .users[?(@.name == “kubernetes-admin”)].user.client-certificate-data}’ |base64 -d |openssl x509 -text -noout #显示证书</li>
+</ul>
+</li>
+<li>实践：创建权限可控的用户<ul>
+<li>创建ns<ul>
+<li>kubectl create namespace work</li>
+</ul>
+</li>
+<li>创建用户<ul>
+<li>mkdir work &amp;&amp; cd work</li>
+<li>openssl genrsa -out backend.key 2048 #创建私钥</li>
+<li>openssl req -new -key backend.key -out backend.csr -subj “/CN=backend/O=dev” #生成csr</li>
+<li>openssl x509 -req -in backend.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out backend.crt -days 365 #CA签名</li>
+<li>openssl x509 -in backend.crt -text -noout #查看证书文件，观察subject的CN和O</li>
+</ul>
+</li>
+<li>添加context<ul>
+<li>kubectl config set-credentials backend –client-certificate=/root/work/backend.crt –client-key=/root/work/backend.key #添加用户</li>
+<li>kubectl config set-context backend-context –cluter=kubernetes –namespace=work –user=backend #创建context</li>
+</ul>
+</li>
+<li>测试访问<ul>
+<li>kubectl –context=backend-context get pods -n work -v 5</li>
+</ul>
+</li>
+<li>创建role和rolebinding<ul>
+<li>kubectl create -f backend-role.yaml</li>
+<li>kubectl get roles -n work -o yaml</li>
+<li>kubectl create -f backend-rolebinding.yaml</li>
+<li>kubectl get rolebinding -n work -o yaml</li>
+</ul>
+</li>
+<li>测试用户权限<ul>
+<li>kubectl –context=backend-context get pods -n work -v 5</li>
+<li>kubectl –context=backend-context get deploy -n work</li>
+<li>kubectl –context=backend-context get ns</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># backend-role.yaml</span><br><span class="line">kind: Role</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">metadata:</span><br><span class="line">  namespace: work</span><br><span class="line">  name: backend-role</span><br><span class="line">rules:</span><br><span class="line">- apiGroups: [&quot;&quot;]</span><br><span class="line">  resources: [&quot;pods&quot;]</span><br><span class="line">  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># backend-rolebinding.yaml</span><br><span class="line">kind: RoleBinding</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">metadata:</span><br><span class="line">  name: backend-rolebinding          </span><br><span class="line">  namespace: work</span><br><span class="line">subjects:      </span><br><span class="line">- kind: User</span><br><span class="line">  name: backend</span><br><span class="line">  apiGroup: &quot;&quot;     </span><br><span class="line">roleRef:    </span><br><span class="line">  kind: Role </span><br><span class="line">  name: backend-role</span><br><span class="line">  apiGroup: &quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>k8s内置调试/验证机制<ul>
+<li>kubectl auth can-i list pods -n work –as=”backend”</li>
+<li>kubectl auth can-i list deploy -n work –as=”backend”</li>
+<li>也可以使用~/.kube/config中的配置进行调试</li>
+</ul>
+</li>
+</ul>
+<h3 id="实战发布"><a href="#实战发布" class="headerlink" title="实战发布"></a>实战发布</h3><ul>
+<li>vi Dockerfile</li>
+<li>vi .dockerignore</li>
+<li>docker build -t repo/name:tag .</li>
+<li>docker login / $HOME/.docker/config.json</li>
+<li>docker push repo/name:tag</li>
+<li>docker-compose发布<ul>
+<li>vi docker-compose.yaml</li>
+<li>docker-compose up</li>
+<li>docker-compose ps</li>
+</ul>
+</li>
+<li>k8s发布<ul>
+<li>交互方式<ul>
+<li>命令式 kubectl run redis –image=’’</li>
+<li>命令式对象配置 kubectl create -f </li>
+<li>声明式对象配置 kubectl apply -f</li>
+</ul>
+</li>
+<li>vi namespace.yaml &amp;&amp; kubectl apply -f namespace.yaml</li>
+<li>vi redis-deployment.yaml &amp;&amp; kubectl apply -f redis-deployment.yaml</li>
+<li>kubectl -n work get all</li>
+<li>kubectl -n work exec -it HASH bash &amp;&amp; redis-cli</li>
+<li>vi redis-service.yaml &amp;&amp; kubectl apply -f redis-service.yaml</li>
+<li>kubectl -n work get svc</li>
+<li>vi backend-deployment.yaml &amp;&amp; kubectl apply -f backend-deployment.yaml</li>
+<li>vi backend-svc.yaml &amp;&amp; kubectl apply -f backend-svc.yaml</li>
+<li>vi fe-deployment.yaml &amp;&amp; kubectl apply -f fe-deployment.yaml</li>
+<li>vi fe-svc.yaml &amp;&amp; kubectl apply -f fe-svc.yaml</li>
+</ul>
+</li>
+</ul>
+<h3 id="helm"><a href="#helm" class="headerlink" title="helm"></a>helm</h3><ul>
+<li>helm是k8s的包管理器，类比yum/apt/homebrew/pip</li>
+<li>简化包分发/安装/版本管理等操作流程</li>
+<li>CS架构<ul>
+<li>客户端helm</li>
+<li>服务端tiller</li>
+</ul>
+</li>
+<li>helm<ul>
+<li>helm version</li>
+<li>默认会读取$HOME/.kube/config 中的集群地址</li>
+</ul>
+</li>
+<li>tiller<ul>
+<li>直接执行tiller默认启动44134(和helm通信)和44135(用于探活)端口的服务</li>
+<li>使用客户端连接tiller时要设置HELM_HOST环境变量(44134服务)</li>
+<li>确保$HOME/.kube/config正确配置</li>
+</ul>
+</li>
+<li>默认安装<ul>
+<li>helm init [–tiller-image 国内tiller镜像]</li>
+<li>会在k8s集群中部署tiller和初始化helm的默认目录$HELM_HOME默认$HOME/.helm</li>
+<li>默认会生成kube-system命名空间下的tiller-deploy</li>
+</ul>
+</li>
+<li>核心概念<ul>
+<li>chart<ul>
+<li>helm所管理的包，类似yum的rpm</li>
+<li>包含应用要部署到集群上必须的所有资源</li>
+</ul>
+</li>
+<li>release<ul>
+<li>chart在集群部署后的实例</li>
+<li>chart每次部署都会产生一次release</li>
+</ul>
+</li>
+<li>repository<ul>
+<li>存储chart的仓库</li>
+<li>默认情况下helm初始化时有2个仓库:stable和local</li>
+</ul>
+</li>
+<li>config<ul>
+<li>部署时可以自定义的配置</li>
+<li>真正执行部署时会把config和chart进行合并</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>工作原理<ul>
+<li>helm通过gRPC将chart发送至tiller</li>
+<li>tiller通过内置的k8s客户端库与api-server交互，默认采用ClusterIP的service部署chart，通过socat端口转发数据</li>
+<li>生成release用于管理</li>
+</ul>
+</li>
+<li>实践<ul>
+<li>helm create name</li>
+<li>tree -a name<ul>
+<li>Chart.yaml</li>
+<li>charts</li>
+<li>.helmignore</li>
+<li>templates<ul>
+<li>Notes.txt #在helm install完成后会回显，用于使用说明</li>
+</ul>
+</li>
+<li>values.yaml</li>
+</ul>
+</li>
+<li>helm package name </li>
+<li>helm install name|path-to-name-version.tgz</li>
+</ul>
+</li>
+</ul>
+<h3 id="kube-apiserver"><a href="#kube-apiserver" class="headerlink" title="kube-apiserver"></a>kube-apiserver</h3><ul>
+<li>整个集群的统一入口</li>
+<li>默认6443端口，可通过–secure-port配置</li>
+<li>也可配置–insecure-port，通过这个端口访问无需认证，生产环境应该配置为0以禁用此功能</li>
+<li>kubectl version -v 8 #8是指logLevel</li>
+<li>curl -k <a href="https://172.17.0.99:6443/version" target="_blank" rel="noopener">https://172.17.0.99:6443/version</a></li>
+<li>kubectl proxy &amp; # 使用KUBECONFIG中的配置在本地和集群之间创建一个代理</li>
+<li>核心功能<ul>
+<li>认证</li>
+<li>授权</li>
+<li>准入控制(默认开启以下插件)<ul>
+<li>NamespaceLifecycle<ul>
+<li>保证正在终止的namespace不允许创建对象</li>
+<li>不允许请求不存在的namespace</li>
+<li>保证default和kube-system的namespace不被删除</li>
+</ul>
+</li>
+<li>LimitRanger 为pod设置默认请求资源的限制</li>
+<li>ServiceAccount 可按预设规则创建sa</li>
+<li>DefaultStorageClass 为PVC设置默认StorageClass</li>
+<li>DefaultTolerationSeconds 设置pod默认的forgiveness toleration为5分钟</li>
+<li>ResourceQuota 限制pod请求配额</li>
+<li>AllwaysPullImages 总是拉取镜像</li>
+<li>AllwaysAdmit 总是接受所有请求</li>
+</ul>
+</li>
+<li>CRUD处理</li>
+</ul>
+</li>
+</ul>
+<h3 id="etcd"><a href="#etcd" class="headerlink" title="etcd"></a>etcd</h3><ul>
+<li>概述<ul>
+<li>分布式，高可用，强一致的键值存储，还有监听机制</li>
+<li>go语言编写</li>
+<li>Raft协议作为一致性算法，需要部署奇数个节点3，5，7</li>
+<li>常用于分布式系统中的服务注册发现或存储系统的关键数据</li>
+</ul>
+</li>
+<li>操作<ul>
+<li>kubectl -n kube-system get pods ｜ grep etcd</li>
+<li>kubectl -n kube-system exec -it NAME sh</li>
+<li>ETCDCTL_API=3 etcdctl –key=/etc/kubernetes/pki/etcd/server.key  –cert=/etc/kubernetes/pki/etcd/server.crt  –cacert=/etc/kubernetes/pki/etcd/ca.crt member list</li>
+<li>ETCDCTL_API=3 etcdctl –key=/etc/kubernetes/pki/etcd/server.key  –cert=/etc/kubernetes/pki/etcd/server.crt  –cacert=/etc/kubernetes/pki/etcd/ca.crt get /registry –prefix –keys-only #集群元信息基本都是在/registry下</li>
+<li>ETCDCTL_API=3 etcdctl –key=/etc/kubernetes/pki/etcd/server.key  –cert=/etc/kubernetes/pki/etcd/server.crt  –cacert=/etc/kubernetes/pki/etcd/ca.crt get /registry/namespaces –prefix –keys-only #查看ns</li>
+<li>kubectl create  ns NAME #创建ns并再次查看</li>
+</ul>
+</li>
+</ul>
+<h3 id="controller-manager"><a href="#controller-manager" class="headerlink" title="controller-manager"></a>controller-manager</h3><ul>
+<li>实际包含2部分<ul>
+<li>kube-controller-manager 嵌入了k8s核心控制循环的守护进程</li>
+<li>cloud-controller-manager 为各云厂商提供抽象封装便于使用自己的provide</li>
+</ul>
+</li>
+<li>作用<ul>
+<li>通过apiserver提供的信息持续监控集群状态，并尝试将集群调整至预期状态</li>
+<li>通过默认的10252端口提供健康检查的/healthz和监控的/metrics接口</li>
+</ul>
+</li>
+</ul>
+<h3 id="kube-scheduler"><a href="#kube-scheduler" class="headerlink" title="kube-scheduler"></a>kube-scheduler</h3><ul>
+<li>集群调度器，将预期的pod资源调度到最佳的node上</li>
+<li>是一个策略丰富，拓扑感知的调度程序，显著影响可用性，性能和容量</li>
+<li>处理阶段<ul>
+<li>computing predicates 解决pod能否调度到node上的问题(pod亲和性/是否可调度等)</li>
+<li>prioritizing 解决上个阶段得到的nodes中哪个是最优的，得到一个优先级列表</li>
+<li>selecting host 最终选择pod调度到哪台node上</li>
+</ul>
+</li>
+</ul>
+<h3 id="kubelet"><a href="#kubelet" class="headerlink" title="kubelet"></a>kubelet</h3><ul>
+<li>负责node和pod的相关管理任务</li>
+<li>作用<ul>
+<li>node管理<ul>
+<li>向master注册node并上报机器信息</li>
+<li>可配置node上的maxPods数，健康检查机制，认证授权机制，驱逐策略等</li>
+<li>清理磁盘等工作</li>
+</ul>
+</li>
+<li>pod管理<ul>
+<li>接收scheduler的调度并确保pod按预期工作</li>
+<li>确保pod的健康检查(livenessProbe和readinessProbe)</li>
+<li>确保资源监控(cAdvisor)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="kube-proxy"><a href="#kube-proxy" class="headerlink" title="kube-proxy"></a>kube-proxy</h3><ul>
+<li>运行于node上的网络代理组件，提供了TCP/UDP的连接转发的支持</li>
+<li>查看svc后端具体pod的服务可以查看endpoints对象</li>
+<li>工作模式<ul>
+<li>userspace 效率不高不推荐</li>
+<li>iptables 默认，问题是给机器增加很多规则</li>
+<li>ipvs 为了解决iptables的性能问题而引入，采用增量方式更新</li>
+</ul>
+</li>
+</ul>
+<h3 id="containerRuntime-docker"><a href="#containerRuntime-docker" class="headerlink" title="containerRuntime(docker)"></a>containerRuntime(docker)</h3><ul>
+<li>k8s中的CRI即可支持kubelet使用不同的runtime，而不需要重新编译</li>
+<li>当前最广泛的使用就是docker</li>
+</ul>
+<h3 id="troubleshoot"><a href="#troubleshoot" class="headerlink" title="troubleshoot"></a>troubleshoot</h3><ul>
+<li>kubectl describe</li>
+<li>kubectl get events</li>
+<li>kubectl get endpoints #svc是通过endpoints来工作的，这里可以看到pod的端口等</li>
+<li>修复<ul>
+<li>版本控制yaml文件变更后重新apply</li>
+<li>kubectl edit #不推荐使用，不会保留历史</li>
+</ul>
+</li>
+</ul>
+<h3 id="dashboard"><a href="#dashboard" class="headerlink" title="dashboard"></a>dashboard</h3><ul>
+<li>kubectl apply -f dashboard.yaml</li>
+<li>访问<ul>
+<li>默认的部署方式svc使用了ClusterIP无法正常访问</li>
+<li>kubectl -n kube-system port-forward pod/NAME 8443 # 利用socat进行端口转发</li>
+<li>kubectl -n kube-system get serviceaccount -l k8s-app=kubernetes-dashboard -o yaml # 查找secrets</li>
+<li>kubectl -n kube-system describe secrets NAME # 通过secrets获取token</li>
+</ul>
+</li>
+<li>参考dashboard服务可以基于k8s开发云平台</li>
+</ul>
+<h3 id="coreDNS"><a href="#coreDNS" class="headerlink" title="coreDNS"></a>coreDNS</h3><ul>
+<li>是一个独立的DNS项目，可集成k8s，也可单独使用</li>
+<li>扩展性很强，很多功能都是通过插件完成<ul>
+<li>内置插件</li>
+<li>丰富的三方插件</li>
+</ul>
+</li>
+<li>验证<ul>
+<li>kubectl run alpine -it –rm –restart=’Never’ –image=’alpine’ sh</li>
+<li>apk add –no-cache bind-tools</li>
+<li>dig @PODIP SVCNAME.NS.svc.cluster.local +noall +answer</li>
+</ul>
+</li>
+<li>特性<ul>
+<li>coreDNS的解析是全局的，跨ns的，但不代表网络互通</li>
+<li>域名有特定的格式 SVCNAME.NS.svc.cluster.local</li>
+<li>使用configMap方式进行的配置，如果更改了配置需要重启pod才能生效 kubectl -n kube-system get cm coredns -o yaml</li>
+</ul>
+</li>
+</ul>
+<h3 id="ingress"><a href="#ingress" class="headerlink" title="ingress"></a>ingress</h3><ul>
+<li>kubectl explain ingress</li>
+<li>是一组允许外部请求进入集群的路由规则的集合，可以给svc提供集群外访问的url/ssl终止/负载均衡等</li>
+<li>起到了智能路由的角色，外部流量到达ingress，再由它按制定好的规则分发到不同的后端</li>
+<li>ingress与loadBalancer类型的svc区别<ul>
+<li>ingress不是一种svc类型</li>
+<li>ingress可以由多种控制器(实现方式)<ul>
+<li>nginxIngressController是使用cm存储nginx的配置实现的(支持会话保持和动态配置)</li>
+<li>google的GLBC</li>
+<li>第三方的实现<ul>
+<li>基于envoy的contour</li>
+<li>F5的F5 BIG-IPController</li>
+<li>基于haproxy的haproxy-ingress</li>
+<li>基于istio的traffic</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用<ul>
+<li>创建ns</li>
+<li>创建cm，主要是给controller使用</li>
+<li>创建Role/RoleBinding</li>
+<li>部署nginxIngressController</li>
+<li>检查 kubectl -n ingress-nginx get all</li>
+<li>将nginxIngressController暴露至集群外(这里选择nodePort方式创建svc)</li>
+<li>测试 curl NODE:PORT</li>
+<li>部署ingress</li>
+<li>测试 <ul>
+<li>kubectl -n work get ingress</li>
+<li>访问DOMAIN:暴露ingress时创建的svc的端口<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br></pre></td><td class="code"><pre><span class="line"># ns</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Namespace</span><br><span class="line">metadata:</span><br><span class="line">  name: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line"></span><br><span class="line"># cm</span><br><span class="line">kind: ConfigMap</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-configuration</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">kind: ConfigMap</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  name: tcp-services</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">kind: ConfigMap</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  name: udp-services</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"># Role/Rolebinding</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: ServiceAccount</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-serviceaccount</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1beta1</span><br><span class="line">kind: ClusterRole</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-clusterrole</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">rules:</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - configmaps</span><br><span class="line">      - endpoints</span><br><span class="line">      - nodes</span><br><span class="line">      - pods</span><br><span class="line">      - secrets</span><br><span class="line">    verbs:</span><br><span class="line">      - list</span><br><span class="line">      - watch</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - nodes</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - services</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">      - list</span><br><span class="line">      - watch</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;extensions&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - ingresses</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">      - list</span><br><span class="line">      - watch</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - events</span><br><span class="line">    verbs:</span><br><span class="line">      - create</span><br><span class="line">      - patch</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;extensions&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - ingresses/status</span><br><span class="line">    verbs:</span><br><span class="line">      - update</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1beta1</span><br><span class="line">kind: Role</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-role</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">rules:</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - configmaps</span><br><span class="line">      - pods</span><br><span class="line">      - secrets</span><br><span class="line">      - namespaces</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - configmaps</span><br><span class="line">    resourceNames:</span><br><span class="line">      - &quot;ingress-controller-leader-nginx&quot;</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">      - update</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - configmaps</span><br><span class="line">    verbs:</span><br><span class="line">      - create</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - endpoints</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1beta1</span><br><span class="line">kind: RoleBinding</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-role-nisa-binding</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">roleRef:</span><br><span class="line">  apiGroup: rbac.authorization.k8s.io</span><br><span class="line">  kind: Role</span><br><span class="line">  name: nginx-ingress-role</span><br><span class="line">subjects:</span><br><span class="line">  - kind: ServiceAccount</span><br><span class="line">    name: nginx-ingress-serviceaccount</span><br><span class="line">    namespace: ingress-nginx</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1beta1</span><br><span class="line">kind: ClusterRoleBinding</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-clusterrole-nisa-binding</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">roleRef:</span><br><span class="line">  apiGroup: rbac.authorization.k8s.io</span><br><span class="line">  kind: ClusterRole</span><br><span class="line">  name: nginx-ingress-clusterrole</span><br><span class="line">subjects:</span><br><span class="line">  - kind: ServiceAccount</span><br><span class="line">    name: nginx-ingress-serviceaccount</span><br><span class="line">    namespace: ingress-nginx</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"># nginxIngressController</span><br><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-controller</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app.kubernetes.io/name: ingress-nginx</span><br><span class="line">      app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app.kubernetes.io/name: ingress-nginx</span><br><span class="line">        app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">      annotations:</span><br><span class="line">        prometheus.io/port: &quot;10254&quot;</span><br><span class="line">        prometheus.io/scrape: &quot;true&quot;</span><br><span class="line">    spec:</span><br><span class="line">      serviceAccountName: nginx-ingress-serviceaccount</span><br><span class="line">      containers:</span><br><span class="line">        - name: nginx-ingress-controller</span><br><span class="line">          image: taobeier/nginx-ingress-controller:0.21.0</span><br><span class="line">          args:</span><br><span class="line">            - /nginx-ingress-controller</span><br><span class="line">            - --configmap=$(POD_NAMESPACE)/nginx-configuration</span><br><span class="line">            - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services</span><br><span class="line">            - --udp-services-configmap=$(POD_NAMESPACE)/udp-services</span><br><span class="line">            - --publish-service=$(POD_NAMESPACE)/ingress-nginx</span><br><span class="line">            - --annotations-prefix=nginx.ingress.kubernetes.io</span><br><span class="line">          securityContext:</span><br><span class="line">            capabilities:</span><br><span class="line">              drop:</span><br><span class="line">                - ALL</span><br><span class="line">              add:</span><br><span class="line">                - NET_BIND_SERVICE</span><br><span class="line">            # www-data -&gt; 33</span><br><span class="line">            runAsUser: 33</span><br><span class="line">          env:</span><br><span class="line">            - name: POD_NAME</span><br><span class="line">              valueFrom:</span><br><span class="line">                fieldRef:</span><br><span class="line">                  fieldPath: metadata.name</span><br><span class="line">            - name: POD_NAMESPACE</span><br><span class="line">              valueFrom:</span><br><span class="line">                fieldRef:</span><br><span class="line">                  fieldPath: metadata.namespace</span><br><span class="line">          ports:</span><br><span class="line">            - name: http</span><br><span class="line">              containerPort: 80</span><br><span class="line">            - name: https</span><br><span class="line">              containerPort: 443</span><br><span class="line">          livenessProbe:</span><br><span class="line">            failureThreshold: 3</span><br><span class="line">            httpGet:</span><br><span class="line">              path: /healthz</span><br><span class="line">              port: 10254</span><br><span class="line">              scheme: HTTP</span><br><span class="line">            initialDelaySeconds: 10</span><br><span class="line">            periodSeconds: 10</span><br><span class="line">            successThreshold: 1</span><br><span class="line">            timeoutSeconds: 1</span><br><span class="line">          readinessProbe:</span><br><span class="line">            failureThreshold: 3</span><br><span class="line">            httpGet:</span><br><span class="line">              path: /healthz</span><br><span class="line">              port: 10254</span><br><span class="line">              scheme: HTTP</span><br><span class="line">            periodSeconds: 10</span><br><span class="line">            successThreshold: 1</span><br><span class="line">            timeoutSeconds: 1</span><br><span class="line"></span><br><span class="line"># 暴露至集群外</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: ingress-nginx</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">spec:</span><br><span class="line">  type: NodePort</span><br><span class="line">  ports:</span><br><span class="line">    - name: http</span><br><span class="line">      port: 80</span><br><span class="line">      targetPort: 80</span><br><span class="line">      protocol: TCP</span><br><span class="line">    - name: https</span><br><span class="line">      port: 443</span><br><span class="line">      targetPort: 443</span><br><span class="line">      protocol: TCP</span><br><span class="line">  selector:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line"></span><br><span class="line"># ingress</span><br><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: name</span><br><span class="line">  namespace: work</span><br><span class="line">  annotations:</span><br><span class="line">    nginx.ingress.kubernetes.io/ssl-redirect: &quot;false&quot;</span><br><span class="line">spec:</span><br><span class="line">  rules:</span><br><span class="line">  - host: DOMAIN</span><br><span class="line">    http:</span><br><span class="line">      paths:</span><br><span class="line">      - path: /</span><br><span class="line">        backend:</span><br><span class="line">          serviceName: SVCNAME</span><br><span class="line">          servicePort: 80</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h3><ul>
+<li>监控点<ul>
+<li>node情况</li>
+<li>k8s集群自身状态</li>
+<li>部署在集群内的应用的状态</li>
+</ul>
+</li>
+<li>prometheus<ul>
+<li>非常灵活易于扩展</li>
+<li>通过各种exporter暴露数据</li>
+<li>由prometheus server定时拉取数据然后存储</li>
+<li>自带简单的前端界面可以使用promQL进行查询</li>
+</ul>
+</li>
+<li>安装<ul>
+<li>推荐prometheusOperator</li>
+<li>具体过程<ul>
+<li>创建ns</li>
+<li>创建role/rolebinding</li>
+<li>创建prometheus的配置文件cm</li>
+<li>创建部署文件deploy</li>
+<li>执行完毕后查看情况 kubectl -n monitoring get all</li>
+<li>使用svc将服务暴露/也可使用ingress</li>
+<li>安装nodeExporter(daemonSet)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2020/02/28/fe/"><span>fe</span></a></h3>
     
   
@@ -3429,1353 +4824,6 @@
 
     
 
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2019/08/17/cli/"><span>cli</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/08/17/cli/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-08-17T08:46:23.000Z">
-          2019-08-17
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><ul>
-<li>三种使用方式<ul>
-<li>webpack.config.js</li>
-<li>内联在import语句中</li>
-<li>在cli命令中指定</li>
-</ul>
-</li>
-<li>常用loader<ul>
-<li>babel-loader</li>
-<li>style-loader 在html中注入style标签</li>
-<li>css-loader 解析@import url()等</li>
-<li>postcss-loader</li>
-<li>sass-loader</li>
-<li>html-loader</li>
-<li>vue-loader</li>
-<li>file-loader</li>
-<li>url-loader</li>
-</ul>
-</li>
-</ul>
-<h2 id="plugin"><a href="#plugin" class="headerlink" title="plugin"></a>plugin</h2><ul>
-<li>常用plugin<ul>
-<li>HtmlWebpackPlugin</li>
-<li>CommonsChunkPlugin</li>
-<li>DefinePlugin</li>
-<li>DllPlugin</li>
-<li>ExtractTextWebpackPlugin</li>
-<li>HotModuleReplacementPlugin</li>
-<li>UglifyjsWebpackPlugin</li>
-<li>CopyWebpackPlugin</li>
-</ul>
-</li>
-</ul>
-<h1 id="工程化模版"><a href="#工程化模版" class="headerlink" title="工程化模版"></a>工程化模版</h1><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><ul>
-<li>mkdir template &amp;&amp; cd template &amp;&amp; npm init -y</li>
-<li>npm i -D webpack webpack-cli vue-loader vue-template-compiler html-webpack-plugin css-loader style-loader sass-loader sass postcss-loader  postcss-preset-env url-loader file-loader @babel/core @babel/preset-env babel-loader webpack-dev-server connect-multiparty mockjs concurrently</li>
-<li>npm i vue vue-router @babel/polyfill axios</li>
-<li>浏览器支持列表<ul>
-<li>package.json.browserslist</li>
-<li>.browserlistrc</li>
-<li>browserlist</li>
-<li>环境变量BROWSERLIST </li>
-</ul>
-</li>
-<li>.babelrc</li>
-<li>postcss.config.js</li>
-<li>webpack.config.js</li>
-</ul>
-<h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><ul>
-<li>意义<ul>
-<li>避免命名/变量冲突</li>
-<li>更清晰的依赖关系</li>
-<li>可维护</li>
-<li>可复用</li>
-<li>降低复杂度</li>
-</ul>
-</li>
-<li>主流实现<ul>
-<li>AMD<ul>
-<li>异步加载，适合浏览器端</li>
-<li>require</li>
-<li>define([deps…],(deps…)=&gt;{return {}})</li>
-</ul>
-</li>
-<li>CommonJS<ul>
-<li>同步加载，适合服务端，因为大都在本地</li>
-<li>require</li>
-<li>module.exports | exports.</li>
-</ul>
-</li>
-<li>ES6<ul>
-<li>js语言层面支持的模块化，可做静态依赖分析，适合多端</li>
-<li>import</li>
-<li>export</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="本地开发环境"><a href="#本地开发环境" class="headerlink" title="本地开发环境"></a>本地开发环境</h2><ul>
-<li><p>npm install –save-dev webpack-dev-server</p>
-</li>
-<li><p>“start”: “webpack-dev-server –open”</p>
-</li>
-<li><p>HMR</p>
-<ul>
-<li>hotModuleReplacement</li>
-<li>能生效是因为模块实现了HMR接口<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if (module.hot) &#123;</span><br><span class="line">  module.hot.accept(&quot;./print.js&quot;, function() &#123;</span><br><span class="line">    console.log(&quot;接收更新后的模块&quot;);</span><br><span class="line">    print();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>sourceMap</p>
-<ul>
-<li>source-map 适合生产环境，映射关系完整但运行慢</li>
-<li>eval-source-map 适合开发环境，只映射到行但运行快</li>
-</ul>
-</li>
-</ul>
-<h2 id="本地mock"><a href="#本地mock" class="headerlink" title="本地mock"></a>本地mock</h2><ul>
-<li>服务 express</li>
-<li>路由 url与数据的路由绑定</li>
-<li>数据模拟 mockjs<ul>
-<li>数据模版定义规范DTD(data template definition)<ul>
-<li>属性名 与规则之间用|分割</li>
-<li>生成规则 依赖属性值的类型，是可选的</li>
-<li>属性值 可以有@占位符，指定了最终值的类型和初始值</li>
-<li>例如：’name|rule’: value</li>
-</ul>
-</li>
-<li>数据占位符定义规范DPD(data placeholder definition)</li>
-<li>核心api<ul>
-<li>mock 将模版输出为最终的数据</li>
-<li>random 生成随机数据</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>concurrently<ul>
-<li>同一终端同时运行多个npm命令，不管是否同一进程</li>
-</ul>
-</li>
-</ul>
-<h2 id="代码检查"><a href="#代码检查" class="headerlink" title="代码检查"></a>代码检查</h2><ul>
-<li>eslint<ul>
-<li>npm install -D eslint eslint-loader eslint-plugin-vue babel-eslint eslint-friendly-formatter</li>
-<li>plugins指定需要的插件名称，可以忽略eslint-plugin-</li>
-<li>默认使用espree解析器，因为有新的语言特性需要指定为babel-eslint</li>
-<li>换解析器需要在parserOptions中，防止全局替换导致其他插件失败</li>
-<li>es6模块的sourceType为module</li>
-<li>禁用eslint规则<ul>
-<li>文件开头/* eslint-disable */禁用整个文件的检查</li>
-<li>行// eslint-disable-line 禁用行检查</li>
-<li>行// eslint-disable-line no-console 禁用console规则</li>
-</ul>
-</li>
-<li>自定义规则<ul>
-<li>extends: eslint:recommended</li>
-<li>rules:{ no-console: off, quotes:[“wanr”,”single”],indent:[“error”,2]}</li>
-<li>数组值第一项表示级别，默认是error</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>stylelint<ul>
-<li>npm install -D stylelint stylelint-webpack-plugin</li>
-<li>.stylelintrc.js</li>
-<li>禁用规则<ul>
-<li>/* stylelint-disable unit-whitelist*/ 禁用unit规则校验</li>
-<li>/* stylelint-disable */ 禁用所有规则校验</li>
-</ul>
-</li>
-<li>自定义规则<ul>
-<li>extends: “stylelint-config-standard”</li>
-<li>rules: {“color-no-invalid-hex”: true}</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="雪碧图"><a href="#雪碧图" class="headerlink" title="雪碧图"></a>雪碧图</h2><ul>
-<li>npm install -D webpack-spritesmith</li>
-<li>resolve.modules如果是相对路径则按照规则一级一级向上查找，如果是绝对路径不会向上查找</li>
-<li>使用<ul>
-<li>@import “~sprite.scss”</li>
-<li>.icon-picName{@include sprite($picName)}</li>
-</ul>
-</li>
-<li>自定义生成2x样式表<ul>
-<li>官网的templateFunction</li>
-<li>customTemplates: {function_based_template: templateFunction},</li>
-<li>target.css = [[],path.resolve(__dirname, “src/assets/generated/sprite.scss”)]</li>
-<li>使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@import &apos;~sprite2.scss&apos;;</span><br><span class="line">&lt;li class=&quot;ico ico-picName&quot;&gt;&lt;/li&gt; </span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="按浏览器构建"><a href="#按浏览器构建" class="headerlink" title="按浏览器构建"></a>按浏览器构建</h2><ul>
-<li>新版本浏览器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;module&quot;&gt;&lt;/script&gt; 可直接加载ES6</span><br><span class="line">&lt;link rel=&quot;modulepreload&quot;&gt;&lt;/link&gt; 预加载</span><br></pre></td></tr></table></figure></li>
-<li>老版本浏览器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script nomodule&gt;加载旧版本js，新版本浏览器会忽略该引用</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="按环境构建"><a href="#按环境构建" class="headerlink" title="按环境构建"></a>按环境构建</h2><ul>
-<li>development</li>
-<li>test</li>
-<li>production</li>
-<li>插件<ul>
-<li>npm install –save-dev extract-text-webpack-plugin</li>
-<li>npm install –save-dev optimize-css-assets-webpack-plugin</li>
-<li>npm install terser-webpack-plugin –save-dev</li>
-<li>HashedModuleIdsPlugin 避免不必要的hash变化</li>
-</ul>
-</li>
-</ul>
-<h2 id="集成调试工具"><a href="#集成调试工具" class="headerlink" title="集成调试工具"></a>集成调试工具</h2><ul>
-<li>weinre / spy-debugger</li>
-<li>vconsole<ul>
-<li>npm install vconsole</li>
-<li>DebugPlugin.js里面去实现 debugtool插件</li>
-<li>vconsole.js 里面去new Vconsole</li>
-<li>可以单独发一个npm包 debugtool-webpack-plugin</li>
-</ul>
-</li>
-</ul>
-<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><ul>
-<li>chai作为断言库</li>
-<li>Mocha编写测试用例、测试框架</li>
-<li>Karma测试过程管理TestRunner及启动浏览器和生成测试报告</li>
-<li>npm install –save-dev karma mocha karma-mocha karma-chrome-launcher karma-webpack karma-sourcemap-loader karma-spec-reporter chai @vue/test-utils karma-coverage babel-plugin-istanbul cross-env</li>
-<li>覆盖率<ul>
-<li>语句覆盖率</li>
-<li>分支覆盖率</li>
-<li>函数覆盖率</li>
-<li>行覆盖率</li>
-</ul>
-</li>
-</ul>
-<h2 id="e2e测试"><a href="#e2e测试" class="headerlink" title="e2e测试"></a>e2e测试</h2><ul>
-<li>npm install –save-dev nightwatch chromedriver</li>
-<li>npm install –save-dev geckodriver # firefox</li>
-<li>npm install –save-dev cross-spawn # 启动子进程</li>
-<li>npm install –save-dev nightwatch-html-reporter</li>
-<li>nightwatch接口<ul>
-<li>断言相关<ul>
-<li>expect.element()</li>
-<li>.value</li>
-<li>.text</li>
-<li>.equal(val)/.contain(val)/.match(val)</li>
-</ul>
-</li>
-<li>协议映射相关<ul>
-<li>.click()</li>
-<li>.url()</li>
-<li>.setValue()</li>
-<li>.pause()</li>
-<li>.waitForElementVisible()</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><ul>
-<li>缓存<ul>
-<li>开启cache后，模块和生成的chunk如果内容不变则直接用cache，主要解决增量构建过程的性能</li>
-<li>HardSourceWebpackPlugin，缓存编译过程中间结果 npm i -D hard-source-webpack-plugin</li>
-</ul>
-</li>
-<li>多线程<ul>
-<li>HappyPack</li>
-<li>thread-loader #官方推荐</li>
-</ul>
-</li>
-<li>预先编译<ul>
-<li>DllPlugin 把基本不变的预先打包出单独dll文件</li>
-<li>DllReferencePlugin 配置在文件中引用dll文件</li>
-<li>运行一次npm run dll后不需在运行除非dll包有更新</li>
-<li>npm i -D add-asset-html-webpack-plugin dll文件提前插入html</li>
-<li>与splitChunks功能类似，可以去除splitChunks</li>
-</ul>
-</li>
-</ul>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><ul>
-<li>ecs<ul>
-<li>const { spawn } = require(“child_process”);</li>
-<li>ssh免密登陆</li>
-</ul>
-</li>
-<li>oss<ul>
-<li>vinyl-fs</li>
-<li>vinyl-ftp</li>
-</ul>
-</li>
-</ul>
-<h1 id="cli"><a href="#cli" class="headerlink" title="cli"></a>cli</h1><h2 id="聚合配置并模版化"><a href="#聚合配置并模版化" class="headerlink" title="聚合配置并模版化"></a>聚合配置并模版化</h2><ul>
-<li>app.config.js 聚合用户自定义配置</li>
-<li>相应的配置都要从app.config.js中获取</li>
-</ul>
-<h2 id="handlebars模版化"><a href="#handlebars模版化" class="headerlink" title="handlebars模版化"></a>handlebars模版化</h2><ul>
-<li>template 存放模版</li>
-<li>meta.js 配置入口<ul>
-<li>helpers<ul>
-<li>语法{{#helperName}}...{{/helperName}}</li>
-<li>内置helper if,上面都语法可根据helperName的truthy进行判断</li>
-<li>自定义registerHelper</li>
-</ul>
-</li>
-<li>prompts</li>
-<li>filters</li>
-<li>completeMessage</li>
-</ul>
-</li>
-</ul>
-<h2 id="cli-1"><a href="#cli-1" class="headerlink" title="cli"></a>cli</h2><ul>
-<li>工作流程<ul>
-<li>运行命令 mc init weex pro</li>
-<li>下载模版 </li>
-<li>交互配置信息</li>
-<li>渲染模版</li>
-</ul>
-</li>
-<li>mc<ul>
-<li>1个主命令</li>
-<li>2个子命令<ul>
-<li>mc init</li>
-<li>mc help 默认子命令</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>主命令开发<ul>
-<li>npm i commander</li>
-<li>npm link #将包链接到全局</li>
-</ul>
-</li>
-<li>子命令模块<ul>
-<li>commander</li>
-<li>chalk</li>
-<li>inquirer</li>
-<li>download-git-repo</li>
-<li>rimraf</li>
-<li>user-home</li>
-<li>ora</li>
-<li>metalsmith  <ul>
-<li>文件处理工具,从哪里读，做什么处理，写到哪里去</li>
-<li>use方法绑定插件</li>
-<li>source设定源文件目录</li>
-<li>destination指定文件写入的目录</li>
-<li>clean(true|false)写入前是否删除原来已经存在的文件</li>
-<li>build完成对文件的处理接收回调</li>
-<li>metadata读取全局数据对象</li>
-</ul>
-</li>
-<li>handlebars </li>
-<li>async </li>
-<li>consolidate<ul>
-<li>各种模版引擎的整合库</li>
-<li>还需要引用需要的模版引擎库</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bin/mc</span><br><span class="line"></span><br><span class="line">#!/usr/bin/env node</span><br><span class="line">const program = require(&apos;commander&apos;);</span><br><span class="line">program</span><br><span class="line">  .version(require(&apos;../package&apos;).version)</span><br><span class="line">  .usage(&apos;&lt;command&gt; [options]&apos;)</span><br><span class="line">  .command(&apos;init&apos;, &apos;generate a new fe project&apos;);</span><br><span class="line">program.parse(process.argv);</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2019/08/17/webpack/"><span>webpack</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/08/17/webpack/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-08-17T08:29:05.000Z">
-          2019-08-17
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h1><h2 id="webpack及发展历史"><a href="#webpack及发展历史" class="headerlink" title="webpack及发展历史"></a>webpack及发展历史</h2><ul>
-<li>目的<ul>
-<li>css的预处理</li>
-<li>ES6等的支持</li>
-<li>图片压缩</li>
-<li>发布产物的压缩混淆</li>
-</ul>
-</li>
-<li>同类<ul>
-<li>rollup</li>
-<li>parcel</li>
-</ul>
-</li>
-<li>安装准备<ul>
-<li>brew install nvm , windows可以安装nvm-windows</li>
-<li>nvm install v10.16.3</li>
-<li>node -v</li>
-<li>npm -v</li>
-<li>mkdir webpack-demo &amp;&amp; cd webpack-demo</li>
-<li>npm init -y</li>
-<li>npm i -D webpack webpack-cli</li>
-<li>./node_modules/.bin/webpack -v</li>
-</ul>
-</li>
-<li>模块路径解析<ul>
-<li>绝对路径（不推荐）</li>
-<li>相对路径<ul>
-<li>查找相对路径下的同名的文件或目录</li>
-<li>是文件则直接加载</li>
-<li>是目录则查找目录下的package.json中的main字段</li>
-<li>有则按其加载</li>
-<li>没有main字段或没有package.json则加载index.js</li>
-</ul>
-</li>
-<li>模块名<ul>
-<li>查找当前目录/上级目录中node_modules中的同名目录</li>
-<li>查找全局node_modules中的模块</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h2><ul>
-<li>基础<ul>
-<li>mode</li>
-<li>entry</li>
-<li>output</li>
-<li>module</li>
-<li>plugins</li>
-</ul>
-</li>
-<li>mode<ul>
-<li>production 默认</li>
-<li>development</li>
-<li>none</li>
-</ul>
-</li>
-<li>entry<ul>
-<li>单入口 “path”</li>
-<li>多入口 {name:path}</li>
-</ul>
-</li>
-<li>output<ul>
-<li>path 输出路径</li>
-<li>filename 构建文件名称<ul>
-<li>‘[name]’ 对应入口中的name</li>
-<li>‘[hash]’ 对应文件的hash</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>loaders<ul>
-<li>本质是一个函数，接收源文件作为参数输出转换后的结果</li>
-<li>执行顺序<ul>
-<li>同一个rule中多个loader从后到前执行</li>
-<li>多个loader匹配时用enforce:pre|post约定顺序</li>
-<li>行内loader，在require(‘loader1!./file.json’)</li>
-<li>所有的loader按照前置loader/行内loader/普通loader/后置loader顺序执行</li>
-</ul>
-</li>
-<li>babel-loader<ul>
-<li>解析ES6/7</li>
-<li>需要安装@babel/core @babel/preset-env @babel/proposal-class-properties等</li>
-<li>配置文件.babelrc中增加presets和plugins</li>
-</ul>
-</li>
-<li>style-loader<ul>
-<li>将css插入head的style标签</li>
-</ul>
-</li>
-<li>css-loader<ul>
-<li>解析.css文件转换成commonjs对象</li>
-</ul>
-</li>
-<li>less-loader<ul>
-<li>解析less代码成css，依赖less</li>
-</ul>
-</li>
-<li>file-loader<ul>
-<li>解析各种文件资源（图片/字体等）</li>
-<li>如果希望能把小资源转成base64可以使用url-loader的limit</li>
-<li>把二进制文件转成base64后文件大小会增加二进制文件的1/3左右</li>
-</ul>
-</li>
-<li>raw-loader 将文件以字符串内容形式导入</li>
-<li>thread-loader</li>
-</ul>
-</li>
-<li>plugins<ul>
-<li>本质是一个类，实现了apply方法</li>
-<li>CommonsChunkPlugin chunk相同代码抽取成公共js</li>
-<li>CleanWebpackPlugin 清理构建目录</li>
-<li>CopyWebpackPlugin</li>
-<li>ZipWebpackPlugin 将打包出的资源生成一个zip包</li>
-<li>HtmlWebpackPlugin </li>
-<li>ExtractTextWebpackPlugin</li>
-<li>MiniCssExtractPlugin 需要配合.loader替换style-loader进行css文件提取</li>
-<li>OptimizeCssAssetsWebpackPlugin</li>
-<li>UglifyjsWebpackPlugin</li>
-</ul>
-</li>
-</ul>
-<h2 id="高级配置"><a href="#高级配置" class="headerlink" title="高级配置"></a>高级配置</h2><ul>
-<li><p>环境差异</p>
-<ul>
-<li>module.exports=(env,argv)=&gt;{console.log(argv.mode)}</li>
-<li>生产环境<ul>
-<li>压缩资源</li>
-<li>分离资源</li>
-</ul>
-</li>
-<li>开发环境<ul>
-<li>debug</li>
-<li>hotReload</li>
-</ul>
-</li>
-<li>配置拆分<ul>
-<li>base.js</li>
-<li>dev.js</li>
-<li>prod.js</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>构建监听</p>
-<ul>
-<li>webpack 命令行传 –watch</li>
-<li>webpack.config.js中 watch:true</li>
-<li>是通过轮询文件最后修改时间进行的，同时也有aggregateTimeout防止短时间多次修改，有poll指定每秒轮询多少次，ignore指定忽略，这些属性在watchOptions中</li>
-</ul>
-</li>
-<li><p>WDS</p>
-<ul>
-<li>webpack-dev-server</li>
-<li>WDS不输出文件都是存在内存中，所以不用手动刷新浏览器可实现HMR</li>
-<li>dev: “webpack-dev-server –open”</li>
-<li>webpack.config.js<ul>
-<li>mode: ‘development’</li>
-<li>plugins: [new webpack.HotModuleReplacementPlugin()]</li>
-<li>devServer:{hot:true,contentBase:’./dist’,before(app){app.get(“path”,(req,res)=&gt;{res.json({})})},proxy:{“/api”:{target:’’,pathRewrite:{}}}}</li>
-</ul>
-</li>
-<li>WDS灵活定制版WDM webapck-dev-middleware</li>
-<li>HMR <ul>
-<li>由compiler把源码编译成bundle和HMR的patch</li>
-<li>bundle由本地的bundleServer返回给浏览器</li>
-<li>HMR的patch由本地的HMRServer(WebSockt)返回浏览器的HMRRuntime</li>
-<li>浏览器执行bundle和patch执行代码</li>
-<li>核心api<ul>
-<li>module.hot</li>
-<li>module.hot.accept(“指定模块”,()=&gt;{})</li>
-<li>module.hot.dispose((data)=&gt;{}) #当前模块</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>文件指纹</p>
-<ul>
-<li>hash 和整个项目有关，只要项目内有变化hash就变，文件处理也可以用[hash:8]</li>
-<li>chunkhash 不同的entry会生成不同的chunkhash，常用于js，常设置在output.filename中[chunkhash:8]</li>
-<li>contenthash 文件内容不变contenthash不变，常用于css，常设置在MiniCssExtractPlugin的filename中[contenthash:8]</li>
-</ul>
-</li>
-<li><p>代码压缩</p>
-<ul>
-<li>html 使用html-webpack-plugin的minify对象属性</li>
-<li>css 使用optimize-css-assets-webpack-plugin和cssnano</li>
-<li>js 内置了uglifyjs-webpack-plugin</li>
-</ul>
-</li>
-<li><p>按需加载</p>
-<ul>
-<li>import(/* webpackChunkName: “lodash” */ ‘lodash’).then((_) =&gt; {})</li>
-<li>webpackChunkName作为注释会告知webpack动态加载模块的名称，配合output.chunkFilename指定chunk输出的文件名，否则会以简单的数字标示</li>
-<li>需要syntax-dynamic-import这个babel插件处理import()</li>
-<li>按需动态加载的import()语法依赖promise，对于低版本的要promise的polyfill</li>
-</ul>
-</li>
-<li><p>postcss</p>
-<ul>
-<li>autoprefixer<ul>
-<li>o presto</li>
-<li>ms trident</li>
-<li>moz gecko</li>
-<li>webkit webkit</li>
-</ul>
-</li>
-<li>npm i -D postcss-loader autoprefixer</li>
-</ul>
-</li>
-<li><p>屏幕分辨率</p>
-<ul>
-<li>rem: font-size of the root element，是相对单位</li>
-<li>npm i -D px2rem-loader</li>
-<li>options:{remUnit:75,remPrecision:8}</li>
-<li>npm i lib-flexible lib-flexible在页面渲染时计算rem的值</li>
-</ul>
-</li>
-<li><p>内联资源到html</p>
-<ul>
-<li>内联html/js<ul>
-<li>raw-loader </li>
-<li>html模版里写${ require(‘raw-loader!./meta.html’)} 直接内联html</li>
-<li>script里写${ require(‘raw-loader!babel-loader!../node_modules/lib-flexible/flexible.js’) }内联js</li>
-</ul>
-</li>
-<li>内联css<ul>
-<li>style-loader options:{insertAt:’top’,singleton:true //所有style合并成1个 }</li>
-<li>html-inline-css-webpack-plugin 将打包好的css内联</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>MPA</p>
-<ul>
-<li>手动的可增加1个entry，然后增加1个对应的htmlWP，不方便维护</li>
-<li>通用的动态设置entry:glob.sync(path.join(__dirname,’./src/*/index.js’))和对应的htmlWP<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">const setMPA = () =&gt; &#123;</span><br><span class="line">    const entry = &#123;&#125;;</span><br><span class="line">    const htmlWebpackPlugins = [];</span><br><span class="line">    const entryFiles = glob.sync(path.join(__dirname, &apos;./src/*/index.js&apos;));</span><br><span class="line">    Object.keys(entryFiles)</span><br><span class="line">        .map((index) =&gt; &#123;</span><br><span class="line">            const entryFile = entryFiles[index];</span><br><span class="line">            const match = entryFile.match(/src\/(.*)\/index\.js/);</span><br><span class="line">            const pageName = match &amp;&amp; match[1];</span><br><span class="line"></span><br><span class="line">            entry[pageName] = entryFile;</span><br><span class="line">            htmlWebpackPlugins.push(</span><br><span class="line">                new HtmlWP(&#123;</span><br><span class="line">                    inlineSource: &apos;.css$&apos;,</span><br><span class="line">                    template: path.join(__dirname, `src/$&#123;pageName&#125;/index.html`),</span><br><span class="line">                    filename: `$&#123;pageName&#125;.html`,</span><br><span class="line">                    chunks: [&apos;vendors&apos;, pageName],</span><br><span class="line">                    inject: true,</span><br><span class="line">                    minify: &#123;</span><br><span class="line">                        html5: true,</span><br><span class="line">                        collapseWhitespace: true,</span><br><span class="line">                        preserveLineBreaks: false,</span><br><span class="line">                        minifyCSS: true,</span><br><span class="line">                        minifyJS: true,</span><br><span class="line">                        removeComments: false</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">            );</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">        entry,</span><br><span class="line">        htmlWebpackPlugins</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const &#123;entry,htmlWebpackPlugins&#125; = setMPA()</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>sourceMap</p>
-<ul>
-<li>开发环境使用，生产环境只需要传到监控平台</li>
-<li>关键字<ul>
-<li>eval 使用eval包裹模块代码，最后面制定对应的源文件，不生成单独的map文件</li>
-<li>cheap 不包含列信息</li>
-<li>source-map 生成.map文件</li>
-<li>inline 将.map作为DataURI嵌入，不单独生成.map</li>
-<li>module 包含loader的source-map,可对依赖分析</li>
-</ul>
-</li>
-<li>类型<ul>
-<li>生产环境使用source-map，map文件上传到监控平台</li>
-<li>开发环境使用eval-source-map，加速打包</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>提取公共资源</p>
-<ul>
-<li>基础库(vue/react/react-dom)分离到cdn，可使用html-webpack-externals-plugin</li>
-<li>也可以用webpack4内置的splitChunksPlugin代替CommonsChunkPlugin</li>
-<li>chunks说明<ul>
-<li>async 默认选项，表示异步引入的库进行分离</li>
-<li>initial 同步引入的库进行分离</li>
-<li>all 推荐使用，所有引入的库都进行分离</li>
-</ul>
-</li>
-<li>chunks分离后需要把分离出的name添加到htmlWP中的chunks<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">optimization:&#123;</span><br><span class="line">       splitChunks:&#123;</span><br><span class="line">           minSize: 0,</span><br><span class="line">           maxSize:1000,</span><br><span class="line">           minChunks: 2,</span><br><span class="line">           cacheGroups:&#123;</span><br><span class="line">               vendors:&#123;</span><br><span class="line">                   test:/(react|react-dom)/,</span><br><span class="line">                   name:&quot;vendors&quot;,</span><br><span class="line">                   chunks:&quot;all&quot;</span><br><span class="line">               &#125;,</span><br><span class="line">               commons:&#123;</span><br><span class="line">                 name:&quot;commons&quot;,</span><br><span class="line">                 chunks:&quot;all&quot;,</span><br><span class="line">                 minChunks:2</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>treeShaking</p>
-<ul>
-<li>把模块中没被引用的方法在uglify阶段去除掉</li>
-<li>使用<ul>
-<li>必须是ES6的语法，不能用在CommonJS，ES6可以静态分析</li>
-<li>在.babelrc里设置module:false把模块的静态分析交给webpack处理</li>
-<li>对class类的treeShaking需要在.babelrc里配置loose:true</li>
-<li>mode为production情况下默认开启了此功能</li>
-<li>要求导出的函数不能有副作用，否则也会失效,即包的package.json.sideEffects:false声明</li>
-</ul>
-</li>
-<li>原理<ul>
-<li>DCE dead code elimination 无用代码擦除<ul>
-<li>代码不可到达</li>
-<li>代码执行的结果不会被用到</li>
-<li>只写不读的代码</li>
-</ul>
-</li>
-<li>ES6模块特点<ul>
-<li>import只能出现在代码顶层</li>
-<li>import的模块名只能是字符串常量</li>
-<li>import的binding是immutable的</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>ScopeHoisting</p>
-<ul>
-<li>问题<ul>
-<li>构建后的模块代码都是通过闭包实现IIFE</li>
-<li>大量的闭包导致代码体积增大，运行时内存开销增大</li>
-</ul>
-</li>
-<li>分析<ul>
-<li>把所有的模块都包裹一层函数形成IIFE</li>
-<li>把import转换成_webpack_require,export转换成_webpack_exports</li>
-<li>把所有模块都缓存到modules数组</li>
-<li>通过WEBPACK_REQUIRE_METHOD(0) 启动程序</li>
-</ul>
-</li>
-<li>scopeHoisting将模块代码按照引用顺序放在一个函数作用域，适当的做重命名防止变量冲突，达到减少函数声明和内存开销</li>
-<li>使用时mode设置为production默认开启</li>
-<li>手动开启使用 new webpack.optimize.ModuleConcatenationPlugin()</li>
-</ul>
-</li>
-<li><p>动态import</p>
-<ul>
-<li>把相同的代码抽离到一个共享模块，在通过懒加载动态import使初始下载的代码更小</li>
-<li>懒加载<ul>
-<li>CommonJS使用方式require.ensure()</li>
-<li>ES6使用方式 动态import目前还没有原生支持，需要babel插件<ul>
-<li>npm i @babel/plugin-syntax-dynamic-import</li>
-<li>.babelrc中plugins:[‘@babel/plugin-syntax-dynamic-import’]</li>
-<li>代码中需要的地方用import(‘./dynamic.js’).then()</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>ESLint</p>
-<ul>
-<li>制定规范<ul>
-<li>基于eslint:recommmend配置进行改进，不重复造轮子</li>
-<li>能够帮助发现错误的规则全部开启</li>
-<li>保持风格统一，不要限制开发体验</li>
-</ul>
-</li>
-<li>落地<ul>
-<li>和CICD集成 如gitlab的pipline</li>
-<li>和webpack集成</li>
-</ul>
-</li>
-<li>本地开发增加precommit钩子(本地可以–no-verify绕过，所以CICD必须要有)<ul>
-<li>npm i -D husky</li>
-<li>“precommit”: “lint-staged”</li>
-<li>“lint-staged”: {“linters”:”*.{js,scss}”:[“eslint –fix”, “git add”]}</li>
-</ul>
-</li>
-<li>webpack集成ESLint<ul>
-<li>.js文件先用eslint-loader再使用babel-loader</li>
-<li>npm i -D eslint eslint-loader babel-eslint eslint-plugin-import …</li>
-<li>.eslintrc.js<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    parser:&quot;babel-eslint&quot;,</span><br><span class="line">    extends:[&apos;&apos;],</span><br><span class="line">    env:&#123;</span><br><span class="line">        browser:true,</span><br><span class="line">        node:true</span><br><span class="line">    &#125;,</span><br><span class="line">    rules:&#123;</span><br><span class="line">        indent:[2,2]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>打包库和组件</p>
-<ul>
-<li>需求<ul>
-<li>打包压缩版和非压缩版</li>
-<li>支持AMD/CJS/ESM模块引入和script直接引入，统称UMD</li>
-</ul>
-</li>
-<li>实现<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">const TerserPlugin = require(&apos;terser-webpack-plugin&apos;)</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  mode:&apos;none&apos;,</span><br><span class="line">  entry:&#123;</span><br><span class="line">    &apos;name&apos;:&apos;./src/index.js&apos;,</span><br><span class="line">    &apos;name.min&apos;:&apos;./src/index.js&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  output:&#123;</span><br><span class="line">    filename:&apos;[name].js&apos;,</span><br><span class="line">    library:&apos;libName&apos;, // 库的全局变量</span><br><span class="line">    libraryExport:&apos;default&apos;,</span><br><span class="line">    libraryTarget:&apos;umd&apos; // 库的引入方式</span><br><span class="line">  &#125;,</span><br><span class="line">  optimization:&#123;</span><br><span class="line">    minimize:true,</span><br><span class="line">    minimizer:[</span><br><span class="line">      new TerserPlugin(&#123;</span><br><span class="line">        include:/\.min\.js$/, //只对.min压缩</span><br><span class="line">      &#125;)</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// package.json</span><br><span class="line">&quot;main&quot;: &quot;index.js&quot;,</span><br><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;build&quot;: &quot;webpack&quot;,</span><br><span class="line">  &quot;prepublish&quot;: &quot;webpack&quot;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">// index.js</span><br><span class="line">if(process.env.NODE_ENV === &apos;production&apos;)&#123;</span><br><span class="line">  module.exports = require(&apos;./dist/name.min.js&apos;)</span><br><span class="line">&#125;else&#123;</span><br><span class="line">  module.exports = require(&apos;./dist/name.js&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>SSR</p>
-<ul>
-<li>server side render</li>
-<li>优势<ul>
-<li>减少网络请求</li>
-<li>减少白屏时间</li>
-<li>对SEO友好</li>
-</ul>
-</li>
-<li>实现思路<ul>
-<li>服务端使用server的renderToString将组件渲染成字符串，路由返回对应的字符串模板</li>
-<li>客户端进行环境判断请求对应的文件</li>
-</ul>
-</li>
-<li>问题<ul>
-<li>nodejs中没有浏览器的window需要hack：if(typeof window === ‘undefined’){ global.window = {} }</li>
-<li>不兼容的组件需要根据打包环境进行适配</li>
-<li>http请求需要改写成axios</li>
-<li>css样式不显示可以采用浏览器端模板占位符替换的方式’<!--HTML_PLACEHOLDER-->‘</li>
-<li>首屏业务数据也可用模板占位符替换的方式<!--INITIAL_DATA_PLACEHOLDER--></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>优化构建日志</p>
-<ul>
-<li>webpack.config.js中stats字段控制统计信息<ul>
-<li>errors-only</li>
-<li>minimal</li>
-<li>none | false</li>
-<li>normal | true</li>
-<li>verbose </li>
-</ul>
-</li>
-<li>friendly-errors-webpack-plugin<ul>
-<li>stats: ‘errors-only’</li>
-<li>new FriendlyErrorsWebpackPlugin()</li>
-<li>日志提示<ul>
-<li>success</li>
-<li>warning</li>
-<li>error</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>构建异常和中断</p>
-<ul>
-<li>如果没有错误则process.exit(0)</li>
-<li>如果有错误则process.exit(非0)，回调函数err.code则为非0数值</li>
-<li>compiler每次构建结束后都会触发done这个hook</li>
-<li>hook回调stats.compilation.errors错误对象</li>
-</ul>
-</li>
-</ul>
-<h1 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h1><h2 id="可维护的配置"><a href="#可维护的配置" class="headerlink" title="可维护的配置"></a>可维护的配置</h2><ul>
-<li><p>抽离成npm包的意义</p>
-<ul>
-<li>通用性<ul>
-<li>开发者无需关注构建配置</li>
-<li>统一团队构建脚本</li>
-</ul>
-</li>
-<li>可维护性<ul>
-<li>构建配置合理拆分</li>
-<li>README/CHANGELOG</li>
-</ul>
-</li>
-<li>质量<ul>
-<li>冒烟测试/单元测试/测试覆盖率</li>
-<li>CI</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>构建配置管理的可选方案</p>
-<ul>
-<li>通过多个配置文件管理对应环境 webpack –config参数控制</li>
-<li>构建配置设计成一个库 如neutrino webpack-blocks</li>
-<li>设计成一个工具 如create-react-app nwb</li>
-<li>配置放在一个文件，通过–env控制</li>
-</ul>
-</li>
-<li><p>构建配置包设计</p>
-<ul>
-<li>通过多个配置文件管理对应环境<ul>
-<li>webpack.base.js<ul>
-<li>资源解析(es6/react/css/less/图片/字体)</li>
-<li>样式增强(css前缀自动补齐/px2rem)</li>
-<li>目录清理</li>
-<li>多页面打包</li>
-<li>构建过程日志优化</li>
-<li>构建错误捕获和处理</li>
-<li>css提取成一个单独的文件</li>
-</ul>
-</li>
-<li>webpack.dev.js<ul>
-<li>hmr</li>
-<li>sourcemap</li>
-</ul>
-</li>
-<li>webpack.prod.js<ul>
-<li>代码压缩</li>
-<li>文件指纹</li>
-<li>treeShaking</li>
-<li>scopeHoisting</li>
-<li>速度优化 基础包放cdn</li>
-<li>体积优化 代码分割动态import</li>
-</ul>
-</li>
-<li>webpack.ssr.js<ul>
-<li>output.libraryTarget</li>
-<li>css解析</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>npm包<ul>
-<li>规范(git commit/READMEESLINT/SemVer)</li>
-<li>质量(冒烟测试/单元测试/测试覆盖率/CI)</li>
-</ul>
-</li>
-<li>配置组合<ul>
-<li>webpack-merge</li>
-<li>module.exports=merge(baseConf,devConf)</li>
-</ul>
-</li>
-<li>目录结构<ul>
-<li>test/</li>
-<li>lib/</li>
-<li>README.md</li>
-<li>CHANGELOG.md</li>
-<li>.eslintrc.js</li>
-<li>.gitignore</li>
-<li>package.json</li>
-<li>index.js</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>构建包使用ESLINT</p>
-<ul>
-<li>使用eslint-config-airbnb-base规则集</li>
-<li>使用eslint –fix做自动修复</li>
-<li>package.json “lint”:”eslint ./lib –fix”</li>
-<li>.eslintrc.js<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  extends:[&apos;airbnb-base&apos;],</span><br><span class="line">  parser:&apos;babel-eslint&apos;,</span><br><span class="line">  env:&#123;</span><br><span class="line">    browser:true,</span><br><span class="line">    node:true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>冒烟测试smoke testing</p>
-<ul>
-<li>指对提交测试的软件在进行详细测试前的预测试</li>
-<li>主要目的是暴露基本功能失效的严重问题</li>
-<li>执行<ul>
-<li>构建是否成功 webpack(conf,(err,stats)=&gt;{})</li>
-<li>是否生成对应文件 glob.sync([‘*.js’]).length</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>单元测试和测试覆盖率</p>
-<ul>
-<li>框架<ul>
-<li>mocha(单纯的测试框架)+chai(断言库)</li>
-<li>jasmine/jest 集成框架，开箱即用</li>
-</ul>
-</li>
-<li>mocha接入<ul>
-<li>npm i -D mocha chai</li>
-<li>test.js中编写describe/it/expect</li>
-<li>package.json中”test”:”mocha “</li>
-<li>npm run test</li>
-</ul>
-</li>
-<li>测试覆盖率<ul>
-<li>npm i -D istanbul</li>
-<li>package.json中”test”:”istanbul cover mocha”</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>CI</p>
-<ul>
-<li>作用<ul>
-<li>快速发现错误</li>
-<li>防止分支大幅偏离主干</li>
-</ul>
-</li>
-<li>措施<ul>
-<li>集成前必须跑通测试，否则不予集成</li>
-</ul>
-</li>
-<li>排名<ul>
-<li>travis-ci</li>
-<li>circle-ci</li>
-<li>jenkins-ci</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>发布npm包</p>
-<ul>
-<li>npm login</li>
-<li>npm version patch|minor|major(自动git提交和tag)</li>
-<li>npm publish</li>
-</ul>
-</li>
-<li><p>git提交规范和changeLog生成</p>
-<ul>
-<li>提交规范优势<ul>
-<li>加快review流程</li>
-<li>根据提交生成changeLog</li>
-<li>可追溯可回顾</li>
-</ul>
-</li>
-<li>技术方案<ul>
-<li>目地统一提交日志标准</li>
-<li>使用angular的git commit规范<ul>
-<li>信息分3部分，空行分割<ul>
-<li>标题(首字母不大写，末尾不要标点)<ul>
-<li>type(scope): subject</li>
-</ul>
-</li>
-<li>主题内容</li>
-<li>尾注</li>
-</ul>
-</li>
-<li>提交类型type限制<ul>
-<li>feat：新增feature</li>
-<li>fix：修复bug</li>
-<li>docs：仅仅修改了文档</li>
-<li>style：仅仅修改文件样式，不改变逻辑</li>
-<li>perf：优化相关，提升体验性能等</li>
-<li>refactor：代码重构无新功能或bug修复</li>
-<li>test：测试用例</li>
-<li>chore：改变构建流程或增加依赖库工具</li>
-<li>revert：回滚到上一版本</li>
-</ul>
-</li>
-<li>scope(可根项目分成大类如docs/components)</li>
-<li>主题内容可以详细列明每个修改点影响点</li>
-<li>尾注可以增加链接或关闭issue等</li>
-</ul>
-</li>
-<li>日志提交时友好的提示工具:commitize</li>
-<li>不符合要求的拒绝提交:validate-commit-msg</li>
-<li>统一changeLog文档信息生成:conventional-changelog-cli</li>
-</ul>
-</li>
-<li>本地增加precommit钩子<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">npm i -D husky validate-commit-msg conventional-changelog-cli</span><br><span class="line"></span><br><span class="line">&quot;scripts&quot;:&#123;</span><br><span class="line">  &quot;commitmsg&quot;:&quot;validate-commit-msg&quot;,</span><br><span class="line">  &quot;changelog&quot;:&quot;conventional-changelog -p angular -i CHANGELOG.md -s -r 0&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>语义化版本号</p>
-<ul>
-<li>semantic versioning<ul>
-<li>major 做了不兼容api的修改</li>
-<li>minor 做了向下兼容的功能新增</li>
-<li>patch 做了向下兼容的问题修正</li>
-<li>major.minor.patch版本号严格递增</li>
-</ul>
-</li>
-<li>优势<ul>
-<li>避免出现循环依赖</li>
-<li>减少依赖冲突</li>
-</ul>
-</li>
-<li>发布重要版本时可以发先行版本<ul>
-<li>alpha 内测版</li>
-<li>beta 外部小范围测试版，可以加新功能</li>
-<li>rc 公测版release candidate不会加新功能，主要用排错</li>
-<li>major.minor.patch-alpha.2</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="构建速度和体积优化"><a href="#构建速度和体积优化" class="headerlink" title="构建速度和体积优化"></a>构建速度和体积优化</h2><ul>
-<li><p>初级分析</p>
-<ul>
-<li>使用webpack内置的stats<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;:&#123;</span><br><span class="line">  &quot;build:stats&quot;:&quot;webpack --env production --json &gt; stats.json&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>速度分析</p>
-<ul>
-<li>使用speed-measure-webpack-plugin插件</li>
-<li>可以看到每个loader和插件执行耗时和总耗时<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm i -D speed-measure-webpack-plugin</span><br><span class="line"></span><br><span class="line">const SMWP = require(&apos;speed-measure-webpack-plugin&apos;)</span><br><span class="line"></span><br><span class="line">const smp = new SMWP();</span><br><span class="line"></span><br><span class="line">module.exports = smp.wrap(WEBPACK_CONFIG)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>体积分析</p>
-<ul>
-<li>使用webpack-bundle-analyzer插件</li>
-<li>构建完毕自动在8888端口展示结果<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm i -D webpack-bundle-analyzer</span><br><span class="line"></span><br><span class="line">const &#123; BundleAnalyzerPlugin&#125; = require(&apos;webpack-bundle-analyzer&apos;);</span><br><span class="line"></span><br><span class="line">plugins:[</span><br><span class="line">  new webpack-bundle-analyzer()</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>速度提升</p>
-<ul>
-<li>使用高版本nodejs和webpack，从底层做了优化</li>
-<li>多进程多实例构建 thread-loader </li>
-<li>多进程多实例并行压缩terser-webpack-plugin<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">npm i -D thread-loader terser-webpack-plugin</span><br><span class="line"></span><br><span class="line">use:[</span><br><span class="line">  &#123;</span><br><span class="line">    loader:&quot;thread-loader&quot;,</span><br><span class="line">    options:&#123;</span><br><span class="line">      workers:3</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;babel-loader&quot;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">optimization:&#123;</span><br><span class="line">  minimizer:[</span><br><span class="line">    new TerserWebpackPlugin(&#123;</span><br><span class="line">      parallel:true // 默认cpu核心2倍-1</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>进一步分包</p>
-<ul>
-<li>htmlWebpackExternalsPlugin将基础包分离到cdn引入的缺点是可能有很多基础包很多script请求</li>
-<li>splitChunks缺点是每次都要分析依赖的基础包</li>
-<li>DLLPlugin分包可以把框架基础包和业务基础包进行预编译，打包成一个文件，然后通过DLLReferencePlugin对manifest.json引用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// webpack.dll.js</span><br><span class="line">const path = require(&apos;path&apos;)</span><br><span class="line">const webpack = require(&apos;webpack&apos;)</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry:&#123;</span><br><span class="line">    library:[</span><br><span class="line">      &apos;react&apos;,</span><br><span class="line">      &apos;react-dom&apos;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  output:&#123;</span><br><span class="line">    filename:&quot;[name]_[chunkhash]_dll.js&quot;,</span><br><span class="line">    path:path.join(__dirname,&apos;dll&apos;),</span><br><span class="line">    library:&quot;[name]&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins:[</span><br><span class="line">    new webpack.DllPlugin(&#123;</span><br><span class="line">      name:&quot;[name]_[hash]&quot;,</span><br><span class="line">      path:path.join(__dirname,&apos;dll/[name].json&apos;)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// package.json</span><br><span class="line">&quot;scripts&quot;:&#123;</span><br><span class="line">  &quot;dll&quot;:&quot;webpack --config webpack.dll.js&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// webpack.prod.js</span><br><span class="line"></span><br><span class="line">new webpack.DllReferencePlugin(&#123;</span><br><span class="line">  manifest: require(&apos;./dll/library.json&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>缓存</p>
-<ul>
-<li>提升二次构建速度</li>
-<li>思路<ul>
-<li>babel-loader开启缓存</li>
-<li>terser-webpack-plugin开启缓存</li>
-<li>hard-source-webpack-plugin开启缓存<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// babel-loader</span><br><span class="line">&apos;babel-loader?cacheDirectory=true&apos;</span><br><span class="line"></span><br><span class="line">// terser-webpack-plugin</span><br><span class="line">optimization:&#123;</span><br><span class="line">  minimizer:[</span><br><span class="line">    new TerserWebpackPlugin(&#123;</span><br><span class="line">      parallel:true,</span><br><span class="line">      cache:true</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// hard-source-webpack-plugin</span><br><span class="line">let HSWP= require(&apos;hard-source-webpack-plugin&apos;)</span><br><span class="line"></span><br><span class="line">plugins:[</span><br><span class="line">  new HSWP()</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>缩小构建目标</p>
-<ul>
-<li>尽可能少的构建模块 exclude:’node_modules’</li>
-<li>减少文件搜索范围<ul>
-<li>优化resolve.modules [path.resolve(__dirname,’node_modules’)]</li>
-<li>优化resolve.mainFields [‘main’]</li>
-<li>优化resolve.extensions [‘.js’,’.json’]</li>
-<li>优化resolve.alias {react:path.resolve(__dirname,’node_modules/….js’)}</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>图片压缩</p>
-<ul>
-<li>基于nodejs的imagemin或tinypng的api，使用image-webpack-loader</li>
-<li>imagemin优势<ul>
-<li>很多可配置项目</li>
-<li>可引入第三方优化插件</li>
-<li>可处理多种图片格式<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  loader: &apos;image-webpack-loader&apos;,</span><br><span class="line">  options: &#123;</span><br><span class="line">    mozjpeg: &#123;</span><br><span class="line">      progressive: true,</span><br><span class="line">      quality: 65</span><br><span class="line">    &#125;,</span><br><span class="line">    // optipng.enabled: false will disable optipng</span><br><span class="line">    optipng: &#123;</span><br><span class="line">      enabled: false,</span><br><span class="line">    &#125;,</span><br><span class="line">    pngquant: &#123;</span><br><span class="line">      quality: &apos;65-90&apos;,</span><br><span class="line">      speed: 4</span><br><span class="line">    &#125;,</span><br><span class="line">    gifsicle: &#123;</span><br><span class="line">      interlaced: false,</span><br><span class="line">    &#125;,</span><br><span class="line">    // the webp option will enable WEBP</span><br><span class="line">    webp: &#123;</span><br><span class="line">      quality: 75</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>treeShaking擦除无用css</p>
-<ul>
-<li>默认模块中只要有一个方法被引用整个文件会被打入bundle中，treeShaking是在uglify阶段擦除无用</li>
-<li>webpack4中production默认开启treeShaking</li>
-<li>前提必须是ESM语法，CJS不支持</li>
-<li>手动开启需要在.babelrc中设置modules:false</li>
-<li>删除无用css2种方案<ul>
-<li>purifyCSS 遍历代码，识别已经用到的css</li>
-<li>uncss 通过document.querySelector进行识别</li>
-</ul>
-</li>
-<li>实践<ul>
-<li>purgecss-webpack-plugin + mini-css-extract-plugin</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>动态polyfill</p>
-<ul>
-<li>减少构建体积</li>
-<li>polyfill是根据UA下发需要的polyfill来按需加载</li>
-<li>可以直接script[src=’’]来引用polyfill.io服务</li>
-<li>也可以基于官方开源的方案自建polyfill的cdn服务</li>
-<li>ua篡改也可以根据代码结果降级为获取全部polyfill</li>
-</ul>
-</li>
-</ul>
-<h1 id="原理篇"><a href="#原理篇" class="headerlink" title="原理篇"></a>原理篇</h1><h2 id="源码掌握原理"><a href="#源码掌握原理" class="headerlink" title="源码掌握原理"></a>源码掌握原理</h2><ul>
-<li><p>webpack源码</p>
-<ul>
-<li>本质<ul>
-<li>基于事件流的编程范例，运行一系列的插件</li>
-<li>compiler = webpack(options)</li>
-</ul>
-</li>
-<li>启动流程<ul>
-<li>npm scripts</li>
-<li>webpack cli</li>
-<li>实际都是执行的node_modules/webpack/bin/webpack.js</li>
-</ul>
-</li>
-<li>主要步骤<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">process.exitCode = 0;</span><br><span class="line">const runCommand = (cmd,args)=&gt;&#123;&#125;</span><br><span class="line">const installed = packageName=&gt;&#123;&#125;</span><br><span class="line">const CLIs = []</span><br><span class="line">const installedCLIs = CLIs.filter()</span><br><span class="line">if(installedCLIs.length ===0 )&#123;</span><br><span class="line"></span><br><span class="line">&#125;else if(installedCLIs.length ===1)&#123;</span><br><span class="line"></span><br><span class="line">&#125;else&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>webpack-cli源码</p>
-<ul>
-<li>主要流程<ul>
-<li>引入yargs，对命令行进行定制</li>
-<li>分析命令行参数，对参数进行转换，组成编译配置项</li>
-<li>引入webpack，根据配置项进行编译</li>
-</ul>
-</li>
-<li>不需编译的子命令<ul>
-<li>init</li>
-<li>migrate</li>
-<li>add</li>
-<li>remote</li>
-<li>serve</li>
-<li>info</li>
-<li>generate-loader</li>
-<li>generate-plugin</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>tapable</p>
-<ul>
-<li>类似nodejs的EventEmitter,主要控制钩子的发布和订阅</li>
-<li>插件系统发布或订阅钩子函数进行处理</li>
-<li>9大hook类<ul>
-<li>SyncHook</li>
-<li>SyncBailHook</li>
-<li>SyncWaterfallHook</li>
-<li>SyncLoopHook</li>
-<li>AsyncParallelHook</li>
-<li>AsyncParallelBailHook</li>
-<li>AsyncSeriesHook</li>
-<li>AsyncSeriesBailHook</li>
-<li>AsyncSeriesWaterfallHook</li>
-</ul>
-</li>
-<li>绑定和执行<ul>
-<li>同步:tap和call</li>
-<li>异步:tapAsync/tapPromise/tap和callAsync/<br>promise<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const hook1 = new SyncHook([&quot;a1&quot;,&quot;a2&quot;,&quot;a3&quot;])</span><br><span class="line"></span><br><span class="line">hook1.tap(&quot;hook1&quot;,(a1,a2,a3)=&gt;&#123;&#125;)</span><br><span class="line">hook1.call(1,2,3)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>简易实现webpack</p>
-<ul>
-<li>babel语法转换 babylon</li>
-<li>依赖分析 babel-traverse</li>
-</ul>
-</li>
-</ul>
-<h2 id="自定义loader"><a href="#自定义loader" class="headerlink" title="自定义loader"></a>自定义loader</h2><ul>
-<li><p>loader链式调用和执行顺序</p>
-<ul>
-<li>loader只是一个导出为函数的js模块</li>
-<li>module.exports = function(source){return s}</li>
-<li>链式调用时从右到左从后到前依次串行执行</li>
-<li>函数组合的2种方式<ul>
-<li>unix的pipline从左到右</li>
-<li>compose的方式从右到左compose=(f,g)=&gt;(…args)=&gt;f(g(…args)) webpack采用此方式</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>loader-runner</p>
-<ul>
-<li>可用webpack-cli的generate-loader命令</li>
-<li>loader-runner可以在不安装webpack情况下运行loaders</li>
-<li>webpack也使用loader-runner执行loader</li>
-<li>开发中也可以用loader-runner进行loader的开发和调试</li>
-</ul>
-</li>
-<li><p>pitchLoader</p>
-<ul>
-<li>可以跳过loader的处理</li>
-<li>实现简单，可以更灵活的定义loader的执行</li>
-</ul>
-</li>
-<li><p>实战</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mkdir raw-loader &amp;&amp; cd raw-loader</span><br><span class="line">npm init -y </span><br><span class="line">npm i loader-runner</span><br><span class="line"></span><br><span class="line">/src/demo.txt</span><br><span class="line">demotxt</span><br><span class="line"></span><br><span class="line">/src/raw-loader.js</span><br><span class="line">module.exports=function(src)&#123;</span><br><span class="line">  const json = JSON.stringify(src)</span><br><span class="line">              .replace(/\u2028/g,&apos;\\u2028&apos;)</span><br><span class="line">              .replace(/\u2029/g,&apos;\\u2029&apos;)</span><br><span class="line"></span><br><span class="line">  // 正常返回 return `export default $&#123;json&#125;`; </span><br><span class="line">  // 抛错 throw new Error(&apos;myError&apos;);</span><br><span class="line">  // 也可通过this.callback(error,data1 [,data2...])</span><br><span class="line">  this.callback(null, json);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/run-loader.js</span><br><span class="line">const &#123;runLoaders &#125; = require(&apos;loader-runner&apos;);</span><br><span class="line">const fs = require(&apos;fs&apos;);</span><br><span class="line">const path = require(&apos;path&apos;)</span><br><span class="line">runLoaders(&#123;</span><br><span class="line">    resource:path.join(__dirname,&apos;./src/demo.txt&apos;),</span><br><span class="line">    loaders:[</span><br><span class="line">        path.join(__dirname,&apos;./src/raw-loader.js&apos;)</span><br><span class="line">    ],</span><br><span class="line">    context:&#123;</span><br><span class="line">        minimize:true</span><br><span class="line">    &#125;,</span><br><span class="line">    readResource:fs.readFile.bind(fs)</span><br><span class="line">&#125;,function(err,res)&#123;</span><br><span class="line">    console.log(err,res)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">node run-loader.js</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>高级用法</p>
-<ul>
-<li><p>loader-utils的getOptions获取loader参数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const loaderUtils = require(&apos;loader-utils&apos;);</span><br><span class="line">module.exports = function(source)&#123;</span><br><span class="line">  const &#123;name&#125; = loaderUtils.getOptions(this);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>loader的异步处理</p>
-<ul>
-<li>通过this.async()返回的一个函数进行异步处理</li>
-<li>第一个参数是error，第二个参数是处理结果<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">module.exports = function(source)&#123;</span><br><span class="line">  const callback = this.async();</span><br><span class="line"></span><br><span class="line">  fs.readFile(path,&apos;utf-8&apos;,(err,data)=&gt;&#123;</span><br><span class="line">    callback(err,data)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>loader的缓存</p>
-<ul>
-<li>webpack中默认开启缓存</li>
-<li>可使用this.cacheable(false)关掉缓存</li>
-<li>缓存的条件是相同的输入有相同的输出</li>
-<li>有依赖的loader无法使用缓存</li>
-</ul>
-</li>
-<li><p>loader的文件输出</p>
-<ul>
-<li>this.emitFile(outputPath,content)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="自定义plugin"><a href="#自定义plugin" class="headerlink" title="自定义plugin"></a>自定义plugin</h2><ul>
-<li><p>插件</p>
-<ul>
-<li>没有loader那样的独立运行环境，只能在webpack内运行</li>
-<li>插件需要导出一个类，类需要实现apply方法</li>
-<li>apply方法接收到一个compiler对象参数</li>
-<li>插件内通过compiler的hooks和compilation的hooks做逻辑处理</li>
-</ul>
-</li>
-<li><p>搭建插件运行环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const DemoPlugin = require(&apos;./plugins/demo.js&apos;);</span><br><span class="line">const options = &#123;&#125;</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry:&#123;</span><br><span class="line">    lib: path.join(__dirname,&apos;src/lib.js&apos;)</span><br><span class="line">  &#125;,</span><br><span class="line">  output:&#123;</span><br><span class="line">    path:path.join(__dirname,&apos;dist&apos;),</span><br><span class="line">    filename:&apos;[name].js&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins:[</span><br><span class="line">    new DemoPlugin(options)</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// plugins/demo.js</span><br><span class="line">module.exports = class DemoPlugin &#123;</span><br><span class="line">  constructor(options)&#123;</span><br><span class="line">    this.options = options</span><br><span class="line">  &#125;</span><br><span class="line">  apply(compiler)&#123;</span><br><span class="line">    console.log(this.options);</span><br><span class="line">    compiler.hooks.done.tap(&apos;demo&apos;,()=&gt;&#123;&#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>错误处理</p>
-<ul>
-<li>接收参数时可以直接throw new Error()</li>
-<li>hooks处理阶段通过compilation.warnings或errors.push(‘msg’)</li>
-</ul>
-</li>
-<li><p>文件输出</p>
-<ul>
-<li>通过compilation.assets配合webpack-sources包<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">const JSZip = require(&apos;jszip&apos;)</span><br><span class="line">const RawSource = require(&apos;webpack-sources&apos;).RawSource</span><br><span class="line">const path = require(&apos;path&apos;)</span><br><span class="line">const zip = new JSZip()</span><br><span class="line">module.exports = class DemoPlugin &#123;</span><br><span class="line">  constructor (options) &#123;</span><br><span class="line">    this.options = options</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  apply (compiler) &#123;</span><br><span class="line">    compiler.hooks.emit.tapAsync(&apos;zipPlugin&apos;, (compilation, cb) =&gt; &#123;</span><br><span class="line">      const folder = zip.folder(this.options.name)</span><br><span class="line">      for (const filename in compilation.assets) &#123;</span><br><span class="line">        const source = compilation.assets[filename].source()</span><br><span class="line">        folder.file(filename, source)</span><br><span class="line">      &#125;</span><br><span class="line">      zip.generateAsync(&#123;</span><br><span class="line">        type: &apos;nodebuffer&apos;</span><br><span class="line">      &#125;).then((content) =&gt; &#123;</span><br><span class="line">        console.log(compilation.options)</span><br><span class="line">        const outputPath = path.join(compilation.options.output.path, this.options.name + &apos;.zip&apos;)</span><br><span class="line">        const relativePath = path.relative(compilation.options.output.path, outputPath)</span><br><span class="line">        compilation.assets[relativePath] = new RawSource(content)</span><br><span class="line">        cb()</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/webpack/">webpack</a>
-    </span>
     
 
     </div>

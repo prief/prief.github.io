@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://prief.github.io/2020/04/05/archi-jike/</loc>
+    
+    <lastmod>2020-04-12T02:08:57.454Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prief.github.io/2020/04/01/k8s/</loc>
+    
+    <lastmod>2020-04-04T23:40:10.232Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prief.github.io/2019/09/09/k8s-mooc/</loc>
+    
+    <lastmod>2020-04-01T06:46:39.187Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://prief.github.io/2019/08/17/webpack/</loc>
     
     <lastmod>2020-04-01T06:40:05.303Z</lastmod>
@@ -40,13 +61,6 @@
     <loc>https://prief.github.io/2020/02/12/ldap/</loc>
     
     <lastmod>2020-02-13T03:31:41.500Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prief.github.io/2019/09/09/k8s-mooc/</loc>
-    
-    <lastmod>2020-01-18T14:24:34.753Z</lastmod>
     
   </url>
   
