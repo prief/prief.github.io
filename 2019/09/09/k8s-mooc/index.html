@@ -12,25 +12,18 @@
   
   <meta name="description" content="k8s快速入门核心概念
 kubernetes 舵手
-
 image
-
 container
-
 pod
-
 包含1个或多个container
 container之间共享网络，ip
 
 
 replicaset
-
 deployment
-
 service
-
 通过labelSelector选择后端服务
-通过clust">
+通过clusterIp暴露服">
   
 
   
@@ -104,53 +97,45 @@ service
     <div class="entry">
       
         <h1 id="k8s快速入门"><a href="#k8s快速入门" class="headerlink" title="k8s快速入门"></a>k8s快速入门</h1><h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ul>
-<li><p>kubernetes 舵手</p>
-</li>
-<li><p>image</p>
-</li>
-<li><p>container</p>
-</li>
-<li><p>pod</p>
-<ul>
+<li>kubernetes 舵手</li>
+<li>image</li>
+<li>container</li>
+<li>pod<ul>
 <li>包含1个或多个container</li>
 <li>container之间共享网络，ip</li>
 </ul>
 </li>
-<li><p>replicaset</p>
-</li>
-<li><p>deployment</p>
-</li>
-<li><p>service</p>
-<ul>
+<li>replicaset</li>
+<li>deployment</li>
+<li>service<ul>
 <li>通过labelSelector选择后端服务</li>
 <li>通过clusterIp暴露服务</li>
 </ul>
 </li>
-<li><p><a href="https://k8s.imroc.io/" target="_blank" rel="noopener">https://k8s.imroc.io/</a></p>
-<h2 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h2></li>
-<li><p>master</p>
-<ul>
+<li><a href="https://k8s.imroc.io/" target="_blank" rel="noopener">https://k8s.imroc.io/</a></li>
+</ul>
+<h2 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h2><ul>
+<li>master<ul>
 <li>etcd</li>
 <li>apiServer</li>
 <li>scheduler</li>
 <li>controllerManager</li>
 </ul>
 </li>
-<li><p>worker</p>
-<ul>
+<li>worker<ul>
 <li>kubelet</li>
 <li>kube-proxy</li>
-<li>docker<h2 id="认证授权"><a href="#认证授权" class="headerlink" title="认证授权"></a>认证授权</h2></li>
+<li>docker</li>
 </ul>
 </li>
-<li><p>https</p>
-<ul>
+</ul>
+<h2 id="认证授权"><a href="#认证授权" class="headerlink" title="认证授权"></a>认证授权</h2><ul>
+<li>https<ul>
 <li>ssl/tls</li>
 <li>CA(浏览器的公共CA和自有CA)</li>
 </ul>
 </li>
-<li><p>k8s认证</p>
-<ul>
+<li>k8s认证<ul>
 <li>集群外访问apiServer<ul>
 <li>客户端证书认证(kubectl,tls双向认证)</li>
 <li>BearerToken认证(apiServer内置了可信任的token)</li>
@@ -166,8 +151,7 @@ service
 </li>
 </ul>
 </li>
-<li><p>授权</p>
-<ul>
+<li>授权<ul>
 <li>ABAC</li>
 <li>webHook</li>
 <li>RBAC(最新的主流方案，roleBasedAccessControl)<ul>
@@ -197,32 +181,33 @@ service
 </li>
 </ul>
 </li>
-<li><p>准入控制</p>
-<ul>
+<li>准入控制<ul>
 <li>AdmisionControl，类似java中的filter</li>
 <li>AlwaysAdmit</li>
 <li>AlwaysDeny</li>
 <li>ServiceAccount</li>
-<li>DenyEscalatingExec<h2 id="集群搭建方案对比"><a href="#集群搭建方案对比" class="headerlink" title="集群搭建方案对比"></a>集群搭建方案对比</h2></li>
+<li>DenyEscolatingExec</li>
 </ul>
 </li>
-<li><p>kubeadm</p>
-<ul>
+</ul>
+<h2 id="集群搭建方案对比"><a href="#集群搭建方案对比" class="headerlink" title="集群搭建方案对比"></a>集群搭建方案对比</h2><ul>
+<li>kubeadm<ul>
 <li>优雅，几乎所有组件都在pod中</li>
 <li>简单</li>
 <li>支持高可用</li>
 <li>升级方便</li>
 </ul>
 </li>
-<li><p>二进制</p>
-<ul>
+<li>二进制<ul>
 <li>容易维护</li>
 <li>灵活</li>
 <li>支持高可用</li>
 <li>升级方便</li>
-<li>证书、配置等需要一步步操作<h1 id="kubeadm方式搭建"><a href="#kubeadm方式搭建" class="headerlink" title="kubeadm方式搭建"></a>kubeadm方式搭建</h1><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2></li>
+<li>证书、配置等需要一步步操作</li>
 </ul>
 </li>
+</ul>
+<h1 id="kubeadm方式搭建"><a href="#kubeadm方式搭建" class="headerlink" title="kubeadm方式搭建"></a>kubeadm方式搭建</h1><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
 <li><p>统一主机名</p>
 <ul>
 <li>hostname</li>
@@ -233,8 +218,8 @@ service
 <li><p>安装依赖包</p>
 <ul>
 <li>wget -O /etc/yum.repos.d/CentOS-Base.repo <a href="http://mirrors.aliyun.com/repo/Centos-7.repo" target="_blank" rel="noopener">http://mirrors.aliyun.com/repo/Centos-7.repo</a></li>
-<li>yum install -y epel-release &amp;&amp; yum clean all &amp;&amp; yum makecache</li>
-<li>yum update -y</li>
+<li>rhel更换免费的yum源 </li>
+<li>yum install -y epel-release &amp;&amp; yum clean all &amp;&amp; yum makecache &amp;&amp; yum update -y</li>
 <li>yum install -y conntrack ipvsadm ipset jq sysstat curl iptables libseccomp ntpdate</li>
 <li>ntpdate ip</li>
 </ul>
@@ -243,7 +228,7 @@ service
 <ul>
 <li>关闭防火墙 systemctl stop firewalld &amp;&amp; systemctl disable firewalld</li>
 <li>关闭swap  swapoff -a &amp;&amp; sed -i ‘/swap/s/^(.*)$/# \1/g’ /etc/fstab</li>
-<li>重置iptables iptables -F &amp;&amp; iptables -X &amp;&amp; iptables -F -t nat &amp;&amp; iptables -X -t nat &amp;&amp; iptables -P FORWARD ACCEPT</li>
+<li>重置iptables iptables -F &amp;&amp; iptables -X &amp;&amp; iptables -F -t nat &amp;&amp; iptables -X -t nat &amp;&amp; iptables -P FORWARD ACCEPT &amp;&amp; service iptables save</li>
 <li>关闭selinux setenforce 0 &amp;&amp; sed -i ‘s/^SELINUX=.*$/SELINUX=disabled/‘ /etc/selinux/config</li>
 <li>关闭dnsmasq systemctl stop dnsmasq &amp;&amp; systemctl disable dnsmasq</li>
 <li>配置k8s系统文件 vim /etc/sysctl.d/kubernetes.conf &amp;&amp; sysctl -p /etc/sysctl.d/kubernetes.conf<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/sysctl.d/kubernetes.conf &lt;&lt;EOF</span><br><span class="line">net.bridge.bridge-nf-call-iptables=1</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables=1</span><br><span class="line">net.ipv4.ip_forward=1</span><br><span class="line">vm.swappiness=0</span><br><span class="line">vm.overcommit_memory=1</span><br><span class="line">vm.panic_on_oom=0</span><br><span class="line">fs.inotify.max_user_watches=89100</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
