@@ -1251,7 +1251,8 @@ css动画
 <li>解释器会自己判断语句该在哪里终止，实际上并没有真正的插入分号，只是个形象的说法</li>
 </ul>
 </li>
-<li>var最好写在函数内最前面或第一次出现的地方来作为最佳实践</li>
+<li>var最好写在函数内最前面或第一次出现的地方来作为最佳实践或放弃var</li>
+<li>void function(){}(); void来表达IIFE成为最佳实践</li>
 </ul>
 <h4 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h4><ul>
 <li>简单语句<ul>
@@ -1271,17 +1272,46 @@ css动画
 <li>IterationStatement<ul>
 <li>while(){}</li>
 <li>do{}while()</li>
-<li>for(;;){}</li>
+<li>for(;;){}<ul>
+<li>let/const声明过后的变量不能再被声明</li>
+<li>let i = 0;for(let i=5;i&lt;10;i++){let i=0;console.log(i)}; </li>
+<li>上面的i会产生3层作用域,for语句中的()里的声明部分会对let/const产生一层作用域</li>
+</ul>
+</li>
 <li>for(in){}</li>
-<li>for(of){}</li>
+<li>for(of){} 遍历iterator的每个值</li>
+<li>for await(of){} 遍历异步iterator的每个值</li>
 </ul>
 </li>
 <li>WithStatement</li>
 <li>LabelledStatement</li>
-<li>TryStatement</li>
+<li>TryStatement<ul>
+<li>try{}catch(){}finally{}</li>
+<li>catch(e){}语句块也会对e生成和后面的{}一起的独立的作用域</li>
 </ul>
 </li>
-<li>声明</li>
+</ul>
+</li>
+<li>声明<ul>
+<li>FunctionDeclaration</li>
+<li>GeneratorDeclaration</li>
+<li>AsyncFunctionDeclaration</li>
+<li>AsyncGeneratorDeclaration</li>
+<li>VariableStatement<ul>
+<li>主要是变量声明语句的hoist</li>
+<li>只提升声明的部分，初始化赋值的部分不提升</li>
+<li>执行过程中的hoist称为BoundNames，会被预处理</li>
+</ul>
+</li>
+<li>ClassDeclaration</li>
+<li>LexicalDeclaration<ul>
+<li>const/let</li>
+<li>声明过后不允许重复声明</li>
+<li>产生块级作用域</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h4 id="runtime"><a href="#runtime" class="headerlink" title="runtime"></a>runtime</h4><ul>
 <li>CompletionRecord 语句执行完成后的记录，有三个属性<ul>
@@ -1290,7 +1320,67 @@ css动画
 <li>[[target]]: label</li>
 </ul>
 </li>
-<li>LexicalEnvironment</li>
+<li>LexicalEnvironment<ul>
+<li>作用域一般指静态代码中的区域</li>
+<li>上下文一般指运行时内存中的对象</li>
+</ul>
+</li>
+</ul>
+<h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><ul>
+<li>三要素<ul>
+<li>唯一性，每个对象都是唯一的</li>
+<li>状态，用属性描述对象</li>
+<li>行为，用方法改变对象的状态</li>
+</ul>
+</li>
+<li>面向对象<ul>
+<li>三特性<ul>
+<li>封装/复用/解耦/内聚</li>
+<li>继承</li>
+<li>多态</li>
+</ul>
+</li>
+<li>基于类的面向对象<ul>
+<li>归类派，多重继承是其特性，如c++</li>
+<li>分类派，单继承结构，会有一个基类Object，但向上归类时就会产生Interface和Mixin</li>
+</ul>
+</li>
+<li>基于原型对象的面向对象<ul>
+<li>采用相似的方式去描述对象，不做严谨的分类</li>
+<li>任何对象只需要描述自己与原型对象的区别即可</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>js对象<ul>
+<li>对象的描述方式非常简单，只需要关注原型和属性即可(原型不是属性，js方法也属于属性)</li>
+<li>属性kv对<ul>
+<li>key<ul>
+<li>String</li>
+<li>Symbol</li>
+</ul>
+</li>
+<li>value<ul>
+<li>DataProperty<ul>
+<li>[[value]]</li>
+<li>writable</li>
+<li>enumerable</li>
+<li>configurable</li>
+</ul>
+</li>
+<li>AccessorProperty<ul>
+<li>get</li>
+<li>set</li>
+<li>enumerable</li>
+<li>configurable</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h3 id="js结构化"><a href="#js结构化" class="headerlink" title="js结构化"></a>js结构化</h3>
       
