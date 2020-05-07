@@ -955,7 +955,8 @@ css动画
 </li>
 </ul>
 <h4 id="词法与类型"><a href="#词法与类型" class="headerlink" title="词法与类型"></a>词法与类型</h4><ul>
-<li>词法<ul>
+<li><p>词法</p>
+<ul>
 <li>js中可以写任意unicode码点（code point 正整数），但最佳实践推荐ASCII内</li>
 <li>常用码点方法<ul>
 <li>CJK(chinese japanese korean) U+4E00-U+9FFF(常用的中文字，但也不全)</li>
@@ -966,7 +967,8 @@ css动画
 </li>
 </ul>
 </li>
-<li>InputElement<ul>
+<li><p>InputElement</p>
+<ul>
 <li>WhiteSpace<ul>
 <li><tab> tabulation</tab></li>
 <li><vt> virtical tabulation</vt></li>
@@ -1010,7 +1012,8 @@ css动画
 </li>
 </ul>
 </li>
-<li>Number<ul>
+<li><p>Number</p>
+<ul>
 <li>float64<ul>
 <li>IEEE754标准中规定可使用double float双精度浮点数float64</li>
 <li>float64<ul>
@@ -1043,17 +1046,26 @@ css动画
 </li>
 </ul>
 </li>
-<li>String<ul>
-<li>encoding<ul>
-<li>ASCII</li>
-<li>Unicode<ul>
+<li><p>String</p>
+<ul>
+<li><p>encoding</p>
+<ul>
+<li><p>ASCII</p>
+</li>
+<li><p>Unicode</p>
+<ul>
 <li>UCS Transformation Format</li>
 <li>UTF-8 字符用1-4个字节表示</li>
 <li>UTF-16 字符用2个字节或4个字节表示</li>
 <li>UTF-32 字符用4个字节表示</li>
-</ul>
+<li><img src="/2019/12/08/refe/utf8.png" title="utf8转换">
+
 </li>
-<li>UCS <ul>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var bits = &apos;美&apos;.codePointAt().toString(2); // &quot;111111110001110&quot;</span><br><span class="line"></span><br><span class="line">bits.padding(); // &quot;0111111110001110&quot;</span><br><span class="line"></span><br><span class="line">utf8 = [0b11100111,0b10111110,0b10001110].map(e=&gt;e.toString(16)) // [&quot;e7&quot;, &quot;be&quot;, &quot;8e&quot;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>UCS </p>
+<ul>
 <li>Unicode Character Set</li>
 <li>UCS-2 2个字节进行编码<ul>
 <li>在UCS-2的2个字节前面加上2个零字节就得到了UCS-4的BMP</li>
@@ -1070,17 +1082,21 @@ css动画
 </li>
 </ul>
 </li>
-<li>GB<ul>
+<li><p>GB</p>
+<ul>
 <li>GB2312</li>
 <li>GBK</li>
 <li>GB18030</li>
 </ul>
 </li>
-<li>ISO-8859</li>
-<li>BIG5</li>
+<li><p>ISO-8859</p>
+</li>
+<li><p>BIG5</p>
+</li>
 </ul>
 </li>
-<li>其他<ul>
+<li><p>其他</p>
+<ul>
 <li>转义<ul>
 <li>\xFF 后面跟2个16进制数字表示一个字符</li>
 <li>\uFFFF 后面跟4个16进制数字表示一个字符</li>
@@ -1091,7 +1107,8 @@ css动画
 </li>
 </ul>
 </li>
-<li>正则表达式<ul>
+<li><p>正则表达式</p>
+<ul>
 <li>由于/也是除法的符号，所以/a/g正则字面量前面有标示符时可能会出错<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a,g;</span><br><span class="line">a</span><br><span class="line">/a/g</span><br></pre></td></tr></table></figure>
 
 </li>
@@ -1353,7 +1370,12 @@ css动画
 </ul>
 </li>
 <li>js对象<ul>
-<li>对象的描述方式非常简单，只需要关注原型和属性即可(原型不是属性，js方法也属于属性)</li>
+<li>一般对象的描述方式非常简单，只需要关注属性和原型即可(原型不是属性，js方法也属于属性)<ul>
+<li>访问属性时如果当前对象没有，则会访问原型对象上的同名属性，直到null，形成原型链</li>
+<li>增加属性时则是增加到自身的属性上，不会影响原型链的上层</li>
+<li>属性机制保证了对象只需要描述自己与原型对象的区别即可</li>
+</ul>
+</li>
 <li>属性kv对<ul>
 <li>key<ul>
 <li>String</li>
@@ -1377,6 +1399,42 @@ css动画
 </li>
 </ul>
 </li>
+</ul>
+</li>
+<li>ObjectApi<ul>
+<li>基本对象能力api<ul>
+<li>{}</li>
+<li>.</li>
+<li>[]</li>
+<li>Object.defineProperty</li>
+</ul>
+</li>
+<li>原型api（加上基本对象能力api就是基于原型的OOP）<ul>
+<li>Object.create</li>
+<li>Object.setPrototypeOf</li>
+<li>Object.getPrototypeOf</li>
+</ul>
+</li>
+<li>类api（加上基本对象能力api就是基于类的OOP）<ul>
+<li>new </li>
+<li>class</li>
+<li>extends</li>
+</ul>
+</li>
+<li>原型模拟类的api（在未实现class前的模式，现在应该被废弃）<ul>
+<li>new</li>
+<li>function</li>
+<li>prototype</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Function Object<ul>
+<li>函数对象是一种特殊的对象</li>
+<li>除了一般对象的属性和原型外，函数对象还有一个行为[[call]]</li>
+<li>function关键字/箭头函数/Function构造器创建的对象都有[[call]]行为</li>
+<li>用f()这样的语法把对象当作函数使用时就会访问[[call]]行为</li>
+<li>如果对象上没有[[call]]行为，使用()调用时就会报错</li>
 </ul>
 </li>
 </ul>
