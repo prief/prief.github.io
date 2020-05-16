@@ -1,102 +1,133 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
-  <title>k8s-mooc | prief | about share and go on</title>
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta name="generator" content="Hexo 3.9.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="k8s-mooc">
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="prief">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1">
+
+
+
+<link rel="canonical" href="https://prief.github.io/2019/09/09/k8s-mooc/">
+
+
+<meta name="description" content="k8s快速入门核心概念 kubernetes 舵手 image container pod 包含1个或多个container container之间共享网络，ip   replicaset deployment service 通过labelSelector选择后端服务 通过clusterIp暴露服务   https://k8s.imroc.io/  架构设计 master etcd apiSer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s-mooc">
+<meta property="og:url" content="https://prief.github.io/2019/09/09/k8s-mooc/index.html">
+<meta property="og:site_name" content="prief">
+<meta property="og:description" content="k8s快速入门核心概念 kubernetes 舵手 image container pod 包含1个或多个container container之间共享网络，ip   replicaset deployment service 通过labelSelector选择后端服务 通过clusterIp暴露服务   https://k8s.imroc.io/  架构设计 master etcd apiSer">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-05-01T08:07:54.504Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="k8s-mooc">
+<meta name="twitter:description" content="k8s快速入门核心概念 kubernetes 舵手 image container pod 包含1个或多个container container之间共享网络，ip   replicaset deployment service 通过labelSelector选择后端服务 通过clusterIp暴露服务   https://k8s.imroc.io/  架构设计 master etcd apiSer">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
 
   
-  <meta name="author" content="prief">
-  
-
-  
-  <meta name="description" content="k8s快速入门核心概念
-kubernetes 舵手
-image
-container
-pod
-包含1个或多个container
-container之间共享网络，ip
 
 
-replicaset
-deployment
-service
-通过labelSelector选择后端服务
-通过clusterIp暴露服">
-  
 
-  
-  
-  <meta name="keywords" content>
-  
+    <title> k8s-mooc - prief </title>
+  </head>
 
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="k8s-mooc">
-
-  <meta property="og:site_name" content="prief">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="prief" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
     <h1 class="site-title">
-      <a href="/">prief</a>
+        <a href="/." class="logo">prief</a>
     </h1>
-    <p class="site-description">about share and go on</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/tags">Tags</a></li>
-      
-    </ul>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
   </nav>
-</header>
+</div>
 
-    <main class="site-main posts-loop">
-    <article>
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          k8s-mooc
+        
+      </h1>
 
-  
+      <time class="post-time">
+          Sep 09 2019
+      </time>
+    </header>
+
+
+
     
-    <h3 class="article-title"><span>k8s-mooc</span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/09/09/k8s-mooc/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-09-09T14:37:42.000Z">
-          2019-09-09
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="k8s快速入门"><a href="#k8s快速入门" class="headerlink" title="k8s快速入门"></a>k8s快速入门</h1><h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ul>
+            <div class="post-content">
+            <h1 id="k8s快速入门"><a href="#k8s快速入门" class="headerlink" title="k8s快速入门"></a>k8s快速入门</h1><h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ul>
 <li>kubernetes 舵手</li>
 <li>image</li>
 <li>container</li>
@@ -558,39 +589,79 @@ service
 </li>
 </ul>
 <h2 id="定时任务迁移"><a href="#定时任务迁移" class="headerlink" title="定时任务迁移"></a>定时任务迁移</h2><h2 id="springboot迁移"><a href="#springboot迁移" class="headerlink" title="springboot迁移"></a>springboot迁移</h2><h2 id="dubbo迁移"><a href="#dubbo迁移" class="headerlink" title="dubbo迁移"></a>dubbo迁移</h2><h2 id="传统web迁移"><a href="#传统web迁移" class="headerlink" title="传统web迁移"></a>传统web迁移</h2><h1 id="cicd"><a href="#cicd" class="headerlink" title="cicd"></a>cicd</h1><h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><h2 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h2><h2 id="docker-build"><a href="#docker-build" class="headerlink" title="docker build"></a>docker build</h2><h2 id="harbor-1"><a href="#harbor-1" class="headerlink" title="harbor"></a>harbor</h2><h2 id="服务发布"><a href="#服务发布" class="headerlink" title="服务发布"></a>服务发布</h2><h2 id="健康检查"><a href="#健康检查" class="headerlink" title="健康检查"></a>健康检查</h2><h1 id="重要资源对象"><a href="#重要资源对象" class="headerlink" title="重要资源对象"></a>重要资源对象</h1><h2 id="namespace"><a href="#namespace" class="headerlink" title="namespace"></a>namespace</h2><h2 id="resources"><a href="#resources" class="headerlink" title="resources"></a>resources</h2><h2 id="label"><a href="#label" class="headerlink" title="label"></a>label</h2><h1 id="调度与编排"><a href="#调度与编排" class="headerlink" title="调度与编排"></a>调度与编排</h1><h2 id="健康检查-1"><a href="#健康检查-1" class="headerlink" title="健康检查"></a>健康检查</h2><h2 id="scheduler"><a href="#scheduler" class="headerlink" title="scheduler"></a>scheduler</h2><h2 id="部署策略"><a href="#部署策略" class="headerlink" title="部署策略"></a>部署策略</h2><h2 id="pod"><a href="#pod" class="headerlink" title="pod"></a>pod</h2><h1 id="落地实践"><a href="#落地实践" class="headerlink" title="落地实践"></a>落地实践</h1><h2 id="ingress"><a href="#ingress" class="headerlink" title="ingress"></a>ingress</h2><h2 id="共享存储pv-pvc-sc"><a href="#共享存储pv-pvc-sc" class="headerlink" title="共享存储pv/pvc/sc"></a>共享存储pv/pvc/sc</h2><h2 id="statefulset"><a href="#statefulset" class="headerlink" title="statefulset"></a>statefulset</h2><h2 id="k8sApi"><a href="#k8sApi" class="headerlink" title="k8sApi"></a>k8sApi</h2><h1 id="日志和监控"><a href="#日志和监控" class="headerlink" title="日志和监控"></a>日志和监控</h1><h2 id="日志方案"><a href="#日志方案" class="headerlink" title="日志方案"></a>日志方案</h2><h2 id="监控入门"><a href="#监控入门" class="headerlink" title="监控入门"></a>监控入门</h2><h2 id="部署实战"><a href="#部署实战" class="headerlink" title="部署实战"></a>部署实战</h2><h2 id="监控落地"><a href="#监控落地" class="headerlink" title="监控落地"></a>监控落地</h2><h1 id="istio"><a href="#istio" class="headerlink" title="istio"></a>istio</h1><h2 id="架构原理"><a href="#架构原理" class="headerlink" title="架构原理"></a>架构原理</h2><h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><h2 id="智能路由"><a href="#智能路由" class="headerlink" title="智能路由"></a>智能路由</h2><h2 id="指标收集和查询"><a href="#指标收集和查询" class="headerlink" title="指标收集和查询"></a>指标收集和查询</h2><h2 id="分布式追踪"><a href="#分布式追踪" class="headerlink" title="分布式追踪"></a>分布式追踪</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
-      
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2019/10/01/flutter/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">flutter</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2019/08/17/cli/">
+        <span class="next-text nav-default">cli</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
     </div>
 
-  </div>
+      </div>
 
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
+      <footer id="colophon"><span class="copyright-year">
     
-
+        &copy;
     
+    2020
+    <span class="footer-author">prief.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
 
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
     </div>
-
     
-  </div>
-</article>
 
 
-    </main>
+    
 
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2020 prief
-    
-  </p>
-</footer>
-    
-  </div>
-</div>
-</body>
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
 </html>

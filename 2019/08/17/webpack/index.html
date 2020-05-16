@@ -1,106 +1,136 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
-  <title>webpack | prief | about share and go on</title>
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta name="generator" content="Hexo 3.9.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="webpack">
+
+
+
+
+  <meta name="keywords" content="webpack,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="prief">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1">
+
+
+
+<link rel="canonical" href="https://prief.github.io/2019/08/17/webpack/">
+
+
+<meta name="description" content="基础篇webpack及发展历史 目的 css的预处理 ES6等的支持 图片压缩 发布产物的压缩混淆   同类 rollup parcel   安装准备 brew install nvm , windows可以安装nvm-windows nvm install v10.16.3 node -v npm -v mkdir webpack-demo &amp;amp;&amp;amp; cd webpack-demo">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack">
+<meta property="og:url" content="https://prief.github.io/2019/08/17/webpack/index.html">
+<meta property="og:site_name" content="prief">
+<meta property="og:description" content="基础篇webpack及发展历史 目的 css的预处理 ES6等的支持 图片压缩 发布产物的压缩混淆   同类 rollup parcel   安装准备 brew install nvm , windows可以安装nvm-windows nvm install v10.16.3 node -v npm -v mkdir webpack-demo &amp;amp;&amp;amp; cd webpack-demo">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-04-01T06:40:05.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack">
+<meta name="twitter:description" content="基础篇webpack及发展历史 目的 css的预处理 ES6等的支持 图片压缩 发布产物的压缩混淆   同类 rollup parcel   安装准备 brew install nvm , windows可以安装nvm-windows nvm install v10.16.3 node -v npm -v mkdir webpack-demo &amp;amp;&amp;amp; cd webpack-demo">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
 
   
-  <meta name="author" content="prief">
-  
-
-  
-  <meta name="description" content="基础篇webpack及发展历史
-目的
-css的预处理
-ES6等的支持
-图片压缩
-发布产物的压缩混淆
 
 
-同类
-rollup
-parcel
 
+    <title> webpack - prief </title>
+  </head>
 
-安装准备
-brew install nvm , windows可以安装nvm-windows
-nvm install v10.16.3
-node -v
-npm">
-  
-
-  
-  
-  <meta name="keywords" content="webpack">
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="webpack">
-
-  <meta property="og:site_name" content="prief">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="prief" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
     <h1 class="site-title">
-      <a href="/">prief</a>
+        <a href="/." class="logo">prief</a>
     </h1>
-    <p class="site-description">about share and go on</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/tags">Tags</a></li>
-      
-    </ul>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
   </nav>
-</header>
+</div>
 
-    <main class="site-main posts-loop">
-    <article>
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          webpack
+        
+      </h1>
 
-  
+      <time class="post-time">
+          Aug 17 2019
+      </time>
+    </header>
+
+
+
     
-    <h3 class="article-title"><span>webpack</span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/08/17/webpack/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-08-17T08:29:05.000Z">
-          2019-08-17
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h1><h2 id="webpack及发展历史"><a href="#webpack及发展历史" class="headerlink" title="webpack及发展历史"></a>webpack及发展历史</h2><ul>
+            <div class="post-content">
+            <h1 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h1><h2 id="webpack及发展历史"><a href="#webpack及发展历史" class="headerlink" title="webpack及发展历史"></a>webpack及发展历史</h2><ul>
 <li>目的<ul>
 <li>css的预处理</li>
 <li>ES6等的支持</li>
@@ -1008,46 +1038,85 @@ npm">
 </li>
 </ul>
 
-      
-    </div>
+            </div>
+          
 
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/webpack/">webpack</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2019/08/17/cli/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">cli</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2019/08/15/vscode/">
+        <span class="next-text nav-default">vscode</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
   </div>
 
-  <div class="article-footer">
-    <div class="article-meta pull-left">
 
+      </footer>
     
+  </article>
 
-    
-    
+    </div>
 
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/webpack/">webpack</a>
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+    2020
+    <span class="footer-author">prief.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
     </span>
-    
+</span>
 
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
     </div>
-
     
-  </div>
-</article>
 
 
-    </main>
+    
 
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2020 prief
-    
-  </p>
-</footer>
-    
-  </div>
-</div>
-</body>
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
 </html>

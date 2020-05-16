@@ -1,102 +1,146 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
-  <title>flutter | prief | about share and go on</title>
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta name="generator" content="Hexo 3.9.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="flutter">
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="prief">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1">
+
+
+
+<link rel="canonical" href="https://prief.github.io/2019/10/01/flutter/">
+
+
+<meta name="description" content="flutter开发起步核心 底层渲染逻辑skia 利用自己的渲染引擎skia，不依赖OS的组件 保证了高度一致性   上层开发语言dart Dart同时支持JIT/AOT 开发期调试效率高，发布期执行性能好特性   跨平台 高保真(自己的渲染引擎skia完成了渲染的闭环，不用js扩展调用原生) 高性能  分层架构 embedder 操作系统适配层 实现了渲染设置，线程设置，平台插件适配等   en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutter">
+<meta property="og:url" content="https://prief.github.io/2019/10/01/flutter/index.html">
+<meta property="og:site_name" content="prief">
+<meta property="og:description" content="flutter开发起步核心 底层渲染逻辑skia 利用自己的渲染引擎skia，不依赖OS的组件 保证了高度一致性   上层开发语言dart Dart同时支持JIT/AOT 开发期调试效率高，发布期执行性能好特性   跨平台 高保真(自己的渲染引擎skia完成了渲染的闭环，不用js扩展调用原生) 高性能  分层架构 embedder 操作系统适配层 实现了渲染设置，线程设置，平台插件适配等   en">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/flutterArch.png">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/flutter.jpg">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/hybrid.png">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/lifecycle1.png">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/lifecycle2.png">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/eventLoop.png">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/eventLoop.gif">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/hybridNav.png">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/hotReload.png">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/projectArch.png">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/workflow.png">
+<meta property="og:image" content="https://prief.github.io/2019/10/01/flutter/cmd.png">
+<meta property="og:updated_time" content="2019-11-16T07:41:48.617Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flutter">
+<meta name="twitter:description" content="flutter开发起步核心 底层渲染逻辑skia 利用自己的渲染引擎skia，不依赖OS的组件 保证了高度一致性   上层开发语言dart Dart同时支持JIT/AOT 开发期调试效率高，发布期执行性能好特性   跨平台 高保真(自己的渲染引擎skia完成了渲染的闭环，不用js扩展调用原生) 高性能  分层架构 embedder 操作系统适配层 实现了渲染设置，线程设置，平台插件适配等   en">
+<meta name="twitter:image" content="https://prief.github.io/2019/10/01/flutter/flutterArch.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
 
   
-  <meta name="author" content="prief">
-  
-
-  
-  <meta name="description" content="flutter开发起步核心
-底层渲染逻辑skia
-利用自己的渲染引擎skia，不依赖OS的组件
-保证了高度一致性
 
 
-上层开发语言dart
-Dart同时支持JIT/AOT
-开发期调试效率高，发布期执行性能好特性
 
+    <title> flutter - prief </title>
+  </head>
 
-跨平台
-高保真(自己的渲染引擎skia完成了渲染的闭环，不用js扩展调用原生)
-高性">
-  
-
-  
-  
-  <meta name="keywords" content>
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="flutter">
-
-  <meta property="og:site_name" content="prief">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="prief" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
     <h1 class="site-title">
-      <a href="/">prief</a>
+        <a href="/." class="logo">prief</a>
     </h1>
-    <p class="site-description">about share and go on</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/tags">Tags</a></li>
-      
-    </ul>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
   </nav>
-</header>
+</div>
 
-    <main class="site-main posts-loop">
-    <article>
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          flutter
+        
+      </h1>
 
-  
+      <time class="post-time">
+          Oct 01 2019
+      </time>
+    </header>
+
+
+
     
-    <h3 class="article-title"><span>flutter</span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2019/10/01/flutter/" rel="bookmark">
-        <time class="entry-date published" datetime="2019-10-01T08:24:22.000Z">
-          2019-10-01
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="flutter开发起步"><a href="#flutter开发起步" class="headerlink" title="flutter开发起步"></a>flutter开发起步</h1><h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><ul>
+            <div class="post-content">
+            <h1 id="flutter开发起步"><a href="#flutter开发起步" class="headerlink" title="flutter开发起步"></a>flutter开发起步</h1><h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><ul>
 <li>底层渲染逻辑skia<ul>
 <li>利用自己的渲染引擎skia，不依赖OS的组件</li>
 <li>保证了高度一致性</li>
@@ -1280,39 +1324,79 @@ Dart同时支持JIT/AOT
 <li>flutter drive –target=test_driver/app.dart</li>
 </ul>
 
-      
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2019/11/16/pm/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">pm</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2019/09/09/k8s-mooc/">
+        <span class="next-text nav-default">k8s-mooc</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
     </div>
 
-  </div>
+      </div>
 
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
+      <footer id="colophon"><span class="copyright-year">
     
-
+        &copy;
     
+    2020
+    <span class="footer-author">prief.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
 
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
     </div>
-
     
-  </div>
-</article>
 
 
-    </main>
+    
 
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2020 prief
-    
-  </p>
-</footer>
-    
-  </div>
-</div>
-</body>
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
 </html>

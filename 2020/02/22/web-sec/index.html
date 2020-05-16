@@ -1,110 +1,133 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
-  <title>web-sec | prief | about share and go on</title>
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta name="generator" content="Hexo 3.9.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="description" content="web-sec">
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="prief">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1">
+
+
+
+<link rel="canonical" href="https://prief.github.io/2020/02/22/web-sec/">
+
+
+<meta name="description" content="基础安全问题 服务端 SQL注入 命令注入 文件上传 暴力破解   客户端 XSS CSRF 点击劫持 URL跳转 钓鱼 仿冒官网进行信息获取 暗链 植入灰黑产业的链接，用户不可见，但可以提高排名 webshell 通过网页部署后门程序，执行非法命令    web基础 URL规范 schema:// username:password@ hostname:port/ path? querystri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web-sec">
+<meta property="og:url" content="https://prief.github.io/2020/02/22/web-sec/index.html">
+<meta property="og:site_name" content="prief">
+<meta property="og:description" content="基础安全问题 服务端 SQL注入 命令注入 文件上传 暴力破解   客户端 XSS CSRF 点击劫持 URL跳转 钓鱼 仿冒官网进行信息获取 暗链 植入灰黑产业的链接，用户不可见，但可以提高排名 webshell 通过网页部署后门程序，执行非法命令    web基础 URL规范 schema:// username:password@ hostname:port/ path? querystri">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-02-24T03:09:22.545Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web-sec">
+<meta name="twitter:description" content="基础安全问题 服务端 SQL注入 命令注入 文件上传 暴力破解   客户端 XSS CSRF 点击劫持 URL跳转 钓鱼 仿冒官网进行信息获取 暗链 植入灰黑产业的链接，用户不可见，但可以提高排名 webshell 通过网页部署后门程序，执行非法命令    web基础 URL规范 schema:// username:password@ hostname:port/ path? querystri">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
 
   
-  <meta name="author" content="prief">
-  
-
-  
-  <meta name="description" content="基础安全问题
-服务端
-SQL注入
-命令注入
-文件上传
-暴力破解
-
-
-客户端
-XSS
-CSRF
-点击劫持
-URL跳转
-钓鱼 仿冒官网进行信息获取
-暗链 植入灰黑产业的链接，用户不可见，但可以提高排名
-webshell 通过网页部署后门程序，执行非法命令
 
 
 
-web基础
-URL规范
-schema://">
-  
+    <title> web-sec - prief </title>
+  </head>
 
-  
-  
-  <meta name="keywords" content>
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="web-sec">
-
-  <meta property="og:site_name" content="prief">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="prief" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
     <h1 class="site-title">
-      <a href="/">prief</a>
+        <a href="/." class="logo">prief</a>
     </h1>
-    <p class="site-description">about share and go on</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/tags">Tags</a></li>
-      
-    </ul>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
   </nav>
-</header>
+</div>
 
-    <main class="site-main posts-loop">
-    <article>
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          web-sec
+        
+      </h1>
 
-  
+      <time class="post-time">
+          Feb 22 2020
+      </time>
+    </header>
+
+
+
     
-    <h3 class="article-title"><span>web-sec</span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/02/22/web-sec/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-02-22T04:36:13.000Z">
-          2020-02-22
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h3><ul>
+            <div class="post-content">
+            <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h3><ul>
 <li>服务端<ul>
 <li>SQL注入</li>
 <li>命令注入</li>
@@ -236,39 +259,79 @@ schema://">
 </li>
 </ul>
 
-      
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2020/02/28/fe/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">fe</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2020/02/17/vue/">
+        <span class="next-text nav-default">vue</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
     </div>
 
-  </div>
+      </div>
 
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
+      <footer id="colophon"><span class="copyright-year">
     
-
+        &copy;
     
+    2020
+    <span class="footer-author">prief.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
 
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
     </div>
-
     
-  </div>
-</article>
 
 
-    </main>
+    
 
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2020 prief
-    
-  </p>
-</footer>
-    
-  </div>
-</div>
-</body>
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
 </html>

@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://prief.github.io/2020/04/23/sec/</loc>
+    
+    <lastmod>2020-05-16T10:49:33.638Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prief.github.io/about/index.html</loc>
+    
+    <lastmod>2020-05-16T10:39:58.462Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://prief.github.io/2019/12/08/refe/</loc>
     
-    <lastmod>2020-05-07T23:31:02.045Z</lastmod>
+    <lastmod>2020-05-11T15:14:35.526Z</lastmod>
     
   </url>
   
@@ -12,13 +26,6 @@
     <loc>https://prief.github.io/2019/09/09/k8s-mooc/</loc>
     
     <lastmod>2020-05-01T08:07:54.504Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prief.github.io/2020/04/23/sec/</loc>
-    
-    <lastmod>2020-04-25T09:40:04.253Z</lastmod>
     
   </url>
   
@@ -124,13 +131,6 @@
     <loc>https://prief.github.io/2019/08/11/net-protocol-capature-packets/</loc>
     
     <lastmod>2019-08-15T13:54:34.340Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prief.github.io/tags/index.html</loc>
-    
-    <lastmod>2019-08-10T15:54:58.623Z</lastmod>
     
   </url>
   
