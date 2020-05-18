@@ -40,7 +40,7 @@
 <meta property="og:site_name" content="prief">
 <meta property="og:description" content="k8s快速入门核心概念 kubernetes 舵手 image container pod 包含1个或多个container container之间共享网络，ip   replicaset deployment service 通过labelSelector选择后端服务 通过clusterIp暴露服务   https://k8s.imroc.io/  架构设计 master etcd apiSer">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-05-01T08:07:54.504Z">
+<meta property="og:updated_time" content="2020-05-18T23:39:41.892Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="k8s-mooc">
 <meta name="twitter:description" content="k8s快速入门核心概念 kubernetes 舵手 image container pod 包含1个或多个container container之间共享网络，ip   replicaset deployment service 通过labelSelector选择后端服务 通过clusterIp暴露服务   https://k8s.imroc.io/  架构设计 master etcd apiSer">
@@ -127,7 +127,7 @@
 
     
             <div class="post-content">
-            <h1 id="k8s快速入门"><a href="#k8s快速入门" class="headerlink" title="k8s快速入门"></a>k8s快速入门</h1><h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ul>
+            <h3 id="k8s快速入门"><a href="#k8s快速入门" class="headerlink" title="k8s快速入门"></a>k8s快速入门</h3><h4 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h4><ul>
 <li>kubernetes 舵手</li>
 <li>image</li>
 <li>container</li>
@@ -145,7 +145,7 @@
 </li>
 <li><a href="https://k8s.imroc.io/" target="_blank" rel="noopener">https://k8s.imroc.io/</a></li>
 </ul>
-<h2 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h2><ul>
+<h4 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h4><ul>
 <li>master<ul>
 <li>etcd</li>
 <li>apiServer</li>
@@ -160,7 +160,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="认证授权"><a href="#认证授权" class="headerlink" title="认证授权"></a>认证授权</h2><ul>
+<h4 id="认证授权"><a href="#认证授权" class="headerlink" title="认证授权"></a>认证授权</h4><ul>
 <li>https<ul>
 <li>ssl/tls</li>
 <li>CA(浏览器的公共CA和自有CA)</li>
@@ -221,7 +221,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="集群搭建方案对比"><a href="#集群搭建方案对比" class="headerlink" title="集群搭建方案对比"></a>集群搭建方案对比</h2><ul>
+<h4 id="集群搭建方案对比"><a href="#集群搭建方案对比" class="headerlink" title="集群搭建方案对比"></a>集群搭建方案对比</h4><ul>
 <li>kubeadm<ul>
 <li>优雅，几乎所有组件都在pod中</li>
 <li>简单</li>
@@ -238,7 +238,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="kubeadm方式搭建"><a href="#kubeadm方式搭建" class="headerlink" title="kubeadm方式搭建"></a>kubeadm方式搭建</h1><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
+<h3 id="kubeadm方式搭建"><a href="#kubeadm方式搭建" class="headerlink" title="kubeadm方式搭建"></a>kubeadm方式搭建</h3><h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><ul>
 <li><p>统一主机名</p>
 <ul>
 <li>hostname</li>
@@ -258,7 +258,7 @@
 <li><p>主机配置</p>
 <ul>
 <li>关闭防火墙 systemctl stop firewalld &amp;&amp; systemctl disable firewalld</li>
-<li>关闭swap  swapoff -a &amp;&amp; sed -i ‘/swap/s/^(.*)$/# \1/g’ /etc/fstab</li>
+<li>关闭swap  swapoff -a &amp;&amp; sed -i &#39;/swap/s/^(.*)$/# \1/g&#39; /etc/fstab</li>
 <li>重置iptables iptables -F &amp;&amp; iptables -X &amp;&amp; iptables -F -t nat &amp;&amp; iptables -X -t nat &amp;&amp; iptables -P FORWARD ACCEPT &amp;&amp; service iptables save</li>
 <li>关闭selinux setenforce 0 &amp;&amp; sed -i ‘s/^SELINUX=.*$/SELINUX=disabled/‘ /etc/selinux/config</li>
 <li>关闭dnsmasq systemctl stop dnsmasq &amp;&amp; systemctl disable dnsmasq</li>
@@ -285,13 +285,14 @@
 <li>kubeadm/kubelet/kubectl</li>
 <li>配置yum源</li>
 <li>yum install -y kubelet kubeadm kubectl –disableexcludes=kubernetes</li>
-<li>systemctl enable kubelet &amp;&amp; systemctl start kubelet<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cat &lt;&lt; EOF &gt; /etc/yum.repos.d/kubernetes.repo</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.17.0 </span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.17.0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.17.0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.17.0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.4.3-0</span><br><span class="line">docker pull coredns/coredns:1.6.5</span><br><span class="line"></span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.17.0 k8s.gcr.io/kube-apiserver:v1.17.0</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.17.0 k8s.gcr.io/kube-controller-manager:v1.17.0</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.17.0 k8s.gcr.io/kube-scheduler:v1.17.0</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.17.0 k8s.gcr.io/kube-proxy:v1.17.0</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1 k8s.gcr.io/pause:3.1</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.4.3-0 k8s.gcr.io/etcd:3.4.3-0</span><br><span class="line">docker tag coredns/coredns:1.6.5 k8s.gcr.io/coredns:1.6.5</span><br><span class="line"></span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.17.0 </span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.17.0</span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.17.0</span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.17.0</span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1</span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.4.3-0</span><br><span class="line">docker rmi coredns/coredns:1.6.5</span><br></pre></td></tr></table></figure>
+<li>systemctl enable kubelet &amp;&amp; systemctl start kubelet</li>
+<li>source &lt;(kubectl completion bash)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cat &lt;&lt; EOF &gt; /etc/yum.repos.d/kubernetes.repo</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.17.0 </span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.17.0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.17.0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.17.0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.4.3-0</span><br><span class="line">docker pull coredns/coredns:1.6.5</span><br><span class="line"></span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.17.0 k8s.gcr.io/kube-apiserver:v1.17.0</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.17.0 k8s.gcr.io/kube-controller-manager:v1.17.0</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.17.0 k8s.gcr.io/kube-scheduler:v1.17.0</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.17.0 k8s.gcr.io/kube-proxy:v1.17.0</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1 k8s.gcr.io/pause:3.1</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.4.3-0 k8s.gcr.io/etcd:3.4.3-0</span><br><span class="line">docker tag coredns/coredns:1.6.5 k8s.gcr.io/coredns:1.6.5</span><br><span class="line"></span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.17.0 </span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.17.0</span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.17.0</span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.17.0</span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1</span><br><span class="line">docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.4.3-0</span><br><span class="line">docker rmi coredns/coredns:1.6.5</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 </li>
 </ul>
-<h2 id="高可用部署"><a href="#高可用部署" class="headerlink" title="高可用部署"></a>高可用部署</h2><ul>
+<h4 id="高可用部署"><a href="#高可用部署" class="headerlink" title="高可用部署"></a>高可用部署</h4><ul>
 <li><p>实现apiServer的高可用与负载均衡，也可只用keepalived</p>
 <ul>
 <li>yum install -y socat keepalived haproxy ipvsadm</li>
@@ -326,6 +327,7 @@
 <li><p>部署worker</p>
 <ul>
 <li>kubeadm join 10.18.3.200:8443 –token XXX –discovery-token-ca-cert-hash XXX</li>
+<li>kubeadm token create –print-join-command  #重新生成token</li>
 </ul>
 </li>
 <li><p>部署网络插件</p>
@@ -341,17 +343,15 @@
 <li>kubectl cluster-info</li>
 <li>kubectl get cs</li>
 <li>kubectl exec -n kube-system etcd-m1 – etcdctl –cacert=”/etc/kubernetes/pki/etcd/ca.crt” –cert=”/etc/kubernetes/pki/etcd/peer.crt” –key=”/etc/kubernetes/pki/etcd/peer.key” –endpoints=<a href="https://10.18.3.178:2379" target="_blank" rel="noopener">https://10.18.3.178:2379</a> member list #查看etcd集群</li>
-<li>journalctl -f #查看日志<h2 id="可用性测试"><a href="#可用性测试" class="headerlink" title="可用性测试"></a>可用性测试</h2></li>
+<li>journalctl -f #查看日志</li>
 </ul>
 </li>
-<li><p>kubectl apply -f nginx-ds.yaml  </p>
-</li>
-<li><p>ping podIp</p>
-</li>
-<li><p>curl svcIp:svcPort</p>
-</li>
-<li><p>curl nodeIp:nodePort</p>
-</li>
+</ul>
+<h4 id="可用性测试"><a href="#可用性测试" class="headerlink" title="可用性测试"></a>可用性测试</h4><ul>
+<li>kubectl apply -f nginx-ds.yaml  </li>
+<li>ping podIp</li>
+<li>curl svcIp:svcPort</li>
+<li>curl nodeIp:nodePort</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ds-svc</span><br><span class="line">  labels:</span><br><span class="line">    app: nginx-ds-svc</span><br><span class="line">spec:</span><br><span class="line">  type: NodePort</span><br><span class="line">  selector:</span><br><span class="line">    app: nginx-ds</span><br><span class="line">  ports:</span><br><span class="line">  - name: http</span><br><span class="line">    port: 80</span><br><span class="line">    targetPort: 80</span><br><span class="line">---</span><br><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: DaemonSet</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ds</span><br><span class="line">  labels:</span><br><span class="line">    addonmanager.kubernetes.io/mode: Reconcile</span><br><span class="line">spec:</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: nginx-ds</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: nginx-ds</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: my-nginx</span><br><span class="line">        image: nginx:1.7.9</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 80</span><br></pre></td></tr></table></figure>
 
@@ -365,13 +365,13 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx</span><br><span class="line">  labels:</span><br><span class="line">        app: nginx-ds</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: my-nginx</span><br><span class="line">    image: nginx:1.7.9</span><br><span class="line">    ports:</span><br><span class="line">    - containerPort: 80</span><br><span class="line"></span><br><span class="line"># ipvs模块配置</span><br><span class="line">cat &gt; /etc/sysconfig/modules/ipvs.modules &lt;&lt;EOF</span><br><span class="line">#!/bin/bash </span><br><span class="line">modprobe -- ip_vs </span><br><span class="line">modprobe -- ip_vs_rr </span><br><span class="line">modprobe -- ip_vs_wrr </span><br><span class="line">modprobe -- ip_vs_sh </span><br><span class="line">modprobe -- nf_conntrack_ipv4 </span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">#配置开机自加载并执行生效</span><br><span class="line">chmod 755 /etc/sysconfig/modules/ipvs.modules &amp;&amp; bash /etc/sysconfig/modules/ipvs.modules</span><br><span class="line"></span><br><span class="line">#查看是否加载</span><br><span class="line">lsmod | grep -e ip_vs -e nf_conntrack_ipv4</span><br><span class="line"></span><br><span class="line">#重启kube-proxy</span><br><span class="line">kubectl get pod -n kube-system | grep kube-proxy |awk &apos;&#123;system(&quot;kubectl delete pod &quot;$1&quot; -n kube-system&quot;)&#125;&apos;</span><br></pre></td></tr></table></figure>
 
-<h2 id="dashboard"><a href="#dashboard" class="headerlink" title="dashboard"></a>dashboard</h2><ul>
+<h4 id="dashboard"><a href="#dashboard" class="headerlink" title="dashboard"></a>dashboard</h4><ul>
 <li>kubectl apply -f dashboard.yaml</li>
-<li>bash dashboardToken.sh # 默认只支持token登陆<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># dashboardToken.sh</span><br><span class="line">#!/bin/bash</span><br><span class="line">kubectl describe secret -n kubernetes-dashboard $(kubectl get secret -n kubernetes-dashboard | grep dashboard-token | awk &apos;&#123;print $1&#125;&apos;) | grep -E &apos;^token&apos; | awk &apos;&#123;print $2&#125;&apos;</span><br></pre></td></tr></table></figure>
+<li>bash dashboardToken.sh # 默认只支持token登陆<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># dashboardToken.sh</span><br><span class="line">#!/bin/bash</span><br><span class="line">kubectl describe secret -n kubernetes-dashboard $(kubectl get secret -n kubernetes-dashboard | grep dashboard-token | awk &apos;&#123;print $1&#125;&apos;) | grep -E &apos;^token&apos; | awk &apos;&#123;print $2&#125;&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># gen-ingress-secret.sh</span><br><span class="line">openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ingress.test.com.key -out ingress.test.com.pem -subj &quot;/CN=ingress.test.com&quot;</span><br><span class="line"></span><br><span class="line">kubectl create secret tls ingress-secret  --cert ingress.test.com.pem --key ingress.test.com.key</span><br><span class="line"></span><br><span class="line">kubectl  get secret -n kube-system | grep ingress</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<h1 id="二进制方式搭建"><a href="#二进制方式搭建" class="headerlink" title="二进制方式搭建"></a>二进制方式搭建</h1><h2 id="环境准备-1"><a href="#环境准备-1" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
+<h3 id="二进制方式搭建"><a href="#二进制方式搭建" class="headerlink" title="二进制方式搭建"></a>二进制方式搭建</h3><h4 id="环境准备-1"><a href="#环境准备-1" class="headerlink" title="环境准备"></a>环境准备</h4><ul>
 <li><p>统一主机名</p>
 <ul>
 <li>hostname</li>
@@ -456,7 +456,7 @@
 <li><p>配置各服务参数</p>
 </li>
 </ul>
-<h2 id="高可用部署-1"><a href="#高可用部署-1" class="headerlink" title="高可用部署"></a>高可用部署</h2><ul>
+<h4 id="高可用部署-1"><a href="#高可用部署-1" class="headerlink" title="高可用部署"></a>高可用部署</h4><ul>
 <li><p>CA证书</p>
 <ul>
 <li>安装工具，cfssl非常好用的CA工具，用来生成证书和密钥文件</li>
@@ -510,7 +510,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="可用性测试-1"><a href="#可用性测试-1" class="headerlink" title="可用性测试"></a>可用性测试</h2><ul>
+<h4 id="可用性测试-1"><a href="#可用性测试-1" class="headerlink" title="可用性测试"></a>可用性测试</h4><ul>
 <li>kubectl apply -f nginx-ds.yaml</li>
 <li>ping podIp</li>
 <li>curl svcIp:svcPort</li>
@@ -528,13 +528,13 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx</span><br><span class="line">  labels:</span><br><span class="line">        app: nginx-ds</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: my-nginx</span><br><span class="line">    image: nginx:1.7.9</span><br><span class="line">    ports:</span><br><span class="line">    - containerPort: 80</span><br><span class="line"></span><br><span class="line"># ipvs模块配置</span><br><span class="line">cat &gt; /etc/sysconfig/modules/ipvs.modules &lt;&lt;EOF</span><br><span class="line">#!/bin/bash </span><br><span class="line">modprobe -- ip_vs </span><br><span class="line">modprobe -- ip_vs_rr </span><br><span class="line">modprobe -- ip_vs_wrr </span><br><span class="line">modprobe -- ip_vs_sh </span><br><span class="line">modprobe -- nf_conntrack_ipv4 </span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">#配置开机自加载并执行生效</span><br><span class="line">chmod 755 /etc/sysconfig/modules/ipvs.modules &amp;&amp; bash /etc/sysconfig/modules/ipvs.modules</span><br><span class="line"></span><br><span class="line">#查看是否加载</span><br><span class="line">lsmod | grep -e ip_vs -e nf_conntrack_ipv4</span><br><span class="line"></span><br><span class="line">#重启kube-proxy</span><br><span class="line">kubectl get pod -n kube-system | grep kube-proxy |awk &apos;&#123;system(&quot;kubectl delete pod &quot;$1&quot; -n kube-system&quot;)&#125;&apos;</span><br></pre></td></tr></table></figure>
 
-<h2 id="dashboard-1"><a href="#dashboard-1" class="headerlink" title="dashboard"></a>dashboard</h2><ul>
+<h4 id="dashboard-1"><a href="#dashboard-1" class="headerlink" title="dashboard"></a>dashboard</h4><ul>
 <li>kubectl apply -f dashboard.yaml</li>
 <li>bash dashboardToken.sh # 默认只支持token登陆<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># dashboardToken.sh</span><br><span class="line">#!/bin/bash</span><br><span class="line">kubectl describe secret -n kubernetes-dashboard $(kubectl get secret -n kubernetes-dashboard | grep dashboard-token | awk &apos;&#123;print $1&#125;&apos;) | grep -E &apos;^token&apos; | awk &apos;&#123;print $2&#125;&apos;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<h1 id="业务迁移到k8s"><a href="#业务迁移到k8s" class="headerlink" title="业务迁移到k8s"></a>业务迁移到k8s</h1><h2 id="harbor"><a href="#harbor" class="headerlink" title="harbor"></a>harbor</h2><ul>
+<h3 id="业务迁移到k8s"><a href="#业务迁移到k8s" class="headerlink" title="业务迁移到k8s"></a>业务迁移到k8s</h3><h4 id="harbor"><a href="#harbor" class="headerlink" title="harbor"></a>harbor</h4><ul>
 <li><p>采用比较简单的高可用方案</p>
 <ul>
 <li>nginx做负载均衡</li>
@@ -555,7 +555,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="服务发现"><a href="#服务发现" class="headerlink" title="服务发现"></a>服务发现</h2><ul>
+<h4 id="服务发现"><a href="#服务发现" class="headerlink" title="服务发现"></a>服务发现</h4><ul>
 <li>集群内相互访问<ul>
 <li>ClusterIPService通过DNS把name解析成CluseterIP访问集群pod</li>
 <li>客户端通过headlessService拿到集群endpoints然后客户端自己实现</li>
@@ -571,12 +571,18 @@
 <li>HostPortService(HostNetwork)</li>
 <li>Ingress<ul>
 <li>Ingress(host+path到service的配置信息)</li>
-<li>IngressController(Ingress-nginx)<h2 id="部署ingress-nginx"><a href="#部署ingress-nginx" class="headerlink" title="部署ingress-nginx"></a>部署ingress-nginx</h2></li>
+<li>IngressController(Ingress-nginx)</li>
 </ul>
 </li>
 </ul>
 </li>
+</ul>
+<h4 id="部署ingress-nginx"><a href="#部署ingress-nginx" class="headerlink" title="部署ingress-nginx"></a>部署ingress-nginx</h4><ul>
 <li>wget <a href="https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.27.0/deploy/static/mandatory.yaml" target="_blank" rel="noopener">https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.27.0/deploy/static/mandatory.yaml</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br></pre></td><td class="code"><pre><span class="line"># ingress-mandatory.yaml</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Namespace</span><br><span class="line">metadata:</span><br><span class="line">  name: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">---</span><br><span class="line">kind: ConfigMap</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-configuration</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">---</span><br><span class="line">kind: ConfigMap</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  name: tcp-services</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">---</span><br><span class="line">kind: ConfigMap</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  name: udp-services</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">---</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: ServiceAccount</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-serviceaccount</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1beta1</span><br><span class="line">kind: ClusterRole</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-clusterrole</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">rules:</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - configmaps</span><br><span class="line">      - endpoints</span><br><span class="line">      - nodes</span><br><span class="line">      - pods</span><br><span class="line">      - secrets</span><br><span class="line">    verbs:</span><br><span class="line">      - list</span><br><span class="line">      - watch</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - nodes</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - services</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">      - list</span><br><span class="line">      - watch</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - events</span><br><span class="line">    verbs:</span><br><span class="line">      - create</span><br><span class="line">      - patch</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;extensions&quot;</span><br><span class="line">      - &quot;networking.k8s.io&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - ingresses</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">      - list</span><br><span class="line">      - watch</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;extensions&quot;</span><br><span class="line">      - &quot;networking.k8s.io&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - ingresses/status</span><br><span class="line">    verbs:</span><br><span class="line">      - update</span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1beta1</span><br><span class="line">kind: Role</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-role</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">rules:</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - configmaps</span><br><span class="line">      - pods</span><br><span class="line">      - secrets</span><br><span class="line">      - namespaces</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - configmaps</span><br><span class="line">    resourceNames:</span><br><span class="line">      # Defaults to &quot;&lt;election-id&gt;-&lt;ingress-class&gt;&quot;</span><br><span class="line">      # Here: &quot;&lt;ingress-controller-leader&gt;-&lt;nginx&gt;&quot;</span><br><span class="line">      # This has to be adapted if you change either parameter</span><br><span class="line">      # when launching the nginx-ingress-controller.</span><br><span class="line">      - &quot;ingress-controller-leader-nginx&quot;</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">      - update</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - configmaps</span><br><span class="line">    verbs:</span><br><span class="line">      - create</span><br><span class="line">  - apiGroups:</span><br><span class="line">      - &quot;&quot;</span><br><span class="line">    resources:</span><br><span class="line">      - endpoints</span><br><span class="line">    verbs:</span><br><span class="line">      - get</span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1beta1</span><br><span class="line">kind: RoleBinding</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-role-nisa-binding</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">roleRef:</span><br><span class="line">  apiGroup: rbac.authorization.k8s.io</span><br><span class="line">  kind: Role</span><br><span class="line">  name: nginx-ingress-role</span><br><span class="line">subjects:</span><br><span class="line">  - kind: ServiceAccount</span><br><span class="line">    name: nginx-ingress-serviceaccount</span><br><span class="line">    namespace: ingress-nginx</span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1beta1</span><br><span class="line">kind: ClusterRoleBinding</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-clusterrole-nisa-binding</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">roleRef:</span><br><span class="line">  apiGroup: rbac.authorization.k8s.io</span><br><span class="line">  kind: ClusterRole</span><br><span class="line">  name: nginx-ingress-clusterrole</span><br><span class="line">subjects:</span><br><span class="line">  - kind: ServiceAccount</span><br><span class="line">    name: nginx-ingress-serviceaccount</span><br><span class="line">    namespace: ingress-nginx</span><br><span class="line">---</span><br><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-ingress-controller</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">  labels:</span><br><span class="line">    app.kubernetes.io/name: ingress-nginx</span><br><span class="line">    app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">spec:</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app.kubernetes.io/name: ingress-nginx</span><br><span class="line">      app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app.kubernetes.io/name: ingress-nginx</span><br><span class="line">        app.kubernetes.io/part-of: ingress-nginx</span><br><span class="line">      annotations:</span><br><span class="line">        prometheus.io/port: &quot;10254&quot;</span><br><span class="line">        prometheus.io/scrape: &quot;true&quot;</span><br><span class="line">    spec:</span><br><span class="line">      # wait up to five minutes for the drain of connections</span><br><span class="line">      terminationGracePeriodSeconds: 300</span><br><span class="line">      serviceAccountName: nginx-ingress-serviceaccount</span><br><span class="line">      hostNetwork: true</span><br><span class="line">      nodeSelector:</span><br><span class="line">        ingressController: &quot;true&quot;</span><br><span class="line">      # tolerations: #增加容忍，可分配到master节点</span><br><span class="line">      # - key: &quot;node-role.kubernetes.io/master&quot;</span><br><span class="line">        # operator: &quot;Exists&quot;</span><br><span class="line">        # effect: &quot;NoSchedule&quot;</span><br><span class="line">      containers:</span><br><span class="line">        - name: nginx-ingress-controller</span><br><span class="line">          image: registry.cn-hangzhou.aliyuncs.com/google_containers/nginx-ingress-controller:0.24.1</span><br><span class="line">          args:</span><br><span class="line">            - /nginx-ingress-controller</span><br><span class="line">            - --configmap=$(POD_NAMESPACE)/nginx-configuration</span><br><span class="line">            - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services</span><br><span class="line">            - --udp-services-configmap=$(POD_NAMESPACE)/udp-services</span><br><span class="line">            - --publish-service=$(POD_NAMESPACE)/ingress-nginx</span><br><span class="line">            - --annotations-prefix=nginx.ingress.kubernetes.io</span><br><span class="line">            - --http-port=80 #默认80</span><br><span class="line">            - --https-port=433 #默认443</span><br><span class="line">          securityContext:</span><br><span class="line">            allowPrivilegeEscalation: true</span><br><span class="line">            capabilities:</span><br><span class="line">              drop:</span><br><span class="line">                - ALL</span><br><span class="line">              add:</span><br><span class="line">                - NET_BIND_SERVICE</span><br><span class="line">            # www-data -&gt; 33</span><br><span class="line">            runAsUser: 33</span><br><span class="line">          env:</span><br><span class="line">            - name: POD_NAME</span><br><span class="line">              valueFrom:</span><br><span class="line">                fieldRef:</span><br><span class="line">                  fieldPath: metadata.name</span><br><span class="line">            - name: POD_NAMESPACE</span><br><span class="line">              valueFrom:</span><br><span class="line">                fieldRef:</span><br><span class="line">                  fieldPath: metadata.namespace</span><br><span class="line">          ports:</span><br><span class="line">            - name: http</span><br><span class="line">              containerPort: 80</span><br><span class="line">            - name: https</span><br><span class="line">              containerPort: 433</span><br><span class="line">          livenessProbe:</span><br><span class="line">            failureThreshold: 3</span><br><span class="line">            httpGet:</span><br><span class="line">              path: /healthz</span><br><span class="line">              port: 10254</span><br><span class="line">              scheme: HTTP</span><br><span class="line">            initialDelaySeconds: 10</span><br><span class="line">            periodSeconds: 10</span><br><span class="line">            successThreshold: 1</span><br><span class="line">            timeoutSeconds: 10</span><br><span class="line">          readinessProbe:</span><br><span class="line">            failureThreshold: 3</span><br><span class="line">            httpGet:</span><br><span class="line">              path: /healthz</span><br><span class="line">              port: 10254</span><br><span class="line">              scheme: HTTP</span><br><span class="line">            periodSeconds: 10</span><br><span class="line">            successThreshold: 1</span><br><span class="line">            timeoutSeconds: 10</span><br><span class="line">          lifecycle:</span><br><span class="line">            preStop:</span><br><span class="line">              exec:</span><br><span class="line">                command:</span><br><span class="line">                  - /wait-shutdown</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>kubectl apply -f ingress-nginx-mandatory.yaml</li>
 <li>kubectl get all -n ingress-nginx</li>
 <li>wget <a href="https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.27.0/deploy/static/provider/baremetal/service-nodeport.yaml" target="_blank" rel="noopener">https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.27.0/deploy/static/provider/baremetal/service-nodeport.yaml</a></li>
@@ -584,11 +590,148 @@
 <li>kubectl label node m1 app=ingress #通过label限制HostPort</li>
 <li>vi ingress-nginx-mandatory.yaml #暴露HostPort，deployment的spec.hostNetwork=true,spec.nodeSelector={app:ingress}</li>
 <li>kubectl get all -n ingress-nginx</li>
-<li>kubectl apply -f ingress-demo.yaml #测试<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: tomcat-demo</span><br><span class="line">spec:</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: tomcat-demo</span><br><span class="line">  replicas: 1</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: tomcat-demo</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: tomcat-demo</span><br><span class="line">        image: tomcat:8.0.51-alpine</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 8080</span><br><span class="line">---</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: tomcat-demo</span><br><span class="line">spec:</span><br><span class="line">  selector:</span><br><span class="line">    app: tomcat-demo</span><br><span class="line">  ports:</span><br><span class="line">  - port: 80</span><br><span class="line">    protocol: TCP</span><br><span class="line">    targetPort: 8080</span><br><span class="line">    </span><br><span class="line">---</span><br><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: tomcat-demo</span><br><span class="line">spec:</span><br><span class="line">  rules:</span><br><span class="line">  - host: tomcat.test.com</span><br><span class="line">    http:</span><br><span class="line">      paths:</span><br><span class="line">      - path: /</span><br><span class="line">        backend:</span><br><span class="line">          serviceName: tomcat-demo</span><br><span class="line">          servicePort: 80</span><br></pre></td></tr></table></figure>
+<li>kubectl apply -f ingress-demo.yaml #测试<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"># ingress-demo.yaml</span><br><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-static</span><br><span class="line">spec:</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      name: nginx-static</span><br><span class="line">  replicas: 1</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">       name: nginx-static</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">       - name: nginx-static</span><br><span class="line">         image: nginx:latest</span><br><span class="line">         volumeMounts:</span><br><span class="line">          - mountPath: /etc/localtime</span><br><span class="line">            name: vol-localtime</span><br><span class="line">            readOnly: true</span><br><span class="line">         ports:</span><br><span class="line">          - containerPort: 80</span><br><span class="line">            name: http</span><br><span class="line">      volumes:</span><br><span class="line">         - name: vol-localtime</span><br><span class="line">           hostPath:</span><br><span class="line">            path: /etc/localtime</span><br><span class="line">---</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx-static</span><br><span class="line">  labels:</span><br><span class="line">   name: nginx-static</span><br><span class="line">spec:</span><br><span class="line">  ports:</span><br><span class="line">  - port: 80</span><br><span class="line">    protocol: TCP</span><br><span class="line">    targetPort: 80</span><br><span class="line">    name: http</span><br><span class="line">  selector:</span><br><span class="line">    name: nginx-static</span><br><span class="line">---</span><br><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: submodule-checker-ingress</span><br><span class="line">  annotations:</span><br><span class="line">    kubernetes.io/ingress.class: &quot;nginx&quot;</span><br><span class="line">spec:</span><br><span class="line">  rules:</span><br><span class="line">  - host: ingress.ceair.com</span><br><span class="line">    http:</span><br><span class="line">      paths:</span><br><span class="line">      - path:</span><br><span class="line">        backend:</span><br><span class="line">          serviceName: nginx-static</span><br><span class="line">          servicePort: 80</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<h2 id="定时任务迁移"><a href="#定时任务迁移" class="headerlink" title="定时任务迁移"></a>定时任务迁移</h2><h2 id="springboot迁移"><a href="#springboot迁移" class="headerlink" title="springboot迁移"></a>springboot迁移</h2><h2 id="dubbo迁移"><a href="#dubbo迁移" class="headerlink" title="dubbo迁移"></a>dubbo迁移</h2><h2 id="传统web迁移"><a href="#传统web迁移" class="headerlink" title="传统web迁移"></a>传统web迁移</h2><h1 id="cicd"><a href="#cicd" class="headerlink" title="cicd"></a>cicd</h1><h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><h2 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h2><h2 id="docker-build"><a href="#docker-build" class="headerlink" title="docker build"></a>docker build</h2><h2 id="harbor-1"><a href="#harbor-1" class="headerlink" title="harbor"></a>harbor</h2><h2 id="服务发布"><a href="#服务发布" class="headerlink" title="服务发布"></a>服务发布</h2><h2 id="健康检查"><a href="#健康检查" class="headerlink" title="健康检查"></a>健康检查</h2><h1 id="重要资源对象"><a href="#重要资源对象" class="headerlink" title="重要资源对象"></a>重要资源对象</h1><h2 id="namespace"><a href="#namespace" class="headerlink" title="namespace"></a>namespace</h2><h2 id="resources"><a href="#resources" class="headerlink" title="resources"></a>resources</h2><h2 id="label"><a href="#label" class="headerlink" title="label"></a>label</h2><h1 id="调度与编排"><a href="#调度与编排" class="headerlink" title="调度与编排"></a>调度与编排</h1><h2 id="健康检查-1"><a href="#健康检查-1" class="headerlink" title="健康检查"></a>健康检查</h2><h2 id="scheduler"><a href="#scheduler" class="headerlink" title="scheduler"></a>scheduler</h2><h2 id="部署策略"><a href="#部署策略" class="headerlink" title="部署策略"></a>部署策略</h2><h2 id="pod"><a href="#pod" class="headerlink" title="pod"></a>pod</h2><h1 id="落地实践"><a href="#落地实践" class="headerlink" title="落地实践"></a>落地实践</h1><h2 id="ingress"><a href="#ingress" class="headerlink" title="ingress"></a>ingress</h2><h2 id="共享存储pv-pvc-sc"><a href="#共享存储pv-pvc-sc" class="headerlink" title="共享存储pv/pvc/sc"></a>共享存储pv/pvc/sc</h2><h2 id="statefulset"><a href="#statefulset" class="headerlink" title="statefulset"></a>statefulset</h2><h2 id="k8sApi"><a href="#k8sApi" class="headerlink" title="k8sApi"></a>k8sApi</h2><h1 id="日志和监控"><a href="#日志和监控" class="headerlink" title="日志和监控"></a>日志和监控</h1><h2 id="日志方案"><a href="#日志方案" class="headerlink" title="日志方案"></a>日志方案</h2><h2 id="监控入门"><a href="#监控入门" class="headerlink" title="监控入门"></a>监控入门</h2><h2 id="部署实战"><a href="#部署实战" class="headerlink" title="部署实战"></a>部署实战</h2><h2 id="监控落地"><a href="#监控落地" class="headerlink" title="监控落地"></a>监控落地</h2><h1 id="istio"><a href="#istio" class="headerlink" title="istio"></a>istio</h1><h2 id="架构原理"><a href="#架构原理" class="headerlink" title="架构原理"></a>架构原理</h2><h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><h2 id="智能路由"><a href="#智能路由" class="headerlink" title="智能路由"></a>智能路由</h2><h2 id="指标收集和查询"><a href="#指标收集和查询" class="headerlink" title="指标收集和查询"></a>指标收集和查询</h2><h2 id="分布式追踪"><a href="#分布式追踪" class="headerlink" title="分布式追踪"></a>分布式追踪</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+<h4 id="业务迁移实施步骤"><a href="#业务迁移实施步骤" class="headerlink" title="业务迁移实施步骤"></a>业务迁移实施步骤</h4><ul>
+<li>做基础镜像</li>
+<li>通过Dockerfile做业务镜像</li>
+<li>通过yaml文件做调度</li>
+</ul>
+<h3 id="重要资源对象"><a href="#重要资源对象" class="headerlink" title="重要资源对象"></a>重要资源对象</h3><h4 id="namespace"><a href="#namespace" class="headerlink" title="namespace"></a>namespace</h4><ul>
+<li>集群的共享和隔离<ul>
+<li>只是逻辑隔离</li>
+<li>对serviceName可以通过/etc/resolve.conf隔离，对serviceIp/podIp无法隔离</li>
+</ul>
+</li>
+<li>隔离<ul>
+<li>资源对象的隔离<ul>
+<li>service</li>
+<li>deployment</li>
+<li>pod</li>
+</ul>
+</li>
+<li>资源配额的隔离<ul>
+<li>cpu</li>
+<li>memory</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>切换默认命名空间<ul>
+<li>kubectl config set-context ctx-dev –cluster=kubernetes –user=admin –namespace=dev –kubeconfig=/root/.kube/config</li>
+<li>kubectl config use-context ctx-dev –kubeconfig=/root/.kube/config</li>
+<li>kubectl get all</li>
+<li>想完全隔离命名空间下的资源需要创建不同的user并做不同的绑定</li>
+</ul>
+</li>
+<li>划分方式<ul>
+<li>按环境划分: dev/test</li>
+<li>按项目划分: pr1/pr2</li>
+<li>多维度划分: pr1-dev/pr2-test</li>
+</ul>
+</li>
+</ul>
+<h4 id="resources"><a href="#resources" class="headerlink" title="resources"></a>resources</h4><ul>
+<li>内容<ul>
+<li>cpu</li>
+<li>memory</li>
+<li>gpu</li>
+<li>persistantStorage</li>
+</ul>
+</li>
+<li>核心设计<ul>
+<li>requests(最低要求)<ul>
+<li>memory: 100Mi(Mi|Gi分别为M|G)</li>
+<li>cpu: 100m(1核心=1000m)</li>
+</ul>
+</li>
+<li>limits(最高限额)<ul>
+<li>memery: 100Mi</li>
+<li>cpu: 200m</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>当pod内有进程占用内存比较大超过limits限制，pod会尝试杀掉占用内存大的进程，因为内存是不可压缩资源，只能杀掉</li>
+<li>当pod内有进程占用cpu比较多超过limits限制，docker最多可分配limits的cpu给容器，而不会杀掉pod，因为cpu是可压缩资源</li>
+<li>服务等级<ul>
+<li>如果requests与limits相等，此类型服务等级比较高</li>
+<li>如果没有配置requests和limits，此类型服务等级低，遇到资源竞争时首先杀掉此类型的资源</li>
+<li>如果limits大于request，则按需分配</li>
+</ul>
+</li>
+<li>资源管控(保证系统的稳定性)<ul>
+<li>k8s使用LimitRange管理pod/container的resource使用范围</li>
+<li>k8s使用ResourceQuota管理namespaces/configmaps/services等资源的数量限制</li>
+<li>k8s使用eviction进行资源不足时的pod驱逐<ul>
+<li>策略<ul>
+<li>–eviction-soft=memory.available&lt;1.5Gi</li>
+<li>–eviction-soft-grace-period=memory.avaiilable=1m30s</li>
+<li>–eviction-hard=memory.available&lt;100Mi,nodefs.available&lt;1Gi,nodefs.inodesFree&lt;5%</li>
+</ul>
+</li>
+<li>磁盘紧缺时<ul>
+<li>删除死掉的pod</li>
+<li>删除没用的镜像</li>
+<li>按优先级、资源占用情况驱逐pod</li>
+</ul>
+</li>
+<li>内存紧缺时<ul>
+<li>驱逐不可靠的pod</li>
+<li>驱逐基本可靠的pod</li>
+<li>驱逐可靠的pod</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="label"><a href="#label" class="headerlink" title="label"></a>label</h4><ul>
+<li>本质就是key=value</li>
+<li>使用方式<ul>
+<li>选择器<ul>
+<li>selector</li>
+<li>nodeSelector</li>
+</ul>
+</li>
+<li>匹配方式<ul>
+<li>matchLabels</li>
+<li>matchExpressions<ul>
+<li>key</li>
+<li>operator</li>
+<li>value</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>命令行<ul>
+<li>-l</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>不同的deployment的同label的pod是分开的，但service不会分开   </li>
+</ul>
+<h3 id="调度与编排"><a href="#调度与编排" class="headerlink" title="调度与编排"></a>调度与编排</h3><h4 id="健康检查"><a href="#健康检查" class="headerlink" title="健康检查"></a>健康检查</h4><ul>
+<li>方式<ul>
+<li>livnessProbe</li>
+<li>readinessProbe</li>
+</ul>
+</li>
+<li>配置<ul>
+<li>exec|httpGet|tcpSocket</li>
+<li>initialDelaySeconds</li>
+<li>periodSeconds</li>
+<li>failureThreshold</li>
+<li>successThreshold</li>
+<li>timeoutSeconds</li>
+</ul>
+</li>
+</ul>
+<h4 id="scheduler"><a href="#scheduler" class="headerlink" title="scheduler"></a>scheduler</h4><h4 id="部署策略"><a href="#部署策略" class="headerlink" title="部署策略"></a>部署策略</h4><h4 id="pod"><a href="#pod" class="headerlink" title="pod"></a>pod</h4><h1 id="落地实践"><a href="#落地实践" class="headerlink" title="落地实践"></a>落地实践</h1><h2 id="ingress"><a href="#ingress" class="headerlink" title="ingress"></a>ingress</h2><h2 id="共享存储pv-pvc-sc"><a href="#共享存储pv-pvc-sc" class="headerlink" title="共享存储pv/pvc/sc"></a>共享存储pv/pvc/sc</h2><h2 id="statefulset"><a href="#statefulset" class="headerlink" title="statefulset"></a>statefulset</h2><h2 id="k8sApi"><a href="#k8sApi" class="headerlink" title="k8sApi"></a>k8sApi</h2><h1 id="日志和监控"><a href="#日志和监控" class="headerlink" title="日志和监控"></a>日志和监控</h1><h2 id="日志方案"><a href="#日志方案" class="headerlink" title="日志方案"></a>日志方案</h2><h2 id="监控入门"><a href="#监控入门" class="headerlink" title="监控入门"></a>监控入门</h2><h2 id="部署实战"><a href="#部署实战" class="headerlink" title="部署实战"></a>部署实战</h2><h2 id="监控落地"><a href="#监控落地" class="headerlink" title="监控落地"></a>监控落地</h2><h1 id="istio"><a href="#istio" class="headerlink" title="istio"></a>istio</h1><h2 id="架构原理"><a href="#架构原理" class="headerlink" title="架构原理"></a>架构原理</h2><h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><h2 id="智能路由"><a href="#智能路由" class="headerlink" title="智能路由"></a>智能路由</h2><h2 id="指标收集和查询"><a href="#指标收集和查询" class="headerlink" title="指标收集和查询"></a>指标收集和查询</h2><h2 id="分布式追踪"><a href="#分布式追踪" class="headerlink" title="分布式追踪"></a>分布式追踪</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
             </div>
           
 
