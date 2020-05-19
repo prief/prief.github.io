@@ -41,7 +41,7 @@
 <meta property="og:description" content="重学课程目录 重学 学习方法 构建知识体系 工程体系   重学js 编程语言通识与js语言设计 词法/类型 表达式/类型转换 语句   重学浏览器工作原理 http协议/语法词法分析 css计算/排版/渲染/合成   重学css css基本语法 排版与排版相关属性/绘制与绘制相关属性 css动画   重学html html语言与扩展 html语义   重学浏览器api DOMAPI/事件机制 其他">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://prief.github.io/refe/utf8.png">
-<meta property="og:updated_time" content="2020-05-17T15:10:23.171Z">
+<meta property="og:updated_time" content="2020-05-19T22:37:20.731Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="refe">
 <meta name="twitter:description" content="重学课程目录 重学 学习方法 构建知识体系 工程体系   重学js 编程语言通识与js语言设计 词法/类型 表达式/类型转换 语句   重学浏览器工作原理 http协议/语法词法分析 css计算/排版/渲染/合成   重学css css基本语法 排版与排版相关属性/绘制与绘制相关属性 css动画   重学html html语言与扩展 html语义   重学浏览器api DOMAPI/事件机制 其他">
@@ -1689,16 +1689,41 @@
 
 <h4 id="html语法词法分析"><a href="#html语法词法分析" class="headerlink" title="html语法词法分析"></a>html语法词法分析</h4><ul>
 <li><a href="https://html.spec.whatwg.org/multipage/parsing.html" target="_blank" rel="noopener">https://html.spec.whatwg.org/multipage/parsing.html</a></li>
-<li>状态机<ul>
+<li>状态机FSM<ul>
+<li>Finite State Machine</li>
+<li>就是状态在不同条件下跳转到自己或不同状态的状态转移图<ul>
+<li>每一个状态都是一个机器，不是变量<ul>
+<li>在每一个机器里可以做计算、存储、输出…</li>
+<li>所有这些机器接收的输入是一致的，参数一致</li>
+<li>所有这些机器本身没有状态，如果用函数来表示则应该是纯函数</li>
+</ul>
+</li>
+<li>每一个状态知道下一个状态<ul>
+<li>Moore有确定的下一个状态</li>
+<li>Mealy根据输入决定下一个状态</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>四要素<ul>
+<li>现态</li>
+<li>条件</li>
+<li>动作</li>
+<li>次态</li>
+</ul>
+</li>
+<li>两大类<ul>
 <li>Mealy<ul>
 <li>米利型有限状态机 MealyMachine</li>
-<li>输出基于当前状态和输入</li>
+<li>输出依赖状态和输入</li>
 <li>每个Mealy机都有一个等价的Moore机,该等价的Moore机的状态的数量上限应是对应Mealy机状态数量和输出数量的乘积再加一</li>
 </ul>
 </li>
 <li>Moore<ul>
 <li>摩尔型有限状态机 MooreMachine</li>
-<li>输出只依赖当前状态</li>
+<li>输出只依赖状态，不依赖输入</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1708,6 +1733,7 @@
 <li>token通过栈管理形成DOM</li>
 </ul>
 </li>
+<li><a href="https://github.com/prief/toy-browser" target="_blank" rel="noopener">https://github.com/prief/toy-browser</a></li>
 </ul>
 <h4 id="css计算-排版-渲染-合成"><a href="#css计算-排版-渲染-合成" class="headerlink" title="css计算/排版/渲染/合成"></a>css计算/排版/渲染/合成</h4><ul>
 <li><a href="https://time.geekbang.org/column/article/80311" target="_blank" rel="noopener">https://time.geekbang.org/column/article/80311</a></li>
