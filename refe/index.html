@@ -41,7 +41,7 @@
 <meta property="og:description" content="重学课程目录 重学 学习方法 构建知识体系 工程体系   重学js 编程语言通识与js语言设计 词法/类型 表达式/类型转换 语句   重学浏览器工作原理 http协议/语法词法分析 css计算/排版/渲染/合成   重学css css基本语法 排版与排版相关属性/绘制与绘制相关属性 css动画   重学html html语言与扩展 html语义   重学浏览器api DOMAPI/事件机制 其他">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://prief.github.io/refe/utf8.png">
-<meta property="og:updated_time" content="2020-05-20T10:12:16.458Z">
+<meta property="og:updated_time" content="2020-05-24T14:37:54.924Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="refe">
 <meta name="twitter:description" content="重学课程目录 重学 学习方法 构建知识体系 工程体系   重学js 编程语言通识与js语言设计 词法/类型 表达式/类型转换 语句   重学浏览器工作原理 http协议/语法词法分析 css计算/排版/渲染/合成   重学css css基本语法 排版与排版相关属性/绘制与绘制相关属性 css动画   重学html html语言与扩展 html语义   重学浏览器api DOMAPI/事件机制 其他">
@@ -1753,7 +1753,104 @@
 <li><a href="https://github.com/prief/toy-browser" target="_blank" rel="noopener">https://github.com/prief/toy-browser</a></li>
 </ul>
 <h4 id="css计算-排版-渲染-合成"><a href="#css计算-排版-渲染-合成" class="headerlink" title="css计算/排版/渲染/合成"></a>css计算/排版/渲染/合成</h4><ul>
-<li><a href="https://time.geekbang.org/column/article/80311" target="_blank" rel="noopener">https://time.geekbang.org/column/article/80311</a></li>
+<li>specificity<ul>
+<li>行内样式</li>
+<li>id</li>
+<li>class</li>
+<li>tag</li>
+</ul>
+</li>
+<li>布局模型四代发展过程<ul>
+<li>normalFlow</li>
+<li>flex<ul>
+<li>flex-container<ul>
+<li>flex-direction</li>
+<li>flex-wrap </li>
+<li>flex-flow 是flex-direction属性和flex-wrap的简写,默认row nowrap</li>
+<li>justify-content</li>
+<li>align-items </li>
+<li>align-content 交叉轴上有wrap即多行的对齐方式</li>
+</ul>
+</li>
+<li>flex-item<ul>
+<li>flex-grow</li>
+<li>flex-shrink</li>
+<li>flex-basis</li>
+<li>flex  默认 0 1 auto,对应grow shrink basis</li>
+<li>order 默认为0,越小越靠前</li>
+<li>align-self 允许单个项目定义与其他项目不一样的对齐方式</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>grid</li>
+<li>houdini</li>
+</ul>
+</li>
+<li><a href="https://github.com/prief/toy-browser" target="_blank" rel="noopener">https://github.com/prief/toy-browser</a></li>
+</ul>
+<h3 id="重学css"><a href="#重学css" class="headerlink" title="重学css"></a>重学css</h3><ul>
+<li><a href="https://www.w3.org/TR/CSS21/grammar.html" target="_blank" rel="noopener">https://www.w3.org/TR/CSS21/grammar.html</a></li>
+<li>总体结构<ul>
+<li>@rule<ul>
+<li>@charset</li>
+<li>@import</li>
+<li>@media</li>
+<li>@page</li>
+<li>@namespace</li>
+<li>@supports</li>
+<li>@document</li>
+<li>@font-face</li>
+<li>@keyframes</li>
+<li>@viewport</li>
+<li>@counter-style</li>
+</ul>
+</li>
+<li>rules<ul>
+<li>selector<ul>
+<li>selector_group</li>
+<li>combinator</li>
+<li>simple_selector<ul>
+<li>type</li>
+<li>*</li>
+<li>#</li>
+<li>.</li>
+<li>[]</li>
+<li>:</li>
+<li>::</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>declaration<ul>
+<li>key<ul>
+<li>properties</li>
+<li>variables<ul>
+<li>--text-color: red;</li>
+<li>color: var(–text-color);</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>value</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>兼容性问题解决思路<ul>
+<li>开发手上保证测试机</li>
+<li>测试阶段保证TOP10</li>
+<li>发布前保证TOP30</li>
+<li>重点功能发布前保证TOP100</li>
+</ul>
+</li>
+<li>前端3D引擎<ul>
+<li>three.js</li>
+<li>babylon.js</li>
+</ul>
+</li>
 </ul>
 
             </div>
